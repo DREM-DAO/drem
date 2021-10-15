@@ -13,4 +13,6 @@ The purpose of this project is to create demo applications for the [SB Hackathon
 
 ## Websites
 
-https://drem-analysis.vercel.app/ - CICD of processes folder
+- https://drem-analysis.vercel.app/ - CICD of processes folder
+- https://drem-market.vercel.app/ - CICD of market web folder
+
