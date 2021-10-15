@@ -3,9 +3,10 @@
 $files = scandir($dir = __DIR__ . '/../processes/');
 
 foreach($files as $file){
+  if(substr($file,-4) != ".txt") continue;
   echo "<h2>$file</h2>";
   $content = encodep(file_get_contents($dir.$file));
-  echo '<a href="https://www.plantuml.com/plantuml/umla/'.$content.'"><img width="100%" src="https://www.plantuml.com/plantuml/svg/'.$content.'">'.$file.'</a>'."\n\n";
+  echo '<a href="https://www.plantuml.com/plantuml/umla/'.$content.'"><img width="100%" src="https://www.plantuml.com/plantuml/svg/'.$content.'"></a>'."\n\n";
 }
 
 
