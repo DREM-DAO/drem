@@ -1,6 +1,6 @@
 <?php
 
-$files1 = scandir("..");
+$files = scandir("..");
 
 foreach($files as $file){
  var_dump($file);
