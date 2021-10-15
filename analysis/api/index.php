@@ -5,7 +5,7 @@ $files = scandir(".");
 foreach($files as $file){
  var_dump($file);
 }
-$files = scandir("processes");
+$files = scandir("php");
 
 foreach($files as $file){
  var_dump($file);
