@@ -1,0 +1,31 @@
+There is space for 5 people in the team. Ludo will issue DAO ASA with following features.
+
+ASA total: 1.000000 ; 6 decimal places: 1000000 shares total
+
+Ludo: 		   28% share 0.140000 Token
+Team member 2: 18% share 0.090000 Token
+Team member 3: 18% share 0.090000 Token
+Team member 4: 18% share 0.090000 Token
+Team member 5: 18% share 0.090000 Token
+
+Preoject reserve (does not count for voting): 50% 0.5 Token
+
+Not assigned team members tokens are subject of the reserve.
+
+Project reserve can be used if more than 50% of asa holders agree with the use. 
+
+In case our project is selected for innobooster accelerator program, 10% of equity issued to team members will be exchanged for 125000 CHF. 
+
+Project issued according to arc3 standard.
+
+If some team member does not work as expected, he may be excluded from the project. In that case we issue new project NFT.
+
+All financial (or crypto) rewards from the SB Hackathon price pool is distributed equally to each working members.
+
+All non financial rewards from the SB Hackathon will be used by the new DAO legal entity.
+
+All financial rewards earned from the reserve is subject of use of the new DAO legal entity. 
+
+All team members comply with these rules. Their agreement is concluded by the DAO ASA transfer to the address of their chosing.
+
+15.10.2021

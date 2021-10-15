@@ -1,0 +1,62 @@
+@startuml
+!theme bluegray
+state fail1 <<end>>
+state finish <<end>>
+
+[*] -> proposed_by_rec
+
+proposed_by_rec --> in_review_by_drem : DREM will review project
+proposed_by_rec : Waiting for REC input
+
+in_review_by_drem --> proposition_declined : DREM is allowed to decline proposition
+in_review_by_drem : Waiting for DREM proposal audit
+
+
+proposition_declined : SPAM, scam, ..
+proposition_declined --> fail1
+
+
+in_review_by_drem --> proposition_tobe_enhanced : DREM is allowed to return proposition to REC. REC will update information.
+in_review_by_drem --> payment_collection : Payment collection
+
+proposition_tobe_enhanced --> in_review_by_drem : Proposition enhanced
+proposition_tobe_enhanced : Request from DREM to REC to improve the proposal
+
+payment_collection --> notary_selection : After full payment is collected the notary is selected
+payment_collection --> in_review_by_drem : Payment timeout
+payment_collection : Waiting for payments
+
+notary_selection --> processing_purchase : After notary is selected, the payment is sent to his account
+notary_selection : DREM selects notary
+
+processing_purchase --> reconstruction : Purchased, going to reconstruction
+processing_purchase : Waiting until reconstruction is finished
+processing_purchase -> on_sale : Sale without renting
+reconstruction -> on_sale : Sale after reconstruction without renting
+
+reconstruction : Some estates must be upgraded before rentals
+
+reconstruction --> tobe_rented : Waiting for rental
+processing_purchase --> tobe_rented : Waiting for rental
+tobe_rented --> rented : Waiting for rental
+tobe_rented : REC is searching for rentals
+
+rented --> rent_canceled : Announced rental closure
+rented : REC has signed agreement with rentals. DREM receives periodic money and redistributes them to asset holders
+rent_canceled --> rented  : New rental
+rent_canceled: Rent cancelation announced by rentals. REC is searching for rentals
+
+on_sale : Estate is for sale
+rented --> on_sale : Estate to sell
+rent_canceled --> on_sale : Estate to sell
+
+on_sale -> sell_notary_selection : Buyer found
+sell_notary_selection : DREM selects notary
+
+sell_notary_selection --> processing_sell : Notary selected
+processing_sell : Processing the payment from buyer
+
+processing_sell --> sold : Estate sold
+sold : Sold. DREM receives money and redistribute to asset holders.
+sold --> finish
+@enduml

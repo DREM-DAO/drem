@@ -1,0 +1,57 @@
+@startuml
+!theme bluegray
+
+left to right direction
+
+Trader --> (My orderbook per asset)
+Trader --> (My trades per asset)
+Trader --> (My order history per asset)
+Trader --> (Full orderbook per asset)
+Trader --> (My assets value)
+Trader --> (OHLC chart)
+
+Buyer --> (Maker Buy order)
+Buyer --> (Increase Buy order size)
+Buyer --> (Cancel Buy order)
+Buyer --> (Taker Buy order)
+
+Seller --> (Maker Sell order)
+Seller --> (Increase Sell order size)
+Seller --> (Cancel Sell order)
+Seller --> (Taker Sell order)
+
+
+
+note right of (Maker Buy order)
+  Cost 0.002 algo. DONE
+end note
+
+note right of (Increase Buy order size)
+  Cost 0.001 algo
+end note
+
+note right of (Cancel Buy order)
+  Cost 0.001 algo
+end note
+
+note right of (Taker Buy order)
+  Cost 0.001 algo
+end note
+
+
+note right of (Maker Sell order)
+  Cost 0.004 algo. DONE
+end note
+
+note right of (Increase Sell order size)
+  Cost 0.001 algo
+end note
+
+note right of (Cancel Sell order)
+  Cost 0.001 algo
+end note
+
+note right of (Taker Sell order)
+  Cost 0.001 algo
+end note
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+!theme bluegray
+
+
+
+partition "Client investment" {
+ start 
+ :Show map with existing projects and initial project offerings;
+
+ if (Does the client want to invest to existing project?) then (yes)
+   :Buy NTF;
+ else (no)
+  :Register, KYC form;
+  :Invest;
+   if (Investment timeout?) then (Investment processed)
+   else (Timeout triggered)
+    :Return investment;
+   end;
+  endif
+ endif
+
+
+  :Daily rental income;
+
+  if (Sooner is NFT sale or project end?) then (NFT sale)
+   :Sell NTF;
+   end;
+  else (Project closure)
+   :Final project accounting;
+   end;
+  endif
+
+}
+@enduml
