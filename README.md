@@ -10,3 +10,7 @@ The purpose of this project is to create demo applications for the [SB Hackathon
 - rec folder is meant for REC files
 - rec/web is meant for REC website
 - analysis is meant for all the uml source files
+
+## Websites
+
+https://drem-analysis.vercel.app/ - CICD of processes folder
