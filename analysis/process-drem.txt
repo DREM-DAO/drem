@@ -3,16 +3,17 @@
 
 partition "Client investment" {
  start 
- if (Does the client want to invest periodically?) then (yes)
-   :Send payment to specific address;
-   :Auto invest to the best investment opportunity by daily rent;
-   end;
- else (no)
- endif
+
  :Show map with existing projects and initial project offerings;
 
  if (Does the client want to invest to existing project?) then (yes)
+  if (Does the client want to invest periodically?) then (yes)
+   :Send payment to specific address;
+   :Auto invest to the best investment opportunity by daily rent;
+   end;
+  else (no)
    :Buy NTF;
+  endif
  else (no)
   :Register, KYC form;
   :Invest;
