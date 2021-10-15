@@ -1,0 +1,1 @@
+Base cloned from http://github.com/scholtz/wallet
