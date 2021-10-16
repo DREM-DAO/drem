@@ -1,7 +1,7 @@
 <?php
 $dir = __DIR__ . '/../processes/';
 
-if(substr($_SERVER["REQUEST_URI"],-4)==".svg"){
+if(isset($_SERVER["REQUEST_URI"]) && substr($_SERVER["REQUEST_URI"],-4)==".svg"){
  $file = $dir.substr($_SERVER["REQUEST_URI"],1,-4).".txt";
  if(file_exists($file)){
   $content = encodep(file_get_contents($dir.$file));
