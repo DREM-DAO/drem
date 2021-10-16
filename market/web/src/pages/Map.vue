@@ -1,19 +1,96 @@
 <template>
   <PublicLayout>
+    <div class="alert alert-warning">Project is in the TestNet phase</div>
     <div class="row">
       <div class="col-6">
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
           <div class="col" v-for="place in places" :key="place.id">
-            <div class="card m-3">
-              <img :src="place.image" class="card-img" :alt="place.name" />
+            <div
+              class="card mr-3 mb-3"
+              @click="$router.push(`/project/${place.id}`)"
+            >
+              <img
+                :src="place.image"
+                class="card-img"
+                :alt="place.name"
+                height="200"
+                style="object-fit: cover"
+              />
 
               <div class="card-img-overlay d-flex flex-column">
-                <div class="mt-auto c-title">
-                  <VLink
-                    class="card-title btn btn-xs btn-light"
-                    :href="`/project/${place.id}`"
-                    >{{ place.name }}
-                  </VLink>
+                <div class="c-title">
+                  {{ place.name }}
+                </div>
+                <div class="mt-auto c-subtitle">
+                  IRR {{ $filters.formatPercent(place.rate, 4) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="card mr-3 mb-3" @click="$router.push(`/recurring/`)">
+              <img
+                src="https://d18-a.sdn.cz/d_18/c_img_gY_e/HSeSpG.jpeg?fl=res,749,562,3|shr,,20|jpg,90"
+                class="card-img"
+                height="200"
+                style="object-fit: cover"
+              />
+
+              <div class="card-img-overlay d-flex flex-column">
+                <div class="c-title">Recurring investment</div>
+                <div class="mt-auto c-subtitle">
+                  Buy best investment opportunity
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4" v-for="place in hotplaces" :key="place.id">
+            <div
+              class="card mr-3 mb-3"
+              @click="$router.push(`/project/${place.id}`)"
+            >
+              <img
+                :src="place.image"
+                class="card-img"
+                :alt="place.name"
+                height="200"
+                style="object-fit: cover"
+              />
+
+              <div class="card-img-overlay d-flex flex-column">
+                <div class="c-title">
+                  {{ place.name }}
+                </div>
+                <div class="mt-auto c-subtitle">
+                  Hot deal IRR {{ $filters.formatPercent(place.rate, 4) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+          <div class="col" v-for="place in places" :key="place.id">
+            <div
+              class="card mr-3 mb-3"
+              @click="$router.push(`/project/${place.id}`)"
+            >
+              <img
+                :src="place.image"
+                class="card-img"
+                :alt="place.name"
+                height="200"
+                style="object-fit: cover"
+              />
+
+              <div class="card-img-overlay d-flex flex-column">
+                <div class="c-title">
+                  {{ place.name }}
+                </div>
+                <div class="mt-auto c-subtitle">
+                  IRR {{ $filters.formatPercent(place.rate, 4) }}
                 </div>
               </div>
             </div>
@@ -86,12 +163,10 @@ import {
   LIcon,
 } from "@vue-leaflet/vue-leaflet";
 
-import VLink from "../components/VLink.vue";
 import PublicLayout from "../layouts/Public.vue";
 export default {
   components: {
     PublicLayout,
-    VLink,
     LMap,
     LTileLayer,
     LPopup,
@@ -134,36 +209,6 @@ export default {
           image:
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
         },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-        },
       ],
       mapIsReady: false,
       minZoom: 3,
@@ -178,6 +223,12 @@ export default {
       },
     };
   },
+  computed: {
+    hotplaces() {
+      return [this.places[0]];
+    },
+  },
+
   async beforeMount() {
     this.mapIsReady = true;
   },
@@ -205,5 +256,32 @@ export default {
   font-weight: bold;
   -webkit-text-stroke: 0.5px #999; /* width and color */
   text-shadow: 0.2px 0.2px #eee;
+  text-decoration: none;
+}
+
+.c-subtitle {
+  color: #111;
+  font-size: 1.2em;
+  font-weight: bold;
+  -webkit-text-stroke: 0.5px #999; /* width and color */
+  text-shadow: 0.2px 0.2px #eee;
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
+.card:hover {
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -moz-transition: opacity 0.2s ease-in-out;
+  -ms-transition: opacity 0.2s ease-in-out;
+  -o-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0.8;
+}
+.card-img-overlay {
+  opacity: 1;
 }
 </style>

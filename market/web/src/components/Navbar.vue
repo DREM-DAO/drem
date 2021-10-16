@@ -54,7 +54,7 @@
             }}</v-link>
           </li>
           <li class="nav-item active">
-            <v-link class="nav-link" href="/map">Map</v-link>
+            <v-link class="nav-link" href="/map">Home</v-link>
           </li>
           <li class="nav-item active">
             <v-link class="nav-link" href="/faq">{{ $t("navbar.faq") }}</v-link>
@@ -63,6 +63,9 @@
             <v-link class="nav-link" href="/privacy-policy">{{
               $t("navbar.privacy_policy")
             }}</v-link>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="https://docs.globdrem.com">Docs</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
