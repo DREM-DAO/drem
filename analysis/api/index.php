@@ -26,10 +26,12 @@ $files = scandir($dir);
 foreach($files as $file){
   if(substr($file,-4) != ".txt") continue;
   echo '<h2><a href="https://github.com/scholtz/drem/edit/main/analysis/processes/'.$file.'">'.$file.'</a></h2>';
-  $svgfilename = substr($file,-4).".svg";
-  echo '<pre>https://drem-analysis.vercel.app/'.$svgfilename.'</pre>';
+  $svgfilename = substr($file,0,-4).".svg";
+  $link = 'https://drem-analysis.vercel.app/'.$svgfilename;
+
+  echo '<pre>'.$link.'</pre>';
   $content = encodep(file_get_contents($dir.$file));
-  echo '<a href="https://www.plantuml.com/plantuml/umla/'.$content.'"><img width="100%" src="https://www.plantuml.com/plantuml/svg/'.$content.'"></a>'."\n\n";
+  echo '<a href="https://www.plantuml.com/plantuml/umla/'.$content.'"><img width="100%" src="'.$link.'"></a>'."\n\n";
 }
 
 
