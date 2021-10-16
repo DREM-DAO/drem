@@ -6,7 +6,7 @@ if(isset($_SERVER["REQUEST_URI"]) && substr($_SERVER["REQUEST_URI"],-4)==".svg")
  if(file_exists($file)){
   $content = encodep(file_get_contents($file));
   $contentsvg = file_get_contents('https://www.plantuml.com/plantuml/svg/'.$content);
-  header("Content-Type: application/svg+xml");
+  header("Content-Type: image/svg+xml");
   echo $contentsvg;
   exit;
  }
