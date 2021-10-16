@@ -1,10 +1,21 @@
 <?php
+$dir = __DIR__ . '/../processes/';
 
-$files = scandir($dir = __DIR__ . '/../processes/');
+if(substr($_SERVER["REQUEST_URI"],-4)==".svg"){
+ $file = $dir.substr($_SERVER["REQUEST_URI"],1,-4).".txt";
+ if(file_exists($file)){
+  $content = encodep(file_get_contents($dir.$file));
+  $content = file_get_contents('https://www.plantuml.com/plantuml/svg/'.$content);
+  header("Content-Type: application/svg+xml");
+  echo $contentsvg;
+  exit;
+ }
+}
 
+$files = scandir($dir);
 foreach($files as $file){
   if(substr($file,-4) != ".txt") continue;
-  echo "<h2>$file</h2>";
+  echo '<h2><a href="https://github.com/scholtz/drem/edit/main/analysis/processes/'.$file.'">'.$file.'</a></h2>';
   $content = encodep(file_get_contents($dir.$file));
   echo '<a href="https://www.plantuml.com/plantuml/umla/'.$content.'"><img width="100%" src="https://www.plantuml.com/plantuml/svg/'.$content.'"></a>'."\n\n";
 }
