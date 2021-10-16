@@ -99,6 +99,14 @@ myApp.config.globalProperties.$filters = {
     } else {
     }*/
   },
+  formatPercent(value, minimumFractionDigits = 2, language = "sk-SK") {
+    const formatter = new Intl.NumberFormat(language, {
+      minimumFractionDigits,
+      maximumFractionDigits: minimumFractionDigits,
+      style: "percent",
+    });
+    return formatter.format(value);
+  },
   formatDateTime(
     value,
     separator,
@@ -123,10 +131,6 @@ myApp.config.globalProperties.$filters = {
       separatorString +
       valueMoment.format(showSeconds ? "LTS" : "LT")
     );
-  },
-  formatPercent(value) {
-    if (!value) return "0 %";
-    return Math.round(value * 1000) / 10 + " %";
   },
 };
 

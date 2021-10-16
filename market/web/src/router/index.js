@@ -29,12 +29,23 @@ import TrustedList from "@/pages/vote/TrustedList.vue";
 import Donation from "@/pages/Donation.vue";
 import Success from "@/pages/Success.vue";
 import Map from "@/pages/Map.vue";
+import ProjectOverview from "@/pages/project/Overview.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Map,
+  },
+  {
+    path: "/map",
+    name: "Map",
+    component: Map,
+  },
+  {
+    path: "/project/:projectId",
+    name: "ProjectOverview",
+    component: ProjectOverview,
   },
   {
     path: "/privacy-policy",
@@ -50,11 +61,6 @@ const routes = [
     path: "/asset",
     name: "Asset",
     component: Asset,
-  },
-  {
-    path: "/map",
-    name: "Map",
-    component: Map,
   },
   {
     path: "/asset/create",
