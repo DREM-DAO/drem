@@ -10,3 +10,4 @@ You can use pernament link with .svg extension at the end. fe. [https://drem-ana
 
 Please use the [http://www.plantuml.com/plantuml/uml/](http://www.plantuml.com/plantuml/uml/) editor to edit processes and submit the process once a while.
 
+Any updates in the process workflow should be live updated to the documentation within minute.
