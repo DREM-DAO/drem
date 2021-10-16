@@ -21,6 +21,6 @@ The purpose of this project is to create demo applications for the [SB Hackathon
 
 ## Websites
 
-* [https://drem-analysis.vercel.app/](https://drem-analysis.vercel.app) - CICD of processes folder
-* [https://drem-market.vercel.app/](https://drem-market.vercel.app) - CICD of market web folder
-* [https://ludovit-scholtz.gitbook.io/drem/](https://ludovit-scholtz.gitbook.io/drem/) - CICD documentation from branch gitbook
+* [https://www.globdrem.com/](https://www.globdrem.com) - CICD of market web folder
+* [https://process.globdrem.com/](https://process.globdrem.com)  - CICD of processes folder
+* [https://docs.globdrem.com/](https://docs.globdrem.com) - CICD documentation from branch gitbook
