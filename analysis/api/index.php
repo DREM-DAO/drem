@@ -4,7 +4,7 @@ $dir = __DIR__ . '/../processes/';
 if(isset($_SERVER["REQUEST_URI"]) && substr($_SERVER["REQUEST_URI"],-4)==".svg"){
  $file = $dir.substr($_SERVER["REQUEST_URI"],1,-4).".txt";
  if(file_exists($file)){
-  $content = encodep(file_get_contents($dir.$file));
+  $content = encodep(file_get_contents($file));
   $content = file_get_contents('https://www.plantuml.com/plantuml/svg/'.$content);
   header("Content-Type: application/svg+xml");
   echo $contentsvg;
