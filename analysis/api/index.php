@@ -4,10 +4,19 @@ $dir = __DIR__ . '/../processes/';
 if(isset($_SERVER["REQUEST_URI"]) && substr($_SERVER["REQUEST_URI"],-4)==".svg"){
  $file = $dir.substr($_SERVER["REQUEST_URI"],1,-4).".txt";
  if(file_exists($file)){
+
   $content = encodep(file_get_contents($file));
+  $cachefile = "cache-".md5($content).".svg";
+  if(file_exists($cachefile)){
+   $contentsvg = file_get_contents($cachefile);
+   header("Content-Type: image/svg+xml");
+   echo $contentsvg;
+   exit;
+  }
   $contentsvg = file_get_contents('https://www.plantuml.com/plantuml/svg/'.$content);
   header("Content-Type: image/svg+xml");
   echo $contentsvg;
+  file_put_contents($cachefile, $contentsvg);
   exit;
  }
 }
