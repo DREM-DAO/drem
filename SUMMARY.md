@@ -1,8 +1,19 @@
 # Table of contents
 
-* [README](README.md)
+* [DREM](README.md)
 
-## Group 1
+## Marketplace
 
-* [Page 1](group-1/page-1.md)
-* [Page 2](group-1/page-2.md)
+* [Overview](marketplace/page-1.md)
+* [Buy existing project](marketplace/page-2.md)
+* [Standing payment purchase](marketplace/standing-payment-purchase.md)
+* [Invest to new projects](marketplace/invest-to-new-projects.md)
+
+## Real estate company
+
+* [Overview](real-estate-company/overview.md)
+
+## SB Hack docs
+
+* [Update this documentation](sb-hack-docs/update-this-documentation.md)
+* [Update process image](sb-hack-docs/update-process-image.md)
