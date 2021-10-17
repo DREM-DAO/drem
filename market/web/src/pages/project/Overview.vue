@@ -155,8 +155,28 @@
               sort-field="asaPrice"
               :sort-order="-1"
               stripedRows
-              @cell-click="bidClick($event)"
+              :rowClass="myOrderRow"
             >
+              <Column field="formattedPrice" header="">
+                <template #body="slotProps">
+                  <span>
+                    <a
+                      target="_blank"
+                      :href="`https://testnet.algoexplorer.io/address/${slotProps.data.ownerAddress}`"
+                      >D</a
+                    >
+                  </span>
+                  <span
+                    v-if="
+                      slotProps.data.ownerAddress ===
+                      this.$store.state.wallet.lastActiveAccount
+                    "
+                    @click="cancelBuy(slotProps.data)"
+                  >
+                    X
+                  </span>
+                </template>
+              </Column>
               <Column field="formattedASAAmount" header="Amount">
                 <template #body="slotProps">
                   <div
@@ -197,7 +217,7 @@
               sort-field="asaPrice"
               :sort-order="1"
               stripedRows
-              @cell-click="offerClick($event)"
+              :rowClass="myOrderRow"
             >
               <Column field="formattedPrice" header="Price"
                 ><template #body="slotProps">
@@ -225,6 +245,27 @@
                   </div>
                 </template></Column
               >
+              <Column field="formattedPrice" header="">
+                <template #body="slotProps">
+                  <div class="text-end">
+                    <span
+                      v-if="
+                        slotProps.data.ownerAddress ===
+                        this.$store.state.wallet.lastActiveAccount
+                      "
+                    >
+                      X
+                    </span>
+                    <span>
+                      <a
+                        target="_blank"
+                        :href="`https://testnet.algoexplorer.io/address/${slotProps.data.ownerAddress}`"
+                        >D</a
+                      >
+                    </span>
+                  </div>
+                </template>
+              </Column>
             </DataTable>
           </div>
         </div>
@@ -506,6 +547,7 @@ export default {
     ...mapActions({
       axiosGet: "axios/get",
       algodexBuy: "algodex/algodexBuy",
+      algodexCancelBuy: "algodex/cancelBuy",
       algodexSell: "algodex/algodexSell",
       waitForConfirmation: "algod/waitForConfirmation",
       prolong: "wallet/prolong",
@@ -607,6 +649,23 @@ export default {
       }
 
       //this.processingOrder = false;
+    },
+    myOrderRow(data) {
+      console.log("myOrderRow", data.ownerAddress);
+      if (this.$store && this.$store.state && this.$store.state.wallet) {
+        if (data.ownerAddress === this.$store.state.wallet.lastActiveAccount)
+          return "bg-warning";
+      }
+      return null;
+    },
+    cancelBuy(data) {
+      this.prolong();
+      console.log(data);
+      this.algodexCancelBuy({
+        ownerAddress: data.ownerAddress,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+      });
     },
   },
 };

@@ -8,7 +8,7 @@
       {{ t }}
     </a>
     <div v-if="this.$store.state.wallet.isOpen" class="text-center">
-      {{ $t("footer.text") }}
+      GlobDREM.com &copy; 2021
     </div>
   </footer>
 </template>
@@ -38,7 +38,7 @@ export default {
     }),
     setTime() {
       const elapsed = new Date() - this.$store.state.wallet.time;
-      const t = 300000 - elapsed;
+      const t = 1800000 - elapsed;
       if (t < 60000) {
         const sec = Math.round(t / 1000) % 3;
         if (sec == 0) {
