@@ -17,6 +17,8 @@ import "./registerServiceWorker";
 
 import moment from "moment";
 import DataTable from "primevue/datatable";
+import BadgeDirective from "primevue/badgedirective";
+
 import Column from "primevue/column";
 import InputText from "primevue/inputtext";
 import Slider from "primevue/slider";
@@ -26,6 +28,8 @@ import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 import ToastService from "primevue/toastservice";
 import Dropdown from "primevue/dropdown";
+import Galleria from "primevue/galleria";
+import Badge from "primevue/badge";
 import "primevue/resources/themes/saga-blue/theme.css";
 
 import "primevue/resources/primevue.min.css";
@@ -68,6 +72,9 @@ myApp.component("Toast", Toast);
 myApp.component("Accordion", Accordion);
 myApp.component("AccordionTab", AccordionTab);
 myApp.component("Dropdown", Dropdown);
+myApp.component("Galleria", Galleria);
+myApp.component("Badge", Badge);
+myApp.directive("badge", BadgeDirective);
 
 myApp.config.globalProperties.$filters = {
   formatCurrency(
