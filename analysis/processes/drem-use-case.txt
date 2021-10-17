@@ -23,7 +23,7 @@ Seller --> (Taker Sell order)
 
 
 note right of (Maker Buy order)
-  Cost 0.002 algo. 
+  Cost 0.002 algo. DONE
 end note
 
 note right of (Increase Buy order size)
@@ -40,7 +40,7 @@ end note
 
 
 note right of (Maker Sell order)
-  Cost 0.004 algo. 
+  Cost 0.004 algo. DONE
 end note
 
 note right of (Increase Sell order size)

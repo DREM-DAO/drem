@@ -9,62 +9,222 @@
         <Badge class="m-1"> 924 sqft </Badge>
         <Badge class="m-1"> Built in 1920 </Badge>
         <Badge class="m-1"> Single Family </Badge>
-        <table class="w-100">
-          <tr>
-            <td>Address</td>
-            <td>{{ project.address }}</td>
-          </tr>
-          <tr>
-            <td>IRR</td>
-            <td>{{ this.$filters.formatPercent(this.project.rate, 4) }}</td>
-          </tr>
-          <tr>
-            <td>NFT #id</td>
-            <td>
-              <a
-                target="_blank"
-                rel="norefferer"
-                :href="`https://testnet.algoexplorer.io/asset/${project.asa}`"
-                >{{ project.asa }}</a
-              >
-            </td>
-          </tr>
-        </table>
         <div class="row">
           <div class="col">
-            <h4>Bids</h4>
+            <table class="w-100">
+              <tr>
+                <td>Address</td>
+                <td>{{ project.address }}</td>
+              </tr>
+              <tr>
+                <td>GPS</td>
+                <td>Lat: {{ project.lat }}<br />Lng: {{ project.lng }}</td>
+              </tr>
+              <tr>
+                <td>IRR</td>
+                <td>{{ this.$filters.formatPercent(this.project.rate, 4) }}</td>
+              </tr>
+              <tr>
+                <td>NFT #id</td>
+                <td>
+                  <a
+                    target="_blank"
+                    rel="norefferer"
+                    :href="`https://testnet.algoexplorer.io/asset/${project.asa}`"
+                    >{{ project.asa }}</a
+                  ><br />
+
+                  <a
+                    target="_blank"
+                    rel="norefferer"
+                    :href="`https://testnet.algodex.com/trade/${project.asa}`"
+                    >AlgoDex market</a
+                  >
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="col">
+            <div class="card card-primary">
+              <div
+                class="card-header"
+                :class="
+                  order.isOffer
+                    ? 'bg-danger text-white'
+                    : 'bg-success text-white'
+                "
+              >
+                Place order
+                <div class="form-check form-switch float-end">
+                  <input
+                    v-model="order.isOffer"
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Buy / Sell</label
+                  >
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="">
+                  <div class="mb-1 row row-cols-lg-2">
+                    <div class="col col-lg-4">
+                      <label for="price" class="form-label">Price</label>
+                    </div>
+                    <div class="col col-lg-8">
+                      <input
+                        v-model="order.price"
+                        class="form-control"
+                        id="price"
+                        placeholder="Order price"
+                        type="number"
+                        step="0.000001"
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-1 row row-cols-lg-2">
+                    <div class="col col-lg-4">
+                      <label for="quantity" class="form-label">Quantity</label>
+                    </div>
+                    <div class="col col-lg-8">
+                      <input
+                        v-model="order.quantity"
+                        class="form-control"
+                        id="quantity"
+                        placeholder="Order quantity"
+                        type="number"
+                        step="0.000001"
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-1 row row-cols-lg-2">
+                    <div class="col offset-lg-4 col-lg-8">
+                      <div v-if="$store.state.wallet.isOpen">
+                        <div
+                          v-if="orderstate && processingOrder"
+                          class="alert alert-info"
+                        >
+                          {{ orderstate }}
+                        </div>
+                        <div v-else>
+                          <button
+                            :disabled="processingOrder"
+                            class="btn btn-primary"
+                            v-if="order.isOffer"
+                            @click="makerSell"
+                          >
+                            Maker sell
+                          </button>
+                          <button
+                            :disabled="processingOrder"
+                            class="btn btn-primary"
+                            v-if="!order.isOffer"
+                            @click="makerBuy"
+                          >
+                            Maker buy
+                          </button>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <button
+                          class="btn btn-primary"
+                          @click="this.$router.push('/accounts/')"
+                        >
+                          Open wallet
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4 class="text-end">Bids</h4>
             <DataTable
-              class="p-datatable-sm"
               v-if="orders && orders.buyASAOrdersInEscrow"
               :value="orders.buyASAOrdersInEscrow"
+              class="p-datatable-sm"
               responsiveLayout="scroll"
-              selectionMode="single"
-              v-model:selection="selection"
               :paginator="true"
               :rows="5"
               sort-field="asaPrice"
               :sort-order="-1"
+              stripedRows
+              @cell-click="bidClick($event)"
             >
-              <Column field="formattedASAAmount" :header="Amount"></Column>
-              <Column field="formattedPrice" :header="Price"></Column>
+              <Column field="formattedASAAmount" header="Amount">
+                <template #body="slotProps">
+                  <div
+                    class="text-end"
+                    @click="
+                      this.order.quantity = slotProps.data.formattedASAAmount;
+                      this.processingOrder = false;
+                    "
+                  >
+                    {{ slotProps.data.formattedASAAmount }}
+                  </div>
+                </template>
+              </Column>
+              <Column field="formattedPrice" header="Price">
+                <template #body="slotProps">
+                  <div
+                    class="text-end"
+                    @click="
+                      this.order.price = slotProps.data.formattedPrice;
+                      this.processingOrder = false;
+                    "
+                  >
+                    {{ slotProps.data.formattedPrice }}
+                  </div>
+                </template></Column
+              >
             </DataTable>
           </div>
           <div class="col">
             <h4>Offers</h4>
             <DataTable
-              class="p-datatable-sm"
               v-if="orders && orders.sellASAOrdersInEscrow"
               :value="orders.sellASAOrdersInEscrow"
+              class="p-datatable-sm"
               responsiveLayout="scroll"
-              selectionMode="single"
-              v-model:selection="selection"
               :paginator="true"
               :rows="5"
               sort-field="asaPrice"
               :sort-order="1"
+              stripedRows
+              @cell-click="offerClick($event)"
             >
-              <Column field="formattedPrice" :header="Price"></Column>
-              <Column field="formattedASAAmount" :header="Amount"></Column>
+              <Column field="formattedPrice" header="Price"
+                ><template #body="slotProps">
+                  <div
+                    class="text-end"
+                    @click="
+                      this.order.price = slotProps.data.formattedPrice;
+                      this.processingOrder = false;
+                    "
+                  >
+                    {{ slotProps.data.formattedPrice }}
+                  </div>
+                </template></Column
+              >
+              <Column field="formattedASAAmount" header="Amount"
+                ><template #body="slotProps">
+                  <div
+                    class="text-end"
+                    @click="
+                      this.order.quantity = slotProps.data.formattedASAAmount;
+                      this.processingOrder = false;
+                    "
+                  >
+                    {{ slotProps.data.formattedASAAmount }}
+                  </div>
+                </template></Column
+              >
             </DataTable>
           </div>
         </div>
@@ -93,7 +253,7 @@
       </div>
       <div class="col">
         <LMap
-          style="min-height: 80vh"
+          style="min-height: 50vh"
           :zoom="zoom"
           :min-zoom="minZoom"
           :max-zoom="maxZoom"
@@ -138,6 +298,14 @@ export default {
     LLayerGroup,
     LIcon,
   },
+  watch: {
+    selectedBid() {
+      this.order.price = this.selectedBid.asaPrice;
+    },
+    selectedOffer() {
+      this.order.price = this.selectedOffer.asaPrice;
+    },
+  },
   computed: {
     info() {
       return [
@@ -151,13 +319,38 @@ export default {
         },
       ];
     },
+    account() {
+      return this.$store.state.wallet.privateAccounts.find(
+        (a) => a.addr == this.$store.state.wallet.lastActiveAccount
+      );
+    },
   },
   mounted() {
-    setTimeout(this.countdown, 1);
+    this.prolong();
+    if (!this.timer) {
+      this.timer = setInterval(this.countdown, 10000);
+    } else {
+      console.log("timer already running");
+    }
+    this.countdown();
+  },
+  beforeUnmount() {
+    clearInterval(this.timer);
   },
   data() {
     return {
+      processingOrder: false,
+      orderstate: "",
+      selectedBid: null,
+      selectedOffer: null,
+      timer: null,
+      downloading: false,
       orders: { buyASAOrdersInEscrow: [], sellASAOrdersInEscrow: [] },
+      order: {
+        isOffer: false,
+        quantity: null,
+        price: null,
+      },
       project: {
         id: "2",
         address: "Prague",
@@ -312,15 +505,46 @@ export default {
   methods: {
     ...mapActions({
       axiosGet: "axios/get",
+      algodexBuy: "algodex/algodexBuy",
+      algodexSell: "algodex/algodexSell",
+      waitForConfirmation: "algod/waitForConfirmation",
+      prolong: "wallet/prolong",
     }),
+    bidClick(e) {
+      if (e.index === 1) {
+        this.order.price = e.data.asaPrice;
+      }
+      if (e.index === 0) {
+        this.order.quantity = e.data.asaAmount / Math.pow(10, e.data.decimals);
+      }
+    },
+    offerClick(e) {
+      console.log("offerClick", e, e.data.asaPrice);
+      if (e.index == 0) {
+        this.order.price = e.data.asaPrice;
+        console.log("offerClick0", e, e.data.asaPrice, this.order);
+      }
+      if (e.index == 1) {
+        this.order.quantity = e.data.asaAmount / Math.pow(10, e.data.decimals);
+        console.log("offerClick1", e, e.data.asaPrice, this.order);
+      }
+      console.log("offerClick", e, e.data.asaPrice, this.order);
+    },
 
     async countdown() {
-      console.log("a", new Date());
-      this.orders = await this.axiosGet({
-        url: `https://api-testnet-public.algodex.com/algodex-backend/orders.php?assetId=${this.project.asa}`,
-      });
-      console.log("this.orders", this.orders);
-      setTimeout(this.countdown, 10000);
+      if (this.downloading) return;
+      this.downloading = true;
+      try {
+        const ord = await this.axiosGet({
+          url: `https://api-testnet-public.algodex.com/algodex-backend/orders.php?assetId=${this.project.asa}`,
+        });
+        if (ord) {
+          this.orders = ord;
+        }
+      } catch (e) {
+        console.log("error downloading", e);
+      }
+      this.downloading = false;
     },
     getLatLng(branch) {
       if (!branch) return { lat: 0, lng: 0 };
@@ -334,6 +558,55 @@ export default {
       } else {
         return "https://cdnsitestoragecovid.blob.core.windows.net/web/images/icons/map_icon_blue.png";
       }
+    },
+    async makerSell() {
+      this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending to net";
+      const tx = await this.algodexSell({
+        creator: this.account,
+        price: Math.round(this.order.price * 1000000),
+        assetIndex: this.project.asa,
+        amount: Math.round(this.order.quantity * 1000000),
+      });
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
+      //this.processingOrder = false;
+    },
+    async makerBuy() {
+      this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending to net";
+      const tx = await this.algodexBuy({
+        creator: this.account,
+        price: Math.round(this.order.price * 1000000),
+        assetIndex: this.project.asa,
+        amount: Math.round(this.order.quantity * 1000000),
+      });
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
+
+      //this.processingOrder = false;
     },
   },
 };

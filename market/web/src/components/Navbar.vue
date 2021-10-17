@@ -23,38 +23,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item active" v-if="$store.state.wallet.isOpen">
-            <v-link class="nav-link" href="/accounts">{{
-              $t("navbar.list_accounts")
-            }}</v-link>
-          </li>
-          <li
-            class="nav-item active"
-            v-if="$store.state.wallet.lastActiveAccountName"
-          >
-            <v-link
-              class="nav-link"
-              :href="'/account/' + $store.state.wallet.lastActiveAccount"
-              >{{ $store.state.wallet.lastActiveAccountName }}</v-link
-            >
+          <li class="nav-item active">
+            <v-link class="nav-link" href="/map">Home</v-link>
           </li>
           <li class="nav-item active" v-if="$store.state.wallet.isOpen">
             <v-link class="nav-link" href="/new-account">{{
               $t("navbar.new_account")
             }}</v-link>
-          </li>
-          <li class="nav-item active" v-if="$store.state.wallet.isOpen">
-            <v-link class="nav-link" href="/asset/create">{{
-              $t("navbar.asset_create")
-            }}</v-link>
-          </li>
-          <li class="nav-item active" v-if="$store.state.wallet.isOpen">
-            <v-link class="nav-link" href="/vote/governance/optin">{{
-              $t("navbar.vote")
-            }}</v-link>
-          </li>
-          <li class="nav-item active">
-            <v-link class="nav-link" href="/map">Home</v-link>
           </li>
           <li class="nav-item active">
             <v-link class="nav-link" href="/faq">{{ $t("navbar.faq") }}</v-link>
@@ -69,6 +44,14 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item active" v-if="!$store.state.wallet.isOpen">
+            <v-link class="nav-link" href="/accounts">Open wallet</v-link>
+          </li>
+          <li class="nav-item active" v-if="$store.state.wallet.isOpen">
+            <v-link class="nav-link" href="/accounts">{{
+              $store.state.wallet.lastActiveAccountName
+            }}</v-link>
+          </li>
           <Dropdown
             v-if="!$store.state.wallet.isOpen"
             v-model="$i18n.locale"

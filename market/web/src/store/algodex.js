@@ -3,518 +3,530 @@ import algosdk from "algosdk";
 const actions = {
   async algodexSell({ dispatch }, { creator, price, assetIndex, amount }) {
     const appIndex = 22045522;
+
+    const gcd = await dispatch("gcd", { price, amount });
+    // gcd = 1
+
+    const pricegcd = Math.round(price / gcd);
+    const power = Math.log(gcd) / Math.log(10);
+    const amountgcd = Math.pow(10, 6 - power);
+
+    console.log("gcd", gcd, pricegcd, amountgcd);
+    //let stop = true;
+    //if (stop) return;
     //"BCAJAAEE0sbBCgaWnqcHAwLoByYBIJklNs5zSM6C9enNAzmPGJKWJbPKuKdkOdPKb9O7+vbGIjUJNAk4IDIDEkQ0CSMINQk0CTIEDED/6jIEJBIzARglEhAzAAAoEhAzAAcxABIQMwEAMQASEDMCADEAEhAzAgAzAhQSEDEAMwMUEhAzAwAoEhAzABAjEhAzARAhBBIQMwIQJBIQMwMQJBIQMwAIgaDCHg8QMwEIIhIQMwISIhIQMwMSIw8QIQUzAhESECEFMwMREhAzAAkyAxIQMwEJMgMSEDMCCTIDEhAzAwkyAxIQMwAZIhIQMwEZIxIQMwIZIhIQMwMZIhIQMwAVMgMSEDMBFTIDEhAzAhUyAxIQMwMVMgMSEEEAAiNDMgQkEjMAGCUSEDMACTIDEhAzABUyAxIQMwEJMgMSEDMBFSgSEDMCCSgSEDMCFTIDEhAzAwkyAxIQMwMVMgMSEDMAADEAEhAzAQAxABIQMwIAMQASEDMDACgSEDMABzIDEhAzARQoEhAzAgcoEhAzAwcoEhAzABAhBBIQMwEQJBIQMwIQIxIQMwMQIxIQMwAIIhIQMwEIIhIQMwESIhIQMwIIIhIQMwISIhIQMwMIIhIQMwMSIhIQMwAZIQYSEDMBGSISEDMCGSISEDMDGSISEEEAAiNDMwIQJBIzAhIiEhAzAgAzAhQSEDMCIDIDEhAzAhUyAxIQMwIAMQATEDUANAAhBwg1AjQAIQYINQMkNAAIMgQSRDMAADEAEjMBADEAExA0AjgAMQASEDMBBygSEDMAECEEEhAzARAjEhAzAhAkEhA0AjgQJBIQNAM4ECMSEDEBIQgOEDMAGCUSEDMACTIDEhAzAQkyAxIQNAI4CTIDEhAzABUyAxIQMwEVMgMSEDQCOBEhBRIQRDcAGgCAFWV4ZWN1dGVfd2l0aF9jbG9zZW91dBJAAEMzABkiEjQCOBUyAxIQNAM4CTIDEhA0AzgBIQgSEDQDOAiB0A8SEDQDOAcxABIQNAM4ADMBABIQNAM4ADEAExBEQgA1MwAZIQcSMwEJMgMSEDQCOBUoEhA0AzgJKBIQNAM4BygSEDQDOAAxABIQNAM4CCISEERCAAAzAQgjDzQCOBIjDxBBADI0AjgSgfWMpgUdNQI1ATMBCIGQTh01BDUDNAE0AwxAAA80ATQDEjQCNAQOEEAAAQAjQyJD"
     const appData = `#pragma version 4
-    intcblock 0 1 4 ${22045522} 6 ${assetIndex} 3 2 1000
-    bytecblock 0x992536ce7348ce82f5e9cd03398f18929625b3cab8a76439d3ca6fd3bbfaf6c6
-    intc_0 // 0
-    store 9
-    load 9
-    gtxns RekeyTo
-    global ZeroAddress
-    ==
-    assert
-    load 9
-    intc_1 // 1
-    +
-    store 9
-    load 9
-    global GroupSize
-    <
-    bnz label1
-    label1:
-    global GroupSize
-    intc_2 // 4
-    ==
-    gtxn 1 ApplicationID
-    intc_3 // 22045522
-    ==
-    &&
-    gtxn 0 Sender
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 0 Receiver
-    txn Sender
-    ==
-    &&
-    gtxn 1 Sender
-    txn Sender
-    ==
-    &&
-    gtxn 2 Sender
-    txn Sender
-    ==
-    &&
-    gtxn 2 Sender
-    gtxn 2 AssetReceiver
-    ==
-    &&
-    txn Sender
-    gtxn 3 AssetReceiver
-    ==
-    &&
-    gtxn 3 Sender
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 0 TypeEnum
-    intc_1 // 1
-    ==
-    &&
-    gtxn 1 TypeEnum
-    intc 4 // 6
-    ==
-    &&
-    gtxn 2 TypeEnum
-    intc_2 // 4
-    ==
-    &&
-    gtxn 3 TypeEnum
-    intc_2 // 4
-    ==
-    &&
-    gtxn 0 Amount
-    pushint 500000
-    >=
-    &&
-    gtxn 1 Amount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 2 AssetAmount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 3 AssetAmount
-    intc_1 // 1
-    >=
-    &&
-    intc 5 // 15322902
-    gtxn 2 XferAsset
-    ==
-    &&
-    intc 5 // 15322902
-    gtxn 3 XferAsset
-    ==
-    &&
-    gtxn 0 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 2 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 3 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 0 OnCompletion
-    intc_0 // 0
-    ==
-    &&
-    gtxn 1 OnCompletion
-    intc_1 // 1
-    ==
-    &&
-    gtxn 2 OnCompletion
-    intc_0 // 0
-    ==
-    &&
-    gtxn 3 OnCompletion
-    intc_0 // 0
-    ==
-    &&
-    gtxn 0 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 2 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 3 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    bz label2
-    intc_1 // 1
-    return
-    label2:
-    global GroupSize
-    intc_2 // 4
-    ==
-    gtxn 0 ApplicationID
-    intc_3 // 22045522
-    ==
-    &&
-    gtxn 0 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 0 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 AssetCloseTo
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 2 CloseRemainderTo
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 2 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 3 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 3 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 0 Sender
-    txn Sender
-    ==
-    &&
-    gtxn 1 Sender
-    txn Sender
-    ==
-    &&
-    gtxn 2 Sender
-    txn Sender
-    ==
-    &&
-    gtxn 3 Sender
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 0 Receiver
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 AssetReceiver
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 2 Receiver
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 3 Receiver
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 0 TypeEnum
-    intc 4 // 6
-    ==
-    &&
-    gtxn 1 TypeEnum
-    intc_2 // 4
-    ==
-    &&
-    gtxn 2 TypeEnum
-    intc_1 // 1
-    ==
-    &&
-    gtxn 3 TypeEnum
-    intc_1 // 1
-    ==
-    &&
-    gtxn 0 Amount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 1 Amount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 1 AssetAmount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 2 Amount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 2 AssetAmount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 3 Amount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 3 AssetAmount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 0 OnCompletion
-    intc 6 // 3
-    ==
-    &&
-    gtxn 1 OnCompletion
-    intc_0 // 0
-    ==
-    &&
-    gtxn 2 OnCompletion
-    intc_0 // 0
-    ==
-    &&
-    gtxn 3 OnCompletion
-    intc_0 // 0
-    ==
-    &&
-    bz label3
-    intc_1 // 1
-    return
-    label3:
-    gtxn 2 TypeEnum
-    intc_2 // 4
-    ==
-    gtxn 2 AssetAmount
-    intc_0 // 0
-    ==
-    &&
-    gtxn 2 Sender
-    gtxn 2 AssetReceiver
-    ==
-    &&
-    gtxn 2 RekeyTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 2 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 2 Sender
-    txn Sender
-    !=
-    &&
-    store 0
-    load 0
-    intc 7 // 2
-    +
-    store 2
-    load 0
-    intc 6 // 3
-    +
-    store 3
-    intc_2 // 4
-    load 0
-    +
-    global GroupSize
-    ==
-    assert
-    gtxn 0 Sender
-    txn Sender
-    ==
-    gtxn 1 Sender
-    txn Sender
-    !=
-    &&
-    load 2
-    gtxns Sender
-    txn Sender
-    ==
-    &&
-    gtxn 1 Receiver
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    gtxn 0 TypeEnum
-    intc 4 // 6
-    ==
-    &&
-    gtxn 1 TypeEnum
-    intc_1 // 1
-    ==
-    &&
-    gtxn 2 TypeEnum
-    intc_2 // 4
-    ==
-    &&
-    load 2
-    gtxns TypeEnum
-    intc_2 // 4
-    ==
-    &&
-    load 3
-    gtxns TypeEnum
-    intc_1 // 1
-    ==
-    &&
-    txn Fee
-    intc 8 // 1000
-    <=
-    &&
-    gtxn 0 ApplicationID
-    intc_3 // 22045522
-    ==
-    &&
-    gtxn 0 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    load 2
-    gtxns CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 0 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    gtxn 1 AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    load 2
-    gtxns XferAsset
-    intc 5 // 15322902
-    ==
-    &&
-    assert
-    gtxna 0 ApplicationArgs 0
-    pushbytes 0x657865637574655f776974685f636c6f73656f7574 // "execute_with_closeout"
-    ==
-    bnz label4
-    gtxn 0 OnCompletion
-    intc_0 // 0
-    ==
-    load 2
-    gtxns AssetCloseTo
-    global ZeroAddress
-    ==
-    &&
-    load 3
-    gtxns CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    load 3
-    gtxns Fee
-    intc 8 // 1000
-    ==
-    &&
-    load 3
-    gtxns Amount
-    pushint 2000
-    ==
-    &&
-    load 3
-    gtxns Receiver
-    txn Sender
-    ==
-    &&
-    load 3
-    gtxns Sender
-    gtxn 1 Sender
-    ==
-    &&
-    load 3
-    gtxns Sender
-    txn Sender
-    !=
-    &&
-    assert
-    b label5
-    label4:
-    gtxn 0 OnCompletion
-    intc 7 // 2
-    ==
-    gtxn 1 CloseRemainderTo
-    global ZeroAddress
-    ==
-    &&
-    load 2
-    gtxns AssetCloseTo
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    load 3
-    gtxns CloseRemainderTo
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    load 3
-    gtxns Receiver
-    bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
-    ==
-    &&
-    load 3
-    gtxns Sender
-    txn Sender
-    ==
-    &&
-    load 3
-    gtxns Amount
-    intc_0 // 0
-    ==
-    &&
-    assert
-    b label5
-    label5:
-    gtxn 1 Amount
-    intc_1 // 1
-    >=
-    load 2
-    gtxns AssetAmount
-    intc_1 // 1
-    >=
-    &&
-    bz label6
-    load 2
-    gtxns AssetAmount
-    pushint ${price}
-    mulw
-    store 2
-    store 1
-    gtxn 1 Amount
-    pushint 10000
-    mulw
-    store 4
-    store 3
-    load 1
-    load 3
-    <
-    bnz label7
-    load 1
-    load 3
-    ==
-    load 2
-    load 4
-    <=
-    &&
-    bnz label7
-    err
-    label7:
-    intc_1 // 1
-    return
-    label6:
-    intc_0 // 0
-    return`;
+intcblock 0 1 4 ${appIndex} 6 ${assetIndex} 3 2 1000
+bytecblock 0x992536ce7348ce82f5e9cd03398f18929625b3cab8a76439d3ca6fd3bbfaf6c6
+intc_0 // 0
+store 9
+label1:
+load 9
+gtxns RekeyTo
+global ZeroAddress
+==
+assert
+load 9
+intc_1 // 1
++
+store 9
+load 9
+global GroupSize
+<
+bnz label1
+global GroupSize
+intc_2 // 4
+==
+gtxn 1 ApplicationID
+intc_3 // 22045522
+==
+&&
+gtxn 0 Sender
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 0 Receiver
+txn Sender
+==
+&&
+gtxn 1 Sender
+txn Sender
+==
+&&
+gtxn 2 Sender
+txn Sender
+==
+&&
+gtxn 2 Sender
+gtxn 2 AssetReceiver
+==
+&&
+txn Sender
+gtxn 3 AssetReceiver
+==
+&&
+gtxn 3 Sender
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 0 TypeEnum
+intc_1 // 1
+==
+&&
+gtxn 1 TypeEnum
+intc 4 // 6
+==
+&&
+gtxn 2 TypeEnum
+intc_2 // 4
+==
+&&
+gtxn 3 TypeEnum
+intc_2 // 4
+==
+&&
+gtxn 0 Amount
+pushint 500000
+>=
+&&
+gtxn 1 Amount
+intc_0 // 0
+==
+&&
+gtxn 2 AssetAmount
+intc_0 // 0
+==
+&&
+gtxn 3 AssetAmount
+intc_1 // 1
+>=
+&&
+intc 5 // 37074699
+gtxn 2 XferAsset
+==
+&&
+intc 5 // 37074699
+gtxn 3 XferAsset
+==
+&&
+gtxn 0 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 1 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 2 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 3 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 0 OnCompletion
+intc_0 // 0
+==
+&&
+gtxn 1 OnCompletion
+intc_1 // 1
+==
+&&
+gtxn 2 OnCompletion
+intc_0 // 0
+==
+&&
+gtxn 3 OnCompletion
+intc_0 // 0
+==
+&&
+gtxn 0 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 1 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 2 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 3 AssetCloseTo
+global ZeroAddress
+==
+&&
+bz label2
+intc_1 // 1
+return
+label2:
+global GroupSize
+intc_2 // 4
+==
+gtxn 0 ApplicationID
+intc_3 // 22045522
+==
+&&
+gtxn 0 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 0 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 1 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 1 AssetCloseTo
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 2 CloseRemainderTo
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 2 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 3 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 3 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 0 Sender
+txn Sender
+==
+&&
+gtxn 1 Sender
+txn Sender
+==
+&&
+gtxn 2 Sender
+txn Sender
+==
+&&
+gtxn 3 Sender
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 0 Receiver
+global ZeroAddress
+==
+&&
+gtxn 1 AssetReceiver
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 2 Receiver
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 3 Receiver
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 0 TypeEnum
+intc 4 // 6
+==
+&&
+gtxn 1 TypeEnum
+intc_2 // 4
+==
+&&
+gtxn 2 TypeEnum
+intc_1 // 1
+==
+&&
+gtxn 3 TypeEnum
+intc_1 // 1
+==
+&&
+gtxn 0 Amount
+intc_0 // 0
+==
+&&
+gtxn 1 Amount
+intc_0 // 0
+==
+&&
+gtxn 1 AssetAmount
+intc_0 // 0
+==
+&&
+gtxn 2 Amount
+intc_0 // 0
+==
+&&
+gtxn 2 AssetAmount
+intc_0 // 0
+==
+&&
+gtxn 3 Amount
+intc_0 // 0
+==
+&&
+gtxn 3 AssetAmount
+intc_0 // 0
+==
+&&
+gtxn 0 OnCompletion
+intc 6 // 3
+==
+&&
+gtxn 1 OnCompletion
+intc_0 // 0
+==
+&&
+gtxn 2 OnCompletion
+intc_0 // 0
+==
+&&
+gtxn 3 OnCompletion
+intc_0 // 0
+==
+&&
+bz label3
+intc_1 // 1
+return
+label3:
+gtxn 2 TypeEnum
+intc_2 // 4
+==
+gtxn 2 AssetAmount
+intc_0 // 0
+==
+&&
+gtxn 2 Sender
+gtxn 2 AssetReceiver
+==
+&&
+gtxn 2 RekeyTo
+global ZeroAddress
+==
+&&
+gtxn 2 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 2 Sender
+txn Sender
+!=
+&&
+store 0
+load 0
+intc 7 // 2
++
+store 2
+load 0
+intc 6 // 3
++
+store 3
+intc_2 // 4
+load 0
++
+global GroupSize
+==
+assert
+gtxn 0 Sender
+txn Sender
+==
+gtxn 1 Sender
+txn Sender
+!=
+&&
+load 2
+gtxns Sender
+txn Sender
+==
+&&
+gtxn 1 Receiver
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+gtxn 0 TypeEnum
+intc 4 // 6
+==
+&&
+gtxn 1 TypeEnum
+intc_1 // 1
+==
+&&
+gtxn 2 TypeEnum
+intc_2 // 4
+==
+&&
+load 2
+gtxns TypeEnum
+intc_2 // 4
+==
+&&
+load 3
+gtxns TypeEnum
+intc_1 // 1
+==
+&&
+txn Fee
+intc 8 // 1000
+<=
+&&
+gtxn 0 ApplicationID
+intc_3 // 22045522
+==
+&&
+gtxn 0 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 1 CloseRemainderTo
+global ZeroAddress
+==
+&&
+load 2
+gtxns CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 0 AssetCloseTo
+global ZeroAddress
+==
+&&
+gtxn 1 AssetCloseTo
+global ZeroAddress
+==
+&&
+load 2
+gtxns XferAsset
+intc 5 // 37074699
+==
+&&
+assert
+gtxna 0 ApplicationArgs 0
+pushbytes 0x657865637574655f776974685f636c6f73656f7574 // "execute_with_closeout"
+==
+bnz label4
+gtxn 0 OnCompletion
+intc_0 // 0
+==
+load 2
+gtxns AssetCloseTo
+global ZeroAddress
+==
+&&
+load 3
+gtxns CloseRemainderTo
+global ZeroAddress
+==
+&&
+load 3
+gtxns Fee
+intc 8 // 1000
+==
+&&
+load 3
+gtxns Amount
+pushint 2000
+==
+&&
+load 3
+gtxns Receiver
+txn Sender
+==
+&&
+load 3
+gtxns Sender
+gtxn 1 Sender
+==
+&&
+load 3
+gtxns Sender
+txn Sender
+!=
+&&
+assert
+b label5
+label4:
+gtxn 0 OnCompletion
+intc 7 // 2
+==
+gtxn 1 CloseRemainderTo
+global ZeroAddress
+==
+&&
+load 2
+gtxns AssetCloseTo
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+load 3
+gtxns CloseRemainderTo
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+load 3
+gtxns Receiver
+bytec_0 // addr TESTNTTTJDHIF5PJZUBTTDYYSKLCLM6KXCTWIOOTZJX5HO7263DPPMM2SU
+==
+&&
+load 3
+gtxns Sender
+txn Sender
+==
+&&
+load 3
+gtxns Amount
+intc_0 // 0
+==
+&&
+assert
+b label5
+label5:
+gtxn 1 Amount
+intc_1 // 1
+>=
+load 2
+gtxns AssetAmount
+intc_1 // 1
+>=
+&&
+bz label6
+load 2
+gtxns AssetAmount
+pushint ${pricegcd}
+mulw
+store 2
+store 1
+gtxn 1 Amount
+pushint ${amountgcd}
+mulw
+store 4
+store 3
+load 1
+load 3
+<
+bnz label7
+load 1
+load 3
+==
+load 2
+load 4
+<=
+&&
+bnz label7
+err
+label7:
+intc_1 // 1
+return
+label6:
+intc_0 // 0
+return
+`;
 
     const url = new URL(this.state.config.algod);
 
@@ -543,11 +555,10 @@ const actions = {
           root: true,
         }
       );
-      console.log("skCreator", skCreator);
     }
     const appArgs = [
       Uint8Array.from(Buffer.from("b3Blbg==", "base64")),
-      Uint8Array.from(Buffer.from(`10000-${price}-0-${assetIndex}`)),
+      Uint8Array.from(Buffer.from(`${amountgcd}-${pricegcd}-0-${assetIndex}`)),
       //Uint8Array.from(Buffer.from("100-1-0-12400859")),
       Uint8Array.from(Buffer.from("Aw==", "base64")),
     ];
@@ -636,12 +647,25 @@ const actions = {
       });
     return ret;
   },
-  async algodexBuy({ dispatch }, { creator }) {
+  gcd({ dispatch }, { price, amount }) {
+    let ret = 1;
+    let retNext = 10;
+    while (ret < 1000000) {
+      if (price % retNext !== 0) return ret;
+      if (amount % retNext !== 0) return ret;
+      ret = retNext;
+      retNext = retNext * 10;
+    }
+    if (price > 100000) console.log(dispatch);
+    return ret;
+  },
+  async algodexBuy({ dispatch }, { creator, price, assetIndex, amount }) {
     try {
       console.log("makeApplicationNoOpTxn", {
         creator,
         appIndex,
       });
+
       const url = new URL(this.state.config.algod);
       const appIndex = 22045503;
       let algodclient = new algosdk.Algodv2(
@@ -660,7 +684,7 @@ const actions = {
       let skCreator = null;
       let fromAcctCreator = "";
       console.log("creator.sk", creator);
-      if (creator.sk) {
+      if (creator && creator.sk) {
         console.log("creator.sk", creator, creator.sk);
         skCreator = Uint8Array.from(Object.values(creator.sk));
         fromAcctCreator = creator.addr + "";
@@ -673,18 +697,30 @@ const actions = {
             root: true,
           }
         );
-        console.log("skCreator", skCreator);
       }
-      const price = 20004;
+
+      const gcd = await dispatch("gcd", { price, amount });
+      //const pricegcd = Math.round(price / gcd);
+      //const amountgcd = Math.round(amount / gcd);
+
+      const pricegcd = Math.round(price / gcd);
+      const power = Math.log(gcd) / Math.log(10);
+      const amountgcd = Math.pow(10, 6 - power);
+
+      //let a = true;
+      //if (a) return;
+
       const appArgs = [
         Uint8Array.from(Buffer.from("b3Blbg==", "base64")),
-        Uint8Array.from(Buffer.from(`1000000-${price}-0-12400859`)),
+        Uint8Array.from(
+          Buffer.from(`${amountgcd}-${pricegcd}-0-${assetIndex}`)
+        ),
         //Uint8Array.from(Buffer.from("100-1-0-12400859")),
         Uint8Array.from(Buffer.from("Aw==", "base64")),
       ];
 
       const appData = `#pragma version 4
-      intcblock 1 0 3 6 4 2 ${appIndex} 12400859 1000
+      intcblock 1 0 3 6 4 2 ${appIndex} ${assetIndex} 1000
       bytecblock 0x992536ce7348ce82f5e9cd03398f18929625b3cab8a76439d3ca6fd3bbfaf6c6
       intc_1 // 0
       store 9
@@ -784,7 +820,7 @@ const actions = {
       intc_1 // 0
       ==
       &&
-      intc 7 // 12400859
+      intc 7 // ${assetIndex}
       gtxn 2 XferAsset
       ==
       &&
@@ -1030,18 +1066,18 @@ const actions = {
       intc_0 // 1
       >=
       &&
-      intc 7 // 12400859
+      intc 7 // ${assetIndex}
       gtxn 2 XferAsset
       ==
       &&
       assert
       gtxn 2 AssetAmount
-      pushint ${price}
+      pushint ${pricegcd}
       mulw
       store 2
       store 1
       gtxn 1 Amount
-      pushint 1000000
+      pushint ${amountgcd}
       mulw
       store 4
       store 3
@@ -1063,23 +1099,6 @@ const actions = {
       return`;
       const results = await algodclient.compile(appData).do();
       let buff = Buffer.from(results.result, "base64");
-      //const program = new Uint8Array();
-      /*
-      let buff = Buffer.from(
-        `BCAJAQADBgQCv8bBCtvx9AXoByYBIJklNs5zSM6C9enNAzmPGJKWJbPKuKdkOdPKb9O7+vbGIzUJ
-        NAk4IDIDEkQ0CTgVMgMSRDQJIgg1CTQJMgQMQAAAMgQhBRIyBCQSETMAECISEDMBECUSEDMACIGg
-        wh4PEDMBCCMSEDMACTIDEhAzAQkyAxIQMwAZIxIQMwEZIhIQMwEYIQYSEDMAACgSEDMBADEAEhAz
-        AAcxABIQNQAyBCEFEjUBNAFAACEzAhAhBBIzAhIjEhAzAgAoEhAzAhkjEhAhBzMCERIQNQE0ADQB
-        EEEAAiJDMgQkEjMACTIDEhAzAQkoEhAzAgkyAxIQMwAAMQASEDMBADEAEhAzAgAoEhAzABAlEhAz
-        ARAiEhAzAhAiEhAzAAgjEhAzAQgjEhAzAggjEhAzABkkEhAzARkjEhAzAhkjEhBBAAIiQzMBCTID
-        EkAAZjMAGSEFEjIEJBIQMwAQJRIQMwEQIhIQMwIQIQQSEDEBIQgOEDMAGCEGEhAzAAAxABIQMwEA
-        MQASEDMCADEAExAzAQczAgASEDMCFCgSEDMACTIDEhAzAQkoEhAzAgkyAxIQREIAnDMAGSMSMQky
-        AxIQMgQhBBIQMwAQJRIQMwEQIhIQMwIQIQQSEDMDECISEDMDCIHQDw8QMwMHMQASEDMDADMBBxIQ
-        MwAAMQASEDMBADEAEhAzAgAxABMQMwMAMQATEDEBIQgOEDMAGCEGEhAzAQAxABIQMwEHMwIAEhAz
-        AhQoEhAzAAkyAxIQMwEJMgMSEDMCCTIDEhAzAwkyAxIQRDMBCCIPMwISIg8QIQczAhESEEQzAhKB
-        o5wBHTUCNQEzAQiBwIQ9HTUENQM0ATQDDUAADzQBNAMSNAI0BA8QQAABACJD`,
-        "base64"
-      );*/
       let str = buff.toString("hex");
       str = str.replace("0c40000032", "0c40ffe232");
       console.log("str", str);
@@ -1093,12 +1112,16 @@ const actions = {
       console.log("lsa", lsa);
       console.log("lsa.address", lsa.address());
       //if (lsa.address()) return;
-      let amount = price * 100;
       let note = Uint8Array.from(Buffer.from(""));
+
+      // am 2 000 000 , price 700003
+      // tosend =  7/ 20
+      const toSend = Math.round((price * amount) / 1000000);
+
       const transaction0 = algosdk.makePaymentTxnWithSuggestedParams(
         fromAcctCreator,
         lsa.address(),
-        amount,
+        toSend,
         undefined,
         note,
         suggestedParams
@@ -1112,7 +1135,6 @@ const actions = {
       );
       console.log("transaction1", transaction1, skCreator);
 
-      const assetIndex = 12400859;
       const transactionOptions = {
         from: fromAcctCreator,
         to: fromAcctCreator,

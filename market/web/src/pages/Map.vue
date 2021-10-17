@@ -164,6 +164,7 @@ import {
 } from "@vue-leaflet/vue-leaflet";
 
 import PublicLayout from "../layouts/Public.vue";
+import VLink from "../components/VLink.vue";
 export default {
   components: {
     PublicLayout,
@@ -173,6 +174,7 @@ export default {
     LMarker,
     LLayerGroup,
     LIcon,
+    VLink,
   },
   data() {
     return {
@@ -213,6 +215,7 @@ export default {
       mapIsReady: false,
       minZoom: 3,
       maxZoom: 18,
+      zoom: 4,
       center: [30, 1],
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
