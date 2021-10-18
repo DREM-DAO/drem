@@ -25,6 +25,7 @@
     "crypto-random-string": "^4.0.0",
     "cryptojs": "^2.5.3",
     "dexie": "^3.0.3",
+    "hi-base32": "^0.5.1",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "page": "^1.11.6",

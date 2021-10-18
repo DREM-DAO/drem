@@ -1,4 +1,5 @@
 import algosdk from "algosdk";
+import * as base32 from "hi-base32";
 
 const actions = {
   async algodexSell({ dispatch }, { creator, price, assetIndex, amount }) {
@@ -7,17 +8,37 @@ const actions = {
     const gcd = await dispatch("gcd", { price, amount });
     // gcd = 1
 
+    let skCreator = null;
+    let fromAcctCreator = "";
+    console.log("creator.sk", creator);
+    if (creator && creator.sk) {
+      console.log("creator.sk", creator, creator.sk);
+      skCreator = Uint8Array.from(Object.values(creator.sk));
+      fromAcctCreator = creator.addr + "";
+    } else {
+      fromAcctCreator = creator;
+      skCreator = await dispatch(
+        "wallet/getSK",
+        { addr: creator },
+        {
+          root: true,
+        }
+      );
+    }
+    if (!skCreator) throw "Creator private key not found";
+
     const pricegcd = Math.round(price / gcd);
     const power = Math.log(gcd) / Math.log(10);
     const amountgcd = Math.pow(10, 6 - power);
 
-    console.log("gcd", gcd, pricegcd, amountgcd);
-    //let stop = true;
-    //if (stop) return;
+    const addrbuffer = Buffer.from(base32.decode.asBytes(fromAcctCreator));
+    const trimAddr = Buffer.from(addrbuffer.subarray(0, -4));
+    let addrHex = trimAddr.toString("hex");
+    addrHex = "0x" + addrHex;
     //"BCAJAAEE0sbBCgaWnqcHAwLoByYBIJklNs5zSM6C9enNAzmPGJKWJbPKuKdkOdPKb9O7+vbGIjUJNAk4IDIDEkQ0CSMINQk0CTIEDED/6jIEJBIzARglEhAzAAAoEhAzAAcxABIQMwEAMQASEDMCADEAEhAzAgAzAhQSEDEAMwMUEhAzAwAoEhAzABAjEhAzARAhBBIQMwIQJBIQMwMQJBIQMwAIgaDCHg8QMwEIIhIQMwISIhIQMwMSIw8QIQUzAhESECEFMwMREhAzAAkyAxIQMwEJMgMSEDMCCTIDEhAzAwkyAxIQMwAZIhIQMwEZIxIQMwIZIhIQMwMZIhIQMwAVMgMSEDMBFTIDEhAzAhUyAxIQMwMVMgMSEEEAAiNDMgQkEjMAGCUSEDMACTIDEhAzABUyAxIQMwEJMgMSEDMBFSgSEDMCCSgSEDMCFTIDEhAzAwkyAxIQMwMVMgMSEDMAADEAEhAzAQAxABIQMwIAMQASEDMDACgSEDMABzIDEhAzARQoEhAzAgcoEhAzAwcoEhAzABAhBBIQMwEQJBIQMwIQIxIQMwMQIxIQMwAIIhIQMwEIIhIQMwESIhIQMwIIIhIQMwISIhIQMwMIIhIQMwMSIhIQMwAZIQYSEDMBGSISEDMCGSISEDMDGSISEEEAAiNDMwIQJBIzAhIiEhAzAgAzAhQSEDMCIDIDEhAzAhUyAxIQMwIAMQATEDUANAAhBwg1AjQAIQYINQMkNAAIMgQSRDMAADEAEjMBADEAExA0AjgAMQASEDMBBygSEDMAECEEEhAzARAjEhAzAhAkEhA0AjgQJBIQNAM4ECMSEDEBIQgOEDMAGCUSEDMACTIDEhAzAQkyAxIQNAI4CTIDEhAzABUyAxIQMwEVMgMSEDQCOBEhBRIQRDcAGgCAFWV4ZWN1dGVfd2l0aF9jbG9zZW91dBJAAEMzABkiEjQCOBUyAxIQNAM4CTIDEhA0AzgBIQgSEDQDOAiB0A8SEDQDOAcxABIQNAM4ADMBABIQNAM4ADEAExBEQgA1MwAZIQcSMwEJMgMSEDQCOBUoEhA0AzgJKBIQNAM4BygSEDQDOAAxABIQNAM4CCISEERCAAAzAQgjDzQCOBIjDxBBADI0AjgSgfWMpgUdNQI1ATMBCIGQTh01BDUDNAE0AwxAAA80ATQDEjQCNAQOEEAAAQAjQyJD"
     const appData = `#pragma version 4
 intcblock 0 1 4 ${appIndex} 6 ${assetIndex} 3 2 1000
-bytecblock 0x992536ce7348ce82f5e9cd03398f18929625b3cab8a76439d3ca6fd3bbfaf6c6
+bytecblock ${addrHex}
 intc_0 // 0
 store 9
 label1:
@@ -539,23 +560,6 @@ return
     suggestedParams.fee = 1000;
     suggestedParams.flatFee = true;
 
-    let skCreator = null;
-    let fromAcctCreator = "";
-    console.log("creator.sk", creator);
-    if (creator.sk) {
-      console.log("creator.sk", creator, creator.sk);
-      skCreator = Uint8Array.from(Object.values(creator.sk));
-      fromAcctCreator = creator.addr + "";
-    } else {
-      fromAcctCreator = creator;
-      skCreator = await dispatch(
-        "wallet/getSK",
-        { addr: creator },
-        {
-          root: true,
-        }
-      );
-    }
     const appArgs = [
       Uint8Array.from(Buffer.from("b3Blbg==", "base64")),
       Uint8Array.from(Buffer.from(`${amountgcd}-${pricegcd}-0-${assetIndex}`)),
@@ -719,9 +723,14 @@ return
         Uint8Array.from(Buffer.from("Aw==", "base64")),
       ];
 
+      const addrbuffer = Buffer.from(base32.decode.asBytes(fromAcctCreator));
+      const trimAddr = Buffer.from(addrbuffer.subarray(0, -4));
+      let addrHex = trimAddr.toString("hex");
+      addrHex = "0x" + addrHex;
+
       const appData = `#pragma version 4
       intcblock 1 0 3 6 4 2 ${appIndex} ${assetIndex} 1000
-      bytecblock 0x992536ce7348ce82f5e9cd03398f18929625b3cab8a76439d3ca6fd3bbfaf6c6
+      bytecblock ${addrHex}
       intc_1 // 0
       store 9
       load 9
@@ -1189,7 +1198,11 @@ return
     }
   },
 
-  async cancelBuy({ dispatch }, { ownerAddress, escrowAddress, appIndex }) {
+  async cancelBuy(
+    { dispatch },
+    { ownerAddress, escrowAddress, appIndex, assetIndex }
+  ) {
+    console.log({ ownerAddress, escrowAddress, appIndex, assetIndex });
     try {
       const url = new URL(this.state.config.algod);
       let algodclient = new algosdk.Algodv2(
@@ -1202,7 +1215,6 @@ return
       suggestedParams.flatFee = true;
 
       let skCreator = null;
-      console.log("creator.sk", ownerAddress);
       skCreator = await dispatch(
         "wallet/getSK",
         { addr: ownerAddress },
@@ -1210,13 +1222,21 @@ return
           root: true,
         }
       );
-      console.log("skCreator", skCreator);
       if (!skCreator) {
         throw "Account key not found";
       }
 
       const txs = await dispatch(
         "indexer/searchForTransactions",
+        {
+          addr: escrowAddress,
+        },
+        {
+          root: true,
+        }
+      );
+      const account = await dispatch(
+        "algod/accountInformation",
         {
           addr: escrowAddress,
         },
@@ -1258,46 +1278,71 @@ return
       }
       let note = Uint8Array.from(Buffer.from(""));
 
-      const transaction0 = algosdk.makePaymentTxnWithSuggestedParams(
-        lsa.address(),
-        ownerAddress,
-        0,
-        ownerAddress,
-        note,
-        suggestedParams
-      );
+      console.log("account", account);
+      //var stop = true;
+      //if (stop) return;
 
       const appArgs = [
         Uint8Array.from(Buffer.from("Y2xvc2U=", "base64")),
         Uint8Array.from(Buffer.from(arg1, "base64")),
-        //Uint8Array.from(Buffer.from("100-1-0-12400859")),
         Uint8Array.from(Buffer.from("Aw==", "base64")),
       ];
-
-      const transaction1 = algosdk.makeApplicationOptInTxn(
-        lsa.address(),
+      const transaction0 = algosdk.makeApplicationClearStateTxnFromObject({
+        from: lsa.address(),
         suggestedParams,
         appIndex,
-        appArgs
-      );
-      console.log("transaction1", transaction1, skCreator);
+        appArgs,
+      });
+      // asa opt in
+      /*
+      const transaction1 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+        {
+          from: lsa.address(),
+          to: ownerAddress,
+          assetIndex,
+          amount: 0,
+          closeRemainderTo: ownerAddress,
+          note,
+          suggestedParams,
+        }
+      );*/
 
-      let txns = [transaction0, transaction1];
+      const transaction1 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: lsa.address(),
+        to: ownerAddress,
+        amount: 0,
+        closeRemainderTo: ownerAddress,
+        note,
+        suggestedParams,
+      });
+
+      const transaction2 = algosdk.makePaymentTxnWithSuggestedParams(
+        ownerAddress,
+        ownerAddress,
+        0,
+        undefined,
+        note,
+        suggestedParams
+      );
+      //console.log("transaction1", transaction1, skCreator);
+
+      let txns = [transaction0, transaction1, transaction2];
       let txgroup = algosdk.assignGroupID(txns);
       console.log("txgroup", txns, txgroup);
 
-      let signedTxn0 = transaction0.signTxn(skCreator);
       //let signedTxn3 = txtOptIn.signTxn(skCreator);
       console.log("signedTxn0", signedTxn0);
+      let signedTxn0 = algosdk.signLogicSigTransactionObject(transaction0, lsa)
+        .blob;
+      //let signedTxn1 = algosdk.signLogicSigTransactionObject(transaction1, lsa)        .blob;
       let signedTxn1 = algosdk.signLogicSigTransactionObject(transaction1, lsa)
         .blob;
-      console.log("lsa", lsa, signedTxn1);
-      //let signedTxn1 = transaction1.signTxn(sk);
-      console.log("signedTxn1", signedTxn1);
-
+      let signedTxn2 = transaction2.signTxn(skCreator);
       let signed = [];
       signed.push(signedTxn0);
+      //signed.push(signedTxn1);
       signed.push(signedTxn1);
+      signed.push(signedTxn2);
       //signed.push(signedTxn3);
       console.log("signed", signed);
 

@@ -161,9 +161,10 @@
                 <template #body="slotProps">
                   <span>
                     <a
+                      class="curier"
                       target="_blank"
                       :href="`https://testnet.algoexplorer.io/address/${slotProps.data.ownerAddress}`"
-                      >D</a
+                      >{{ slotProps.data.ownerAddress.substring(0, 2) }}</a
                     >
                   </span>
                   <span
@@ -258,10 +259,11 @@
                     </span>
                     <span>
                       <a
+                        class="curier"
                         target="_blank"
                         :href="`https://testnet.algoexplorer.io/address/${slotProps.data.ownerAddress}`"
-                        >D</a
-                      >
+                        >{{ slotProps.data.ownerAddress.substring(0, 2) }}
+                      </a>
                     </span>
                   </div>
                 </template>
@@ -665,8 +667,14 @@ export default {
         ownerAddress: data.ownerAddress,
         escrowAddress: data.escrowAddress,
         appIndex: data.appId,
+        assetIndex: data.assetId,
       });
     },
   },
 };
 </script>
+<style scoped>
+.curier {
+  font-family: "Courier New", Courier, monospace;
+}
+</style>
