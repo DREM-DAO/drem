@@ -31,7 +31,7 @@ note right of (Increase Buy order size)
 end note
 
 note right of (Cancel Buy order)
-  Cost 0.001 algo
+  Cost 0.003 algo
 end note
 
 note right of (Taker Buy order)
