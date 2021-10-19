@@ -171,6 +171,7 @@
                     >
                   </span>
                   <span
+                    class="btn btn-light btn-sm m-1"
                     v-if="
                       slotProps.data.ownerAddress ===
                       this.$store.state.wallet.lastActiveAccount
@@ -253,10 +254,12 @@
                 <template #body="slotProps">
                   <div class="text-end">
                     <span
+                      class="btn btn-light btn-sm m-1"
                       v-if="
                         slotProps.data.ownerAddress ===
                         this.$store.state.wallet.lastActiveAccount
                       "
+                      @click="cancelSell(slotProps.data)"
                     >
                       X
                     </span>
@@ -554,6 +557,7 @@ export default {
       algodexBuy: "algodex/algodexBuy",
       algodexCancelBuy: "algodex/cancelBuy",
       algodexSell: "algodex/algodexSell",
+      algodexCancelSell: "algodex/cancelSell",
       waitForConfirmation: "algod/waitForConfirmation",
       prolong: "wallet/prolong",
     }),
@@ -667,6 +671,16 @@ export default {
       this.prolong();
       console.log(data);
       this.algodexCancelBuy({
+        ownerAddress: data.ownerAddress,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+        assetIndex: data.assetId,
+      });
+    },
+    cancelSell(data) {
+      this.prolong();
+      console.log(data);
+      this.algodexCancelSell({
         ownerAddress: data.ownerAddress,
         escrowAddress: data.escrowAddress,
         appIndex: data.appId,
