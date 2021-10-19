@@ -18,7 +18,10 @@
               </tr>
               <tr>
                 <td>GPS</td>
-                <td>Lat: {{ project.lat }}<br />Lng: {{ project.lng }}</td>
+                <td>
+                  Lat: {{ this.$filters.formatGps(project.lat) }}<br />
+                  Lng: {{ this.$filters.formatGps(project.lng) }}
+                </td>
               </tr>
               <tr>
                 <td>IRR</td>

@@ -254,20 +254,18 @@ export default {
 </script>
 <style scoped>
 .c-title {
-  color: white;
-  font-size: 1.5em;
+  color: #fff !important;
+  text-shadow: 1px 1px 1px #000;
+  font-size: 1.8em;
   font-weight: bold;
-  -webkit-text-stroke: 0.5px #999; /* width and color */
-  text-shadow: 0.2px 0.2px #eee;
   text-decoration: none;
 }
 
 .c-subtitle {
-  color: #111;
+  color: #fff !important;
+  text-shadow: 1px 1px 1px #000;
   font-size: 1.2em;
   font-weight: bold;
-  -webkit-text-stroke: 0.5px #999; /* width and color */
-  text-shadow: 0.2px 0.2px #eee;
   text-decoration: none;
 }
 
