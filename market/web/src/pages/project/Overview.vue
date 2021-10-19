@@ -180,6 +180,16 @@
                   >
                     X
                   </span>
+                  <span
+                    class="btn btn-light btn-sm m-1"
+                    v-if="
+                      slotProps.data.ownerAddress !==
+                      this.$store.state.wallet.lastActiveAccount
+                    "
+                    @click="hitAllBuy(slotProps.data)"
+                  >
+                    H
+                  </span>
                 </template>
               </Column>
               <Column field="formattedASAAmount" header="Amount">
@@ -556,7 +566,9 @@ export default {
       axiosGet: "axios/get",
       algodexBuy: "algodex/algodexBuy",
       algodexCancelBuy: "algodex/cancelBuy",
+      algodexHitAllBuy: "algodex/hitAllBuy",
       algodexSell: "algodex/algodexSell",
+      algodexHitAllSell: "algodex/hitAllSell",
       algodexCancelSell: "algodex/cancelSell",
       waitForConfirmation: "algod/waitForConfirmation",
       prolong: "wallet/prolong",
@@ -677,9 +689,22 @@ export default {
         assetIndex: data.assetId,
       });
     },
+    hitAllBuy(data) {
+      this.prolong();
+      const algoAmount = data.algoAmount;
+      const assetAmount = Math.round(algoAmount * data.asaPrice);
+      this.algodexHitAllBuy({
+        ownerAddress: data.ownerAddress,
+        newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
+        algoAmount,
+        assetAmount,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+        assetIndex: data.assetId,
+      });
+    },
     cancelSell(data) {
       this.prolong();
-      console.log(data);
       this.algodexCancelSell({
         ownerAddress: data.ownerAddress,
         escrowAddress: data.escrowAddress,
