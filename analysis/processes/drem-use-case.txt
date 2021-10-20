@@ -31,11 +31,15 @@ note right of (Increase Buy order size)
 end note
 
 note right of (Cancel Buy order)
-  Cost 0.003 algo
+  Cost 0.003 algo. DONE
 end note
 
-note right of (Taker Buy order)
+note right of (Taker Buy order partial)
   Cost 0.001 algo
+end note
+
+note right of (Taker Buy order closeout)
+  Cost 0.003 algo. DONE
 end note
 
 
@@ -48,10 +52,16 @@ note right of (Increase Sell order size)
 end note
 
 note right of (Cancel Sell order)
-  Cost 0.004 algo
+  Cost 0.004 algo. DONE
 end note
 
-note right of (Taker Sell order)
+note right of (Taker Sell order partial)
   Cost 0.001 algo
 end note
+
+note right of (Taker Sell order closeout)
+  Cost 0.003 algo
+end note
+
 @enduml
+
