@@ -10,57 +10,59 @@ Trader --> (Full orderbook per asset)
 Trader --> (My assets value)
 Trader --> (OHLC chart)
 
-Buyer --> (Maker Buy order)
-Buyer --> (Increase Buy order size)
-Buyer --> (Cancel Buy order)
-Buyer --> (Taker Buy order)
+Buyer --> (Maker buy order)
+Buyer --> (Increase buy order size)
+Buyer --> (Cancel buy order)
+Buyer --> (Taker buy order partial)
+Buyer --> (Taker buy order closeout)
 
-Seller --> (Maker Sell order)
-Seller --> (Increase Sell order size)
-Seller --> (Cancel Sell order)
-Seller --> (Taker Sell order)
+Seller --> (Maker sell order)
+Seller --> (Increase sell order size)
+Seller --> (Cancel sell order)
+Seller --> (Taker sell order partial)
+Seller --> (Taker sell order closeout)
 
 
 
-note right of (Maker Buy order)
+note right of (Maker buy order)
   Cost 0.002 algo. DONE
 end note
 
-note right of (Increase Buy order size)
+note right of (Increase buy order size)
   Cost 0.001 algo
 end note
 
-note right of (Cancel Buy order)
+note right of (Cancel buy order)
   Cost 0.003 algo. DONE
 end note
 
-note right of (Taker Buy order partial)
+note right of (Taker buy order partial)
   Cost 0.001 algo
 end note
 
-note right of (Taker Buy order closeout)
+note right of (Taker buy order closeout)
   Cost 0.003 algo. DONE
 end note
 
 
-note right of (Maker Sell order)
+note right of (Maker sell order)
   Cost 0.004 algo. DONE
 end note
 
-note right of (Increase Sell order size)
+note right of (Increase sell order size)
   Cost 0.001 algo
 end note
 
-note right of (Cancel Sell order)
+note right of (Cancel sell order)
   Cost 0.004 algo. DONE
 end note
 
-note right of (Taker Sell order partial)
+note right of (Taker sell order partial)
   Cost 0.001 algo
 end note
 
-note right of (Taker Sell order closeout)
-  Cost 0.003 algo
+note right of (Taker sell order closeout)
+  Cost 0.004 algo. DONE
 end note
 
 @enduml

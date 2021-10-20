@@ -171,7 +171,7 @@
                     >
                   </span>
                   <span
-                    class="btn btn-light btn-sm m-1"
+                    class="btn btn-light btn-sm mx-1"
                     v-if="
                       slotProps.data.ownerAddress ===
                       this.$store.state.wallet.lastActiveAccount
@@ -181,7 +181,7 @@
                     X
                   </span>
                   <span
-                    class="btn btn-light btn-sm m-1"
+                    class="btn btn-light btn-sm mx-1"
                     v-if="
                       slotProps.data.ownerAddress !==
                       this.$store.state.wallet.lastActiveAccount
@@ -264,7 +264,7 @@
                 <template #body="slotProps">
                   <div class="text-end">
                     <span
-                      class="btn btn-light btn-sm m-1"
+                      class="btn btn-light btn-sm mx-1"
                       v-if="
                         slotProps.data.ownerAddress ===
                         this.$store.state.wallet.lastActiveAccount
@@ -272,6 +272,16 @@
                       @click="cancelSell(slotProps.data)"
                     >
                       X
+                    </span>
+                    <span
+                      class="btn btn-light btn-sm mx-1"
+                      v-if="
+                        slotProps.data.ownerAddress !==
+                        this.$store.state.wallet.lastActiveAccount
+                      "
+                      @click="hitAllSell(slotProps.data)"
+                    >
+                      H
                     </span>
                     <span>
                       <a
@@ -572,6 +582,7 @@ export default {
       algodexCancelSell: "algodex/cancelSell",
       waitForConfirmation: "algod/waitForConfirmation",
       prolong: "wallet/prolong",
+      openError: "toast/openError",
     }),
     bidClick(e) {
       if (e.index === 1) {
@@ -656,6 +667,10 @@ export default {
         assetIndex: this.project.asa,
         amount: Math.round(this.order.quantity * 1000000),
       });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
       if (tx) {
         this.orderstate = "Sent to net";
         const confirmation = await this.waitForConfirmation({
@@ -672,28 +687,47 @@ export default {
       //this.processingOrder = false;
     },
     myOrderRow(data) {
-      console.log("myOrderRow", data.ownerAddress);
       if (this.$store && this.$store.state && this.$store.state.wallet) {
         if (data.ownerAddress === this.$store.state.wallet.lastActiveAccount)
           return "bg-warning";
       }
       return null;
     },
-    cancelBuy(data) {
+    async cancelBuy(data) {
       this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending C to net";
       console.log(data);
-      this.algodexCancelBuy({
+      const tx = this.algodexCancelBuy({
         ownerAddress: data.ownerAddress,
         escrowAddress: data.escrowAddress,
         appIndex: data.appId,
         assetIndex: data.assetId,
       });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
     },
-    hitAllBuy(data) {
+    async hitAllBuy(data) {
       this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending H to net";
       const algoAmount = data.algoAmount;
       const assetAmount = Math.round(algoAmount * data.asaPrice);
-      this.algodexHitAllBuy({
+      const tx = await this.algodexHitAllBuy({
         ownerAddress: data.ownerAddress,
         newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
         algoAmount,
@@ -702,15 +736,77 @@ export default {
         appIndex: data.appId,
         assetIndex: data.assetId,
       });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
     },
-    cancelSell(data) {
+    async cancelSell(data) {
       this.prolong();
-      this.algodexCancelSell({
+      this.processingOrder = true;
+      this.orderstate = "Sending C to net";
+      const tx = this.algodexCancelSell({
         ownerAddress: data.ownerAddress,
         escrowAddress: data.escrowAddress,
         appIndex: data.appId,
         assetIndex: data.assetId,
       });
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
+    },
+    async hitAllSell(data) {
+      this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending H to net";
+      const assetAmount = data.asaAmount;
+      const algoAmount = Math.ceil(assetAmount * data.asaPrice);
+      const tx = await this.algodexHitAllSell({
+        ownerAddress: data.ownerAddress,
+        newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
+        algoAmount,
+        assetAmount,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+        assetIndex: data.assetId,
+      });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
     },
   },
 };

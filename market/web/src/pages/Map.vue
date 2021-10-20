@@ -116,7 +116,7 @@
               :key="place.id"
               :lat-lng="getLatLng(place)"
             >
-              <LIcon :icon-url="getIcon(place)" :iconAnchor="[12, 12]" />
+              <LIcon :icon-url="getIcon(place)" />
               <LPopup :options="{ autoClose: true, closeOnClick: false }">
                 <h4
                   class="md-auto"
