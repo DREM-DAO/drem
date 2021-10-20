@@ -24,3 +24,4 @@ The purpose of this project is to create demo applications for the [SB Hackathon
 * [https://www.globdrem.com/](https://www.globdrem.com) - CICD of market web folder
 * [https://process.globdrem.com/](https://process.globdrem.com)  - CICD of processes folder
 * [https://docs.globdrem.com/](https://docs.globdrem.com) - CICD documentation from branch gitbook
+* [https://rec.globdrem.com/](https://rec.globdrem.com/) - CICD of REC oriented web - gathering real estate investment opportunities
