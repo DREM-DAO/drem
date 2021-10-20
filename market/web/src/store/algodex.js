@@ -1632,10 +1632,7 @@ return
       //var stop = true;
       //if (stop) return;
 
-      const appArgs = [
-        Uint8Array.from(Buffer.from("ZXhlY3V0ZV93aXRoX2Nsb3Nlb3V0", "base64")), //execute_with_closeout
-        Uint8Array.from(Buffer.from(arg1, "base64")),
-      ];
+      /*
       const transaction0 = algosdk.makeApplicationClearStateTxnFromObject({
         from: lsa.address(),
         accounts: [ownerAddress, newOwnerAddress],
@@ -1653,8 +1650,51 @@ return
         note,
         suggestedParams,
       });
+
+      const transaction2 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+        {
+          from: lsa.address(),
+          to: ownerAddress,
+          assetIndex,
+          amount: assetAmount,
+          closeRemainderTo: undefined,
+          note,
+          suggestedParams,
+        }
+      );
       console.log("transaction1", transaction1);
       // asa opt in
+      const transaction3 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: newOwnerAddress,
+        to: lsa.address(),
+        amount: assetAmount,
+        closeRemainderTo: undefined,
+        note,
+        suggestedParams,
+      });
+
+
+      */
+
+      const appArgs = [
+        Uint8Array.from(Buffer.from("ZXhlY3V0ZV93aXRoX2Nsb3Nlb3V0", "base64")), //execute_with_closeout
+        Uint8Array.from(Buffer.from(arg1, "base64")),
+      ];
+      const transaction0 = algosdk.makeApplicationCloseOutTxnFromObject({
+        from: lsa.address(),
+        accounts: [ownerAddress, newOwnerAddress],
+        suggestedParams,
+        appIndex,
+        appArgs,
+      });
+      const transaction1 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: lsa.address(),
+        to: newOwnerAddress,
+        amount: account.amount - 2000,
+        closeRemainderTo: ownerAddress,
+        note,
+        suggestedParams,
+      });
       const transaction2 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
         {
           from: newOwnerAddress,
