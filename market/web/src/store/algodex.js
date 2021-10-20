@@ -2089,6 +2089,190 @@ return
       console.log("error", error, dispatch);
     }
   },
+  async hitSellPartial(
+    { dispatch },
+    {
+      ownerAddress,
+      newOwnerAddress,
+      asaPrice,
+      assetAmount,
+      escrowAddress,
+      appIndex,
+      assetIndex,
+    }
+  ) {
+    console.log({
+      ownerAddress,
+      newOwnerAddress,
+      asaPrice,
+      assetAmount,
+      escrowAddress,
+      appIndex,
+      assetIndex,
+    });
+    try {
+      if (!newOwnerAddress) {
+        throw "Please open your wallet and select your account";
+      }
+      const url = new URL(this.state.config.algod);
+      let algodclient = new algosdk.Algodv2(
+        this.state.config.algodToken,
+        this.state.config.algod,
+        url.port
+      );
+      let suggestedParams = await algodclient.getTransactionParams().do();
+      suggestedParams.fee = 1000;
+      suggestedParams.flatFee = true;
+
+      let skCreator = null;
+      skCreator = await dispatch(
+        "wallet/getSK",
+        { addr: newOwnerAddress },
+        {
+          root: true,
+        }
+      );
+      if (!skCreator) {
+        throw `Account key not found for ${newOwnerAddress}`;
+      }
+
+      const txs = await dispatch(
+        "indexer/searchForTransactions",
+        {
+          addr: escrowAddress,
+        },
+        {
+          root: true,
+        }
+      );
+      const account = await dispatch(
+        "algod/accountInformation",
+        {
+          addr: escrowAddress,
+        },
+        {
+          root: true,
+        }
+      );
+      // find app call
+      let appProgram = "";
+      let arg1 = "";
+      for (let index in txs.transactions) {
+        const tx = txs.transactions[index];
+        if (tx["tx-type"] == "appl") {
+          if (
+            tx["signature"] &&
+            tx["signature"]["logicsig"] &&
+            tx["signature"]["logicsig"]["logic"] &&
+            tx["application-transaction"] &&
+            tx["application-transaction"]["application-args"] &&
+            tx["application-transaction"]["application-args"][1]
+          ) {
+            appProgram = tx["signature"]["logicsig"]["logic"];
+
+            arg1 = tx["application-transaction"]["application-args"][1];
+            break;
+          }
+        }
+      }
+      if (!appProgram) throw "Error finding the app call";
+      if (!arg1) throw "Error finding the args";
+      console.log("txs", arg1, txs, appIndex, algodclient);
+
+      let lsa = new algosdk.LogicSigAccount(
+        Uint8Array.from(Buffer.from(appProgram, "base64"))
+      );
+      console.log("lsa", lsa.address(), escrowAddress);
+      if (lsa.address() != escrowAddress) {
+        throw "LSA address does not match escrowAddress";
+      }
+      let note = Uint8Array.from(Buffer.from(""));
+
+      console.log("account", account);
+
+      const appArgs = [
+        Uint8Array.from(Buffer.from("ZXhlY3V0ZQ==", "base64")), //execute_with_closeout
+        Uint8Array.from(Buffer.from(arg1, "base64")),
+      ];
+      console.log("transaction0");
+      const transaction0 = algosdk.makeApplicationNoOpTxnFromObject({
+        from: lsa.address(),
+        accounts: [ownerAddress, newOwnerAddress],
+        foreignAssets: [assetIndex],
+        suggestedParams,
+        appIndex,
+        appArgs,
+      });
+      const algoAmount = Math.ceil(asaPrice * assetAmount);
+      console.log("algoAmount", algoAmount, asaPrice, assetAmount);
+      // pay from escrow to seller price
+      console.log("transaction1");
+      const transaction1 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: newOwnerAddress,
+        to: ownerAddress,
+        amount: algoAmount,
+        closeRemainderTo: undefined,
+        note,
+        suggestedParams,
+      });
+      console.log("transaction2");
+      const transaction2 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+        {
+          from: lsa.address(),
+          to: newOwnerAddress,
+          assetIndex,
+          amount: assetAmount,
+          closeRemainderTo: undefined,
+          note,
+          suggestedParams,
+        }
+      );
+      console.log("transaction3");
+      const transaction3 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: newOwnerAddress,
+        to: lsa.address(),
+        amount: 2000,
+        closeRemainderTo: undefined,
+        note,
+        suggestedParams,
+      });
+      let txns = [transaction0, transaction1, transaction2, transaction3];
+      console.log("txns", txns);
+      algosdk.assignGroupID(txns);
+
+      let signedTxn0 = algosdk.signLogicSigTransactionObject(transaction0, lsa)
+        .blob;
+      let signedTxn2 = algosdk.signLogicSigTransactionObject(transaction2, lsa)
+        .blob;
+      let signedTxn1 = transaction1.signTxn(skCreator);
+      let signedTxn3 = transaction3.signTxn(skCreator);
+      let signed = [];
+      signed.push(signedTxn0);
+      signed.push(signedTxn1);
+      signed.push(signedTxn2);
+      signed.push(signedTxn3);
+      console.log("signed", signed);
+
+      const ret = await algodclient
+        .sendRawTransaction(signed)
+        .do()
+        .catch((e) => {
+          if (e && e.response && e.response.body && e.response.body.message) {
+            dispatch("toast/openError", e.response.body.message, {
+              root: true,
+            });
+          }
+          console.log("e", e, e.message, e.data);
+
+          for (var key in e) {
+            console.log("e.key", key, e[key]);
+          }
+        });
+      return ret;
+    } catch (error) {
+      console.log("error", error, dispatch);
+    }
+  },
 };
 
 export default {
