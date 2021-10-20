@@ -190,6 +190,17 @@
                   >
                     H
                   </span>
+                  <span
+                    class="btn btn-light btn-sm mx-1"
+                    v-if="
+                      this.order.quantity &&
+                      slotProps.data.ownerAddress !==
+                        this.$store.state.wallet.lastActiveAccount
+                    "
+                    @click="hitBuyPartial(slotProps.data)"
+                  >
+                    PH
+                  </span>
                 </template>
               </Column>
               <Column field="formattedASAAmount" header="Amount">
@@ -577,6 +588,7 @@ export default {
       algodexBuy: "algodex/algodexBuy",
       algodexCancelBuy: "algodex/cancelBuy",
       algodexHitAllBuy: "algodex/hitAllBuy",
+      algodexHitBuyPartial: "algodex/hitBuyPartial",
       algodexSell: "algodex/algodexSell",
       algodexHitAllSell: "algodex/hitAllSell",
       algodexCancelSell: "algodex/cancelSell",
@@ -732,6 +744,38 @@ export default {
         newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
         algoAmount,
         assetAmount,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+        assetIndex: data.assetId,
+      });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
+    },
+    async hitBuyPartial(data) {
+      this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending H to net";
+      const asaPrice = data.asaPrice;
+      const newQ = this.order.quantity * 1000000;
+      const tx = await this.algodexHitBuyPartial({
+        ownerAddress: data.ownerAddress,
+        newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
+        asaPrice,
+        assetAmount: newQ,
         escrowAddress: data.escrowAddress,
         appIndex: data.appId,
         assetIndex: data.assetId,

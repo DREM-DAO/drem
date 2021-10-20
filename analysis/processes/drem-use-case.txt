@@ -37,7 +37,7 @@ note right of (Cancel buy order)
 end note
 
 note right of (Taker buy order partial)
-  Cost 0.001 algo
+  Cost 0.004 algo. DONE
 end note
 
 note right of (Taker buy order closeout)
