@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/market/api/DREM-API/DREM-API/bin/Debug/net5.0
