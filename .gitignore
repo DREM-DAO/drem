@@ -3,3 +3,6 @@
 ################################################################################
 
 /market/api/DREM-API/DREM-API/bin/Debug/net5.0
+/market/api/DREM-API/.vs/DREM-API
+/market/api/DREM-API/DREM-API/obj
+/market/api/DREM-API/DREM-API/internalLog.txt
