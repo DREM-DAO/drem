@@ -43,3 +43,13 @@ jobs:
           push: true
           tags: |
             scholtz2/drem-api:latest,scholtz2/drem-api:${{ steps.date.outputs.date }},scholtz2/drem-api:${{ steps.datehour.outputs.datehour }}
+
+      - name: exec
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            ./run.sh ${{ steps.date.outputs.date }}
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.HOSTPORT }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.PRIVATE_KEY}}
