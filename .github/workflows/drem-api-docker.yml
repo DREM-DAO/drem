@@ -52,4 +52,4 @@ jobs:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.HOSTPORT }}
           user: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.PRIVATE_KEY}}
+          pass: ${{ secrets.SSHPASS}}
