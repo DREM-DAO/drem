@@ -2273,6 +2273,281 @@ return
       console.log("error", error, dispatch);
     }
   },
+  async increaseBuyVolume(
+    { dispatch },
+    { ownerAddress, algoAmount, escrowAddress, appIndex, assetIndex }
+  ) {
+    console.log({
+      ownerAddress,
+      algoAmount,
+      escrowAddress,
+      appIndex,
+      assetIndex,
+    });
+    try {
+      if (!ownerAddress) {
+        throw "Please open your wallet and select your account";
+      }
+      const url = new URL(this.state.config.algod);
+      let algodclient = new algosdk.Algodv2(
+        this.state.config.algodToken,
+        this.state.config.algod,
+        url.port
+      );
+      let suggestedParams = await algodclient.getTransactionParams().do();
+      suggestedParams.fee = 1000;
+      suggestedParams.flatFee = true;
+
+      let skCreator = null;
+      skCreator = await dispatch(
+        "wallet/getSK",
+        { addr: ownerAddress },
+        {
+          root: true,
+        }
+      );
+      if (!skCreator) {
+        throw `Account key not found for ${ownerAddress}`;
+      }
+
+      const txs = await dispatch(
+        "indexer/searchForTransactions",
+        {
+          addr: escrowAddress,
+        },
+        {
+          root: true,
+        }
+      );
+      // find app call
+      let appProgram = "";
+      let arg1 = "";
+      for (let index in txs.transactions) {
+        const tx = txs.transactions[index];
+        if (tx["tx-type"] == "appl") {
+          if (
+            tx["signature"] &&
+            tx["signature"]["logicsig"] &&
+            tx["signature"]["logicsig"]["logic"] &&
+            tx["application-transaction"] &&
+            tx["application-transaction"]["application-args"] &&
+            tx["application-transaction"]["application-args"][1]
+          ) {
+            appProgram = tx["signature"]["logicsig"]["logic"];
+
+            arg1 = tx["application-transaction"]["application-args"][1];
+            break;
+          }
+        }
+      }
+      if (!appProgram) throw "Error finding the app call";
+      if (!arg1) throw "Error finding the args";
+      console.log("txs", arg1, txs, appIndex, algodclient);
+
+      let lsa = new algosdk.LogicSigAccount(
+        Uint8Array.from(Buffer.from(appProgram, "base64"))
+      );
+      console.log("lsa", lsa.address(), escrowAddress);
+      if (lsa.address() != escrowAddress) {
+        throw "LSA address does not match escrowAddress";
+      }
+      let note = Uint8Array.from(Buffer.from(""));
+      /*
+      const appArgs = [
+        Uint8Array.from(Buffer.from("dXBkYXRlX3ByaWNl", "base64")), //update_price
+        Uint8Array.from(Buffer.from(arg1, "base64")),
+      ];
+
+      console.log("transaction0");
+      const transaction0 = algosdk.makeApplicationNoOpTxnFromObject({
+        from: lsa.address(),
+        suggestedParams,
+        appIndex,
+        appArgs,
+      });
+      */
+      // pay from escrow to seller price
+      console.log("transaction1");
+      const transaction1 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: ownerAddress,
+        to: lsa.address(),
+        amount: algoAmount,
+        closeRemainderTo: undefined,
+        note,
+        suggestedParams,
+      });
+      /*
+      let txns = [transaction0, transaction1];
+      console.log("txns", txns);
+      algosdk.assignGroupID(txns);
+      let signedTxn0 = algosdk.signLogicSigTransactionObject(transaction0, lsa)
+        .blob;
+*/
+      let signedTxn1 = transaction1.signTxn(skCreator);
+      let signed = [];
+      //signed.push(signedTxn0);
+      signed.push(signedTxn1);
+      console.log("signed", signed);
+
+      const ret = await algodclient
+        .sendRawTransaction(signed)
+        .do()
+        .catch((e) => {
+          if (e && e.response && e.response.body && e.response.body.message) {
+            dispatch("toast/openError", e.response.body.message, {
+              root: true,
+            });
+          }
+          console.log("e", e, e.message, e.data);
+
+          for (var key in e) {
+            console.log("e.key", key, e[key]);
+          }
+        });
+      return ret;
+    } catch (error) {
+      console.log("error", error, dispatch);
+    }
+  },
+  async increaseSellVolume(
+    { dispatch },
+    { ownerAddress, asaAmount, escrowAddress, appIndex, assetIndex }
+  ) {
+    console.log({
+      ownerAddress,
+      asaAmount,
+      escrowAddress,
+      appIndex,
+      assetIndex,
+    });
+    try {
+      if (!ownerAddress) {
+        throw "Please open your wallet and select your account";
+      }
+      const url = new URL(this.state.config.algod);
+      let algodclient = new algosdk.Algodv2(
+        this.state.config.algodToken,
+        this.state.config.algod,
+        url.port
+      );
+      let suggestedParams = await algodclient.getTransactionParams().do();
+      suggestedParams.fee = 1000;
+      suggestedParams.flatFee = true;
+
+      let skCreator = null;
+      skCreator = await dispatch(
+        "wallet/getSK",
+        { addr: ownerAddress },
+        {
+          root: true,
+        }
+      );
+      if (!skCreator) {
+        throw `Account key not found for ${ownerAddress}`;
+      }
+
+      const txs = await dispatch(
+        "indexer/searchForTransactions",
+        {
+          addr: escrowAddress,
+        },
+        {
+          root: true,
+        }
+      );
+      // find app call
+      let appProgram = "";
+      let arg1 = "";
+      for (let index in txs.transactions) {
+        const tx = txs.transactions[index];
+        if (tx["tx-type"] == "appl") {
+          if (
+            tx["signature"] &&
+            tx["signature"]["logicsig"] &&
+            tx["signature"]["logicsig"]["logic"] &&
+            tx["application-transaction"] &&
+            tx["application-transaction"]["application-args"] &&
+            tx["application-transaction"]["application-args"][1]
+          ) {
+            appProgram = tx["signature"]["logicsig"]["logic"];
+
+            arg1 = tx["application-transaction"]["application-args"][1];
+            break;
+          }
+        }
+      }
+      if (!appProgram) throw "Error finding the app call";
+      if (!arg1) throw "Error finding the args";
+      console.log("txs", arg1, txs, appIndex, algodclient);
+
+      let lsa = new algosdk.LogicSigAccount(
+        Uint8Array.from(Buffer.from(appProgram, "base64"))
+      );
+      console.log("lsa", lsa.address(), escrowAddress);
+      if (lsa.address() != escrowAddress) {
+        throw "LSA address does not match escrowAddress";
+      }
+      let note = Uint8Array.from(Buffer.from(""));
+      /*
+      const appArgs = [
+        Uint8Array.from(Buffer.from("dXBkYXRlX3ByaWNl", "base64")), //update_price
+        Uint8Array.from(Buffer.from(arg1, "base64")),
+      ];
+
+      console.log("transaction0");
+      const transaction0 = algosdk.makeApplicationNoOpTxnFromObject({
+        from: lsa.address(),
+        suggestedParams,
+        appIndex,
+        appArgs,
+      });
+      */
+      // pay from escrow to seller price
+      console.log("transaction1");
+      const transaction1 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject(
+        {
+          from: ownerAddress,
+          to: lsa.address(),
+          assetIndex,
+          amount: asaAmount,
+          closeRemainderTo: undefined,
+          note,
+          suggestedParams,
+        }
+      );
+      /*
+      let txns = [transaction0, transaction1];
+      console.log("txns", txns);
+      algosdk.assignGroupID(txns);
+      let signedTxn0 = algosdk.signLogicSigTransactionObject(transaction0, lsa)
+        .blob;
+*/
+      let signedTxn1 = transaction1.signTxn(skCreator);
+      let signed = [];
+      //signed.push(signedTxn0);
+      signed.push(signedTxn1);
+      console.log("signed", signed);
+
+      const ret = await algodclient
+        .sendRawTransaction(signed)
+        .do()
+        .catch((e) => {
+          if (e && e.response && e.response.body && e.response.body.message) {
+            dispatch("toast/openError", e.response.body.message, {
+              root: true,
+            });
+          }
+          console.log("e", e, e.message, e.data);
+
+          for (var key in e) {
+            console.log("e.key", key, e[key]);
+          }
+        });
+      return ret;
+    } catch (error) {
+      console.log("error", error, dispatch);
+    }
+  },
 };
 
 export default {
