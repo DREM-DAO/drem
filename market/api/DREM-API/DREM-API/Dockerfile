@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["DREM-API/DREM-API.csproj", "DREM-API/"]
+COPY ["market/api/DREM-API/", "./"]
 RUN dotnet restore "DREM-API/DREM-API.csproj"
 COPY . .
 WORKDIR "/src/DREM-API"
