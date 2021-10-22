@@ -183,6 +183,17 @@
                   <span
                     class="btn btn-light btn-sm mx-1"
                     v-if="
+                      this.order.quantity &&
+                      slotProps.data.ownerAddress ===
+                        this.$store.state.wallet.lastActiveAccount
+                    "
+                    @click="increaseBuyVolume(slotProps.data)"
+                  >
+                    V
+                  </span>
+                  <span
+                    class="btn btn-light btn-sm mx-1"
+                    v-if="
                       slotProps.data.ownerAddress !==
                       this.$store.state.wallet.lastActiveAccount
                     "
@@ -274,6 +285,17 @@
               <Column field="formattedPrice" header="">
                 <template #body="slotProps">
                   <div class="text-end">
+                    <span
+                      class="btn btn-light btn-sm mx-1"
+                      v-if="
+                        this.order.quantity &&
+                        slotProps.data.ownerAddress ===
+                          this.$store.state.wallet.lastActiveAccount
+                      "
+                      @click="increaseSellVolume(slotProps.data)"
+                    >
+                      V
+                    </span>
                     <span
                       class="btn btn-light btn-sm mx-1"
                       v-if="
@@ -600,10 +622,12 @@ export default {
       algodexCancelBuy: "algodex/cancelBuy",
       algodexHitAllBuy: "algodex/hitAllBuy",
       algodexHitBuyPartial: "algodex/hitBuyPartial",
+      algodexIncreaseBuyVolume: "algodex/increaseBuyVolume",
       algodexSell: "algodex/algodexSell",
       algodexHitAllSell: "algodex/hitAllSell",
       algodexCancelSell: "algodex/cancelSell",
       algodexHitSellPartial: "algodex/hitSellPartial",
+      algodexIncreaseSellVolume: "algodex/increaseSellVolume",
       waitForConfirmation: "algod/waitForConfirmation",
       prolong: "wallet/prolong",
       openError: "toast/openError",
@@ -809,6 +833,36 @@ export default {
         this.orderstate = "Error";
       }
     },
+    async increaseBuyVolume(data) {
+      this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending H to net";
+      const asaPrice = data.asaPrice;
+      const newQ = Math.ceil(asaPrice * this.order.quantity * 1000000);
+      const tx = await this.algodexIncreaseBuyVolume({
+        ownerAddress: this.$store.state.wallet.lastActiveAccount,
+        algoAmount: newQ,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+        assetIndex: data.assetId,
+      });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
+    },
     async cancelSell(data) {
       this.prolong();
       this.processingOrder = true;
@@ -875,6 +929,35 @@ export default {
         newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
         asaPrice,
         assetAmount: newQ,
+        escrowAddress: data.escrowAddress,
+        appIndex: data.appId,
+        assetIndex: data.assetId,
+      });
+      if (tx && tx.error) {
+        this.openError(tx.error);
+        return;
+      }
+      if (tx) {
+        this.orderstate = "Sent to net";
+        const confirmation = await this.waitForConfirmation({
+          txId: tx.txId,
+          timeout: 5,
+        });
+        if (confirmation) {
+          this.orderstate = "Confirmed block";
+        }
+      } else {
+        this.orderstate = "Error";
+      }
+    },
+    async increaseSellVolume(data) {
+      this.prolong();
+      this.processingOrder = true;
+      this.orderstate = "Sending H to net";
+      const newQ = Math.ceil(this.order.quantity * 1000000);
+      const tx = await this.algodexIncreaseSellVolume({
+        ownerAddress: this.$store.state.wallet.lastActiveAccount,
+        asaAmount: newQ,
         escrowAddress: data.escrowAddress,
         appIndex: data.appId,
         assetIndex: data.assetId,
