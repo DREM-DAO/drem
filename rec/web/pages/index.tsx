@@ -1,9 +1,29 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import Layout from "../components/Layout"; // Layout
+
+
+function Para(props){
+
+   const variables = Math.random() > 0.5 ? 'red' : 'blue';
+   return (
+     <div>
+       <p className="desc">{props.paragraph}</p>
+        <style jsx>
+              {`
+                .desc {
+                  color: ${variables};
+                }
+              `}
+        </style>
+     </div>
+   )
+}
 
 export default function Home() {
   return (
+    <Layout>
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
@@ -12,27 +32,22 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          <a href="https://docs.globdrem.com/real-estate-company/overview">Real Estate Acquisition!</a>
-        </h1>
 
-        <p className={styles.description}>
-          Get started by entering real estate information{' '}
-        </p>
-
+        <Para paragraph="Get started by entering Real Estate information" />
+        
         <div className={styles.grid}>
-          <a href="https://docs.globdrem.com/real-estate-company/overview" className={styles.card}>
-            <h2>REIT &rarr;</h2>
-            <p>Information about REIT!</p>
+          <a href="/CreateRec" className={styles.card}>
+            <h2>REC &rarr;</h2>
+            <p>Information about Real Estate Company!</p>
           </a>
 
-          <a href="https://docs.globdrem.com/real-estate-company/overview" className={styles.card}>
-            <h2>Asset &rarr;</h2>
-            <p>Information about the Asset!</p>
+          <a href="/oppt" className={styles.card}>
+            <h2>Opportunity &rarr;</h2>
+            <p>Information about the avalable opportunity!</p>
           </a>
 
           <a
-            href="https://docs.globdrem.com/real-estate-company/overview"
+            href="/review"
             className={styles.card}
           >
             <h2>Review &rarr;</h2>
@@ -40,12 +55,12 @@ export default function Home() {
           </a>
 
           <a
-            href="https://docs.globdrem.com/real-estate-company/overview"
+            href="/contract"
             className={styles.card}
           >
-            <h2>Purchase &rarr;</h2>
+            <h2>Contract &rarr;</h2>
             <p>
-              Notary, Payment and Purchase Asset!
+              Establish contractual agreement with REC
             </p>
           </a>
         </div>
@@ -64,5 +79,6 @@ export default function Home() {
         </a>
       </footer>
     </div>
+    </Layout>
   )
 }
