@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DREM_API.BusinessController;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -58,6 +59,25 @@ namespace DREM_API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<IEnumerable<Model.RECWithId>>> GetAll()
+        {
+            try
+            {
+                return Ok(await recBusinessController.GetAll());
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
+        /// Lists all registered RECs
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("GetAllAuth")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<IEnumerable<Model.RECWithId>>> GetAll2()
         {
             try
             {

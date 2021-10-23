@@ -1,3 +1,4 @@
+using AlgorandAuthentication;
 using AutoMapper;
 using DREM_API.BusinessController;
 using DREM_API.Repository;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,6 +57,19 @@ namespace DREM_API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DREM_API", Version = "v1" });
+
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Algo signed auth tx",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.OperationFilter<Swashbuckle.AspNetCore.Filters.SecurityRequirementsOperationFilter>();
+
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"doc/documentation.xml"));
             });
             services.AddTransient<RECBusinessController, RECBusinessController>();
             services.AddScoped<RECMsSQLRepository, RECMsSQLRepository>();
@@ -63,6 +78,10 @@ namespace DREM_API
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
+
+            services
+                .AddAuthentication(AlgorandAuthenticationHandler.ID)
+                .AddAlgorand();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +105,7 @@ namespace DREM_API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
