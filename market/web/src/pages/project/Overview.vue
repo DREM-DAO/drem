@@ -34,7 +34,7 @@
                     target="_blank"
                     rel="norefferer"
                     :href="`https://testnet.algoexplorer.io/asset/${project.asa}`"
-                    >{{ project.asa }}</a
+                    >{{ this.getAssetName(project.asa) }} ({{ project.asa }})</a
                   ><br />
 
                   <a
@@ -43,6 +43,25 @@
                     :href="`https://testnet.algodex.com/trade/${project.asa}`"
                     >AlgoDex market</a
                   >
+                  <div v-if="asset">
+                    Decimals: {{ this.getAssetDecimals(this.project.asa) }}
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="account && account.addr">
+                <td>Your algo balance</td>
+                <td>{{ this.$filters.formatCurrency(this.info.amount) }}</td>
+              </tr>
+              <tr v-if="asset">
+                <td>Your asset balance</td>
+                <td>
+                  {{
+                    this.$filters.formatCurrency(
+                      this.getAccountAssetBalance(),
+                      this.getAssetName(project.asa),
+                      this.getAssetDecimals(this.project.asa)
+                    )
+                  }}
                 </td>
               </tr>
             </table>
@@ -141,6 +160,10 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="card-footer" v-if="orderAlgoAmount">
+                Order algo amount:
+                {{ this.$filters.formatCurrency(this.orderAlgoAmount) }}
               </div>
             </div>
           </div>
@@ -418,27 +441,23 @@ export default {
     selectedOffer() {
       this.order.price = this.selectedOffer.asaPrice;
     },
+    account() {
+      this.refreshAccountInfo();
+    },
   },
   computed: {
-    info() {
-      return [
-        {
-          key: "Address",
-          value: "Prague",
-        },
-        {
-          key: "IRR",
-          value: this.$filters.formatPercent(this.project.rate, 4),
-        },
-      ];
-    },
     account() {
       return this.$store.state.wallet.privateAccounts.find(
         (a) => a.addr == this.$store.state.wallet.lastActiveAccount
       );
     },
+    orderAlgoAmount() {
+      if (!this.order.price) return false;
+      if (!this.order.quantity) return false;
+      return this.order.price * this.order.quantity;
+    },
   },
-  mounted() {
+  async mounted() {
     this.prolong();
     if (!this.timer) {
       this.timer = setInterval(this.countdown, 10000);
@@ -446,12 +465,17 @@ export default {
       console.log("timer already running");
     }
     this.countdown();
+    this.asset = await this.getAsset({ assetIndex: this.project.asa });
+    await this.refreshAccountInfo();
   },
   beforeUnmount() {
     clearInterval(this.timer);
   },
   data() {
     return {
+      info: {},
+      assets: [],
+      asset: {},
       processingOrder: false,
       orderstate: "",
       selectedBid: null,
@@ -468,7 +492,7 @@ export default {
         id: "2",
         address: "Prague",
         top: true,
-        asa: 37074699, //37074699, //21582668, //37074699,39247510
+        asa: 37074699, //37074699, //21582668, //37074699,39247510,33698417,15322902
         lat: 47.369450301672266,
         lng: 8.539875999999893,
         name: "Trust Square",
@@ -629,9 +653,47 @@ export default {
       algodexHitSellPartial: "algodex/hitSellPartial",
       algodexIncreaseSellVolume: "algodex/increaseSellVolume",
       waitForConfirmation: "algod/waitForConfirmation",
+      accountInformation: "algod/accountInformation",
+      getAsset: "indexer/getAsset",
       prolong: "wallet/prolong",
       openError: "toast/openError",
     }),
+    getAssetSync(id) {
+      const ret = this.$store.state.indexer.assets.find(
+        (a) => a["asset-id"] == id
+      );
+      return ret;
+    },
+    getAssetName(id) {
+      const asset = this.getAssetSync(id);
+      if (asset) return asset["name"];
+    },
+    getAccountAssetBalance() {
+      if (!this.info) return;
+      if (!this.project.asa) return;
+      if (!this.info.assets) return;
+
+      const find = this.info.assets.find(
+        (x) => x["asset-id"] == this.project.asa
+      );
+      console.log("find", find);
+      if (!find) return;
+      return find["amount"];
+    },
+    getAssetDecimals(id) {
+      const asset = this.getAssetSync(id);
+      if (asset) return asset["decimals"];
+    },
+    async refreshAccountInfo() {
+      if (!this.account) {
+        this.info = {};
+        return;
+      }
+      this.info = await this.accountInformation({
+        addr: this.account.addr,
+      });
+      console.log("this.info", this.info);
+    },
     bidClick(e) {
       if (e.index === 1) {
         this.order.price = e.data.asaPrice;
@@ -774,7 +836,9 @@ export default {
       this.processingOrder = true;
       this.orderstate = "Sending H to net";
       const algoAmount = data.algoAmount;
-      const assetAmount = Math.round(algoAmount * data.asaPrice);
+      const assetAmount = Math.round(algoAmount / data.asaPrice);
+      //let stop = true;
+      //if (stop) return;
       const tx = await this.algodexHitAllBuy({
         ownerAddress: data.ownerAddress,
         newOwnerAddress: this.$store.state.wallet.lastActiveAccount,
