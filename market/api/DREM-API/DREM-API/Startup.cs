@@ -1,8 +1,11 @@
 using AutoMapper;
+using DREM_API.BusinessController;
+using DREM_API.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,9 +45,9 @@ namespace DREM_API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(
+            IServiceCollection services)
         {
-
             services
                 .AddControllers()
                 .AddNewtonsoftJson();
@@ -53,16 +56,28 @@ namespace DREM_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DREM_API", Version = "v1" });
             });
+            services.AddTransient<RECBusinessController, RECBusinessController>();
+            services.AddScoped<RECMsSQLRepository, RECMsSQLRepository>();
 
+            services.AddDbContext<Model.ADBContext>(options =>
+            {
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            Model.ADBContext context
+            )
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            context.EnsureCreated();
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DREM_API v1"));
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DREM_API.BusinessController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -17,19 +18,22 @@ namespace DREM_API.Controllers
     public class RECController : ControllerBase
     {
         private readonly IConfiguration configuration;
+        private readonly RECBusinessController recBusinessController;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="visitorRepository"></param>
-        public RECController(IConfiguration configuration)
+        public RECController(
+            IConfiguration configuration,
+            RECBusinessController recBusinessController
+            )
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.recBusinessController = recBusinessController;
         }
         /// <summary>
-        /// Returns version of the current api
-        /// 
-        /// For development purposes it returns version of assembly, for production purposes it returns string build by pipeline which contains project information, pipeline build version, assembly version, and build date
+        /// Register real estate company
         /// </summary>
         /// <returns></returns>
         [HttpPost("Register")]
@@ -39,14 +43,25 @@ namespace DREM_API.Controllers
         {
             try
             {
-                MapperConfiguration _configuration = new MapperConfiguration(cnf =>
-                {
-                    cnf.CreateMap<Model.REC, Model.RECWithId>();
-                });
-                var mapper = new Mapper(_configuration);
-                var ret = mapper.Map<Model.RECWithId>(rec);
-                ret.Id = Guid.NewGuid().ToString();
-                return Ok(ret);
+                return Ok(await recBusinessController.Register(rec));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
+        /// Lists all registered RECs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetAll")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<IEnumerable<Model.RECWithId>>> GetAll()
+        {
+            try
+            {
+                return Ok(await recBusinessController.GetAll());
             }
             catch (Exception exc)
             {
