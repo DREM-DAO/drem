@@ -452,9 +452,15 @@ export default {
       );
     },
     orderAlgoAmount() {
+      if (!this.asset) return false;
+      if (this.asset.decimals === undefined) return false;
       if (!this.order.price) return false;
       if (!this.order.quantity) return false;
-      return this.order.price * this.order.quantity;
+      return (
+        this.order.price *
+        this.order.quantity *
+        Math.pow(10, this.asset.decimals)
+      );
     },
   },
   async mounted() {
