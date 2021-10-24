@@ -81,7 +81,13 @@ namespace DREM_API
 
             services
                 .AddAuthentication(AlgorandAuthenticationHandler.ID)
-                .AddAlgorand();
+                .AddAlgorand(o =>
+                {
+                    o.CheckExpiration = false;
+                    o.AlgodServer = "";
+                    o.AlgodServerToken = "";
+                    o.Realm = "Authentication";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,8 +110,8 @@ namespace DREM_API
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
