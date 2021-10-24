@@ -498,7 +498,7 @@ export default {
         id: "2",
         address: "Prague",
         top: true,
-        asa: 37074699, //37074699, //21582668, //37074699,39247510,33698417,15322902
+        asa: 37074699, //37074699, //21582668, 33698417,15322902,39247510,22847688
         lat: 47.369450301672266,
         lng: 8.539875999999893,
         name: "Trust Square",
@@ -682,7 +682,6 @@ export default {
       const find = this.info.assets.find(
         (x) => x["asset-id"] == this.project.asa
       );
-      console.log("find", find);
       if (!find) return;
       return find["amount"];
     },
@@ -698,7 +697,6 @@ export default {
       this.info = await this.accountInformation({
         addr: this.account.addr,
       });
-      console.log("this.info", this.info);
     },
     bidClick(e) {
       if (e.index === 1) {
@@ -709,16 +707,12 @@ export default {
       }
     },
     offerClick(e) {
-      console.log("offerClick", e, e.data.asaPrice);
       if (e.index == 0) {
         this.order.price = e.data.asaPrice;
-        console.log("offerClick0", e, e.data.asaPrice, this.order);
       }
       if (e.index == 1) {
         this.order.quantity = e.data.asaAmount / Math.pow(10, e.data.decimals);
-        console.log("offerClick1", e, e.data.asaPrice, this.order);
       }
-      console.log("offerClick", e, e.data.asaPrice, this.order);
     },
 
     async countdown() {
@@ -813,7 +807,6 @@ export default {
       this.prolong();
       this.processingOrder = true;
       this.orderstate = "Sending C to net";
-      console.log(data);
       const tx = this.algodexCancelBuy({
         ownerAddress: data.ownerAddress,
         escrowAddress: data.escrowAddress,

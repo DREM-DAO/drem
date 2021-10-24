@@ -14,9 +14,13 @@ const state = () => ({
   lastActiveAccount: "",
   lastActiveAccountName: "",
   transaction: {},
+  authTx: "",
 });
 
 const mutations = {
+  setAuthTx(state, authTx) {
+    state.authTx = authTx;
+  },
   setTransaction(state, transaction) {
     state.transaction = transaction;
   },
@@ -25,7 +29,7 @@ const mutations = {
   },
   lastActiveAccount(state, addr) {
     const current = state.privateAccounts.find((a) => a.addr == addr);
-    if (current) {
+    if (current && state.lastActiveAccount !== addr) {
       state.lastActiveAccount = addr;
       state.lastActiveAccountName = current.name;
     }
@@ -71,6 +75,7 @@ const mutations = {
     state.privateAccounts = [];
     state.lastActiveAccount = "";
     state.lastActiveAccountName = "";
+    state.authTx = "";
   },
   prolong(state) {
     state.time = new Date();
@@ -106,16 +111,45 @@ const actions = {
   async lastActiveAccount({ commit, dispatch }, { addr }) {
     commit("lastActiveAccount", addr);
     await dispatch("saveWallet");
+
+    const skCreator = await dispatch("getSK", { addr });
+    if (skCreator) {
+      // Create authentication tx
+      const suggestedParams = await dispatch(
+        "algod/getTransactionParams",
+        null,
+        {
+          root: true,
+        }
+      );
+      const authTxToSign = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+        from: addr,
+        to: addr,
+        amount: 0,
+        note,
+        suggestedParams,
+      });
+
+      const tx = authTxToSign.signTxn(skCreator);
+      let note = Uint8Array.from(Buffer.from("DREM-Authenticate"));
+
+      const authTx = Buffer.from(tx).toString("base64");
+      commit("setAuthTx", authTx);
+    } else {
+      commit("setAuthTx", "");
+      return;
+    }
   },
   async getSK({ x }, { addr }) {
     const address = this.state.wallet.privateAccounts.find(
       (a) => a.addr == addr
     );
-    if (address) {
+    if (address && !!address.sk) {
       const ret = Uint8Array.from(Object.values(address.sk));
       return ret;
+    } else {
+      console.log(x);
     }
-    console.log(x);
   },
   async logout({ commit }) {
     await commit("logout");

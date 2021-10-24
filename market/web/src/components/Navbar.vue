@@ -48,9 +48,12 @@
             <v-link class="nav-link" href="/accounts">Open wallet</v-link>
           </li>
           <li class="nav-item active" v-if="$store.state.wallet.isOpen">
-            <v-link class="nav-link" href="/accounts">{{
-              $store.state.wallet.lastActiveAccountName
-            }}</v-link>
+            <v-link class="nav-link" href="/accounts"
+              >{{ $store.state.wallet.lastActiveAccountName
+              }}<span v-if="this.$store.state.wallet.authTx"
+                >&nbsp;<i class="pi pi-lock"></i></span
+              ><span v-else>&nbsp;<i class="pi pi-unlock"></i></span
+            ></v-link>
           </li>
           <Dropdown
             v-if="!$store.state.wallet.isOpen"
@@ -108,11 +111,33 @@ export default {
     VLink,
   },
   data() {
-    return {};
+    return {
+      authToken: "",
+    };
+  },
+  computed: {
+    token() {
+      return this.$store.state.wallet.authTx;
+    },
+  },
+  watch: {
+    token: {
+      handler: async function () {
+        // watch it
+        this.authToken = "";
+        if (this.token) {
+          const meEndpoint = this.$store.state.config.dremapi + "/User/Me";
+          const me = await this.axiosGet({ url: meEndpoint });
+          this.authToken = me;
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     ...mapActions({
       logout: "wallet/logout",
+      axiosGet: "axios/get",
     }),
     logoutClick() {
       this.logout();
