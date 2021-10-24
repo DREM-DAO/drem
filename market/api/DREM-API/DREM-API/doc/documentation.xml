@@ -34,6 +34,23 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:DREM_API.Controllers.UserController">
+            <summary>
+            This controller returns version of the current api
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.UserController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.UserController.Me">
+            <summary>
+            Returns authenticated user account
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.VersionController">
             <summary>
             This controller returns version of the current api

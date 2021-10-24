@@ -86,7 +86,7 @@ namespace DREM_API
                     o.CheckExpiration = false;
                     o.AlgodServer = "";
                     o.AlgodServerToken = "";
-                    o.Realm = "Authentication";
+                    o.Realm = "DREM-Authenticate";
                 });
         }
 

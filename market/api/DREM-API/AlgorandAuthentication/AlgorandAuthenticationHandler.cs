@@ -80,7 +80,7 @@ namespace AlgorandAuthentication
             var user = tr.tx.sender.ToString();
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier,user),
-                new Claim(ClaimTypes.Name,user.Substring(0,8)),
+                new Claim(ClaimTypes.Name,user),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);
