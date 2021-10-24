@@ -88,6 +88,22 @@ namespace DREM_API
                     o.AlgodServerToken = "";
                     o.Realm = "DREM-Authenticate";
                 });
+
+
+            var corsConfig = Configuration.GetSection("Cors").AsEnumerable().Select(k => k.Value).Where(k => !string.IsNullOrEmpty(k)).ToArray();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                builder =>
+                {
+                    builder.WithOrigins(corsConfig)
+                                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                                        .AllowAnyMethod()
+                                        .AllowAnyHeader()
+                                        .AllowCredentials();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +119,7 @@ namespace DREM_API
             }
             context.EnsureCreated();
 
+            app.UseCors();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DREM_API v1"));
 
