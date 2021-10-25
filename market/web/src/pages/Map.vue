@@ -2,11 +2,13 @@
   <PublicLayout>
     <div class="alert alert-warning">Project is in the TestNet phase</div>
     <div class="row">
-      <div class="col-6">
-        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-          <div class="col" v-for="place in places" :key="place.id">
+      <div class="col">
+        <div
+          class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-xs-1"
+        >
+          <div class="col" v-for="place in topplaces" :key="place.id">
             <div
-              class="card mr-3 mb-3"
+              class="card mr-3 mb-3 cardlink"
               @click="$router.push(`/project/${place.id}`)"
             >
               <img
@@ -28,9 +30,14 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="card mr-3 mb-3" @click="$router.push(`/recurring/`)">
+        <div
+          class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-xs-1"
+        >
+          <div class="col">
+            <div
+              class="card mr-3 mb-3 cardlink"
+              @click="$router.push(`/recurring/`)"
+            >
               <img
                 src="https://d18-a.sdn.cz/d_18/c_img_gY_e/HSeSpG.jpeg?fl=res,749,562,3|shr,,20|jpg,90"
                 class="card-img"
@@ -46,105 +53,115 @@
               </div>
             </div>
           </div>
-          <div class="col-4" v-for="place in hotplaces" :key="place.id">
+          <div class="col">
             <div
-              class="card mr-3 mb-3"
-              @click="$router.push(`/project/${place.id}`)"
+              class="
+                row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-xs-1
+              "
             >
-              <img
-                :src="place.image"
-                class="card-img"
-                :alt="place.name"
-                height="200"
-                style="object-fit: cover"
-              />
+              <div class="col" v-for="place in hotplaces" :key="place.id">
+                <div
+                  class="card mr-3 mb-3 cardlink"
+                  @click="$router.push(`/project/${place.id}`)"
+                >
+                  <img
+                    :src="place.image"
+                    class="card-img"
+                    :alt="place.name"
+                    height="200"
+                    style="object-fit: cover"
+                  />
 
-              <div class="card-img-overlay d-flex flex-column">
-                <div class="c-title">
-                  {{ place.name }}
-                </div>
-                <div class="mt-auto c-subtitle">
-                  Hot deal IRR {{ $filters.formatPercent(place.rate, 4) }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-          <div class="col" v-for="place in places" :key="place.id">
-            <div
-              class="card mr-3 mb-3"
-              @click="$router.push(`/project/${place.id}`)"
-            >
-              <img
-                :src="place.image"
-                class="card-img"
-                :alt="place.name"
-                height="200"
-                style="object-fit: cover"
-              />
-
-              <div class="card-img-overlay d-flex flex-column">
-                <div class="c-title">
-                  {{ place.name }}
-                </div>
-                <div class="mt-auto c-subtitle">
-                  IRR {{ $filters.formatPercent(place.rate, 4) }}
+                  <div class="card-img-overlay d-flex flex-column">
+                    <div class="c-title">
+                      {{ place.name }}
+                    </div>
+                    <div class="mt-auto c-subtitle">
+                      Hot deal IRR {{ $filters.formatPercent(place.rate, 4) }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <LMap
-          style="min-height: 80vh"
-          :zoom="zoom"
-          :min-zoom="minZoom"
-          :max-zoom="maxZoom"
-          :center="center"
-        >
-          <LTileLayer
-            :url="url"
-            :attribution="attribution"
-            :options="options"
-          />
-          <LLayerGroup v-if="places">
-            <LMarker
-              v-for="place in places"
-              :key="place.id"
-              :lat-lng="getLatLng(place)"
-            >
-              <LIcon :icon-url="getIcon(place)" />
-              <LPopup :options="{ autoClose: true, closeOnClick: false }">
-                <h4
-                  class="md-auto"
-                  style="text-align: center; min-width: 150px"
-                >
-                  {{ place.name }}
-                </h4>
-                <VLink :href="`/project/${place.id}`">
-                  <img
-                    class="img thumbnail"
-                    :src="place.image"
-                    style="max-width: 150px"
-                  />
-                </VLink>
-                <p>Rate: {{ $filters.formatPercent(place.rate, 4) }}</p>
-
-                <p v-if="place.asa">
-                  <a
-                    target="_blank"
-                    rel="norefferer"
-                    :href="`https://testnet.algoexplorer.io/asset/${place.asa}`"
-                    >AlgoExplorer info</a
+      <div class="col-4 d-none d-lg-block d-xl-block d-xxl-block">
+        <div class="card">
+          <LMap
+            style="height: 410px"
+            class="m-0 p-0"
+            :zoom="zoom"
+            :min-zoom="minZoom"
+            :max-zoom="maxZoom"
+            :center="center"
+          >
+            <LTileLayer
+              :url="url"
+              :attribution="attribution"
+              :options="options"
+            />
+            <LLayerGroup v-if="places">
+              <LMarker
+                v-for="place in places"
+                :key="place.id"
+                :lat-lng="getLatLng(place)"
+              >
+                <LIcon :icon-url="getIcon(place)" />
+                <LPopup :options="{ autoClose: true, closeOnClick: false }">
+                  <h4
+                    class="md-auto"
+                    style="text-align: center; min-width: 150px"
                   >
-                </p>
-              </LPopup>
-            </LMarker>
-          </LLayerGroup>
-        </LMap>
+                    {{ place.name }}
+                  </h4>
+                  <VLink :href="`/project/${place.id}`">
+                    <img
+                      class="img thumbnail"
+                      :src="place.image"
+                      style="max-width: 150px"
+                    />
+                  </VLink>
+                  <p>Rate: {{ $filters.formatPercent(place.rate, 4) }}</p>
+
+                  <p v-if="place.asa">
+                    <a
+                      target="_blank"
+                      rel="norefferer"
+                      :href="`https://testnet.algoexplorer.io/asset/${place.asa}`"
+                      >AlgoExplorer info</a
+                    >
+                  </p>
+                </LPopup>
+              </LMarker>
+            </LLayerGroup>
+          </LMap>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-xs-1">
+      <div class="col" v-for="place in places" :key="place.id">
+        <div
+          class="card mr-3 mb-3 cardlink"
+          @click="$router.push(`/project/${place.id}`)"
+        >
+          <img
+            :src="place.image"
+            class="card-img"
+            :alt="place.name"
+            height="200"
+            style="object-fit: cover"
+          />
+
+          <div class="card-img-overlay d-flex flex-column">
+            <div class="c-title">
+              {{ place.name }}
+            </div>
+            <div class="mt-auto c-subtitle">
+              IRR {{ $filters.formatPercent(place.rate, 4) }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </PublicLayout>
@@ -211,12 +228,72 @@ export default {
           image:
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
         },
+        {
+          id: "3",
+          top: false,
+          lat: 50,
+          lng: -71,
+          name: "Canada Wood",
+          rate: 0.0205,
+          image:
+            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+        },
+        {
+          id: "3",
+          top: false,
+          lat: 50,
+          lng: -71,
+          name: "Canada Wood",
+          rate: 0.0205,
+          image:
+            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+        },
+        {
+          id: "3",
+          top: false,
+          lat: 50,
+          lng: -71,
+          name: "Canada Wood",
+          rate: 0.0205,
+          image:
+            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+        },
+        {
+          id: "3",
+          top: false,
+          lat: 50,
+          lng: -71,
+          name: "Canada Wood",
+          rate: 0.0205,
+          image:
+            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+        },
+        {
+          id: "3",
+          top: false,
+          lat: 50,
+          lng: -71,
+          name: "Canada Wood",
+          rate: 0.0205,
+          image:
+            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+        },
+        {
+          id: "3",
+          top: false,
+          lat: 50,
+          lng: -71,
+          name: "Canada Wood",
+          rate: 0.0205,
+          image:
+            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+        },
       ],
       mapIsReady: false,
-      minZoom: 3,
+      minZoom: 2,
       maxZoom: 18,
-      zoom: 4,
-      center: [30, 1],
+      zoom: 2,
+      center: [50, 0],
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -227,8 +304,11 @@ export default {
     };
   },
   computed: {
+    topplaces() {
+      return [this.places[0], this.places[1], this.places[2], this.places[3]];
+    },
     hotplaces() {
-      return [this.places[0]];
+      return [this.places[0], this.places[1]];
     },
   },
 
@@ -269,12 +349,12 @@ export default {
   text-decoration: none;
 }
 
-.card:hover {
+.cardlink:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
   cursor: pointer;
 }
-.card:hover {
+.cardlink:hover {
   -webkit-transition: opacity 0.2s ease-in-out;
   -moz-transition: opacity 0.2s ease-in-out;
   -ms-transition: opacity 0.2s ease-in-out;
