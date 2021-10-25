@@ -21,19 +21,34 @@
       </div>
       <div class="col">
         <MultiSelect
-          v-model="filterCountry"
-          :options="countryOptions"
+          v-model="filterCurrency"
+          :options="currencyOptions"
           optionLabel="name"
-          placeholder="Select country"
+          placeholder="Select currency"
           class="w-100"
         />
       </div>
       <div class="col">
         <MultiSelect
-          v-model="filterCurrency"
-          :options="currencyOptions"
+          v-model="filterRegion"
+          :options="regionOptions"
           optionLabel="name"
-          placeholder="Select currency"
+          placeholder="Select country"
+          class="w-100"
+        />
+      </div>
+      <div
+        class="col"
+        v-if="
+          Object.values(filterRegion).length > 0 &&
+          Object.values(stateOptions).length > 0
+        "
+      >
+        <MultiSelect
+          v-model="filterState"
+          :options="stateOptions"
+          optionLabel="name"
+          placeholder="Select state"
           class="w-100"
         />
       </div>
@@ -50,6 +65,7 @@
     <div class="row">
       <div class="col">
         <div
+          v-if="showTop"
           class="
             row
             row-cols-xxl-4
@@ -154,7 +170,7 @@
       <div class="col-4 d-none d-xxl-block">
         <div class="card">
           <LMap
-            style="height: 410px"
+            :style="mapStyle"
             class="m-0 p-0"
             :zoom="zoom"
             :min-zoom="minZoom"
@@ -279,30 +295,14 @@ export default {
       filterCity: [],
       filterInvestmentType: [],
       filterCurrency: [],
+      filterRegion: [],
+      filterState: [],
 
-      propertyTypeOptions: [
-        { name: "House", value: "house" },
-        { name: "Appartment", value: "appartment" },
-        { name: "Hotel", value: "hotel" },
-        { name: "Commercial", value: "commercial" },
-        { name: "Aggriculture", value: "aggriculture" },
-        { name: "Garage", value: "garage" },
-      ],
-      investmentTypeOptions: [
-        { name: "Initial project offering", value: "ico" },
-        { name: "Live real estate project", value: "live" },
-        { name: "Bond investment", value: "bond" },
-      ],
       countryOptions: [
         { name: "USA", value: "usa" },
         { name: "EU", value: "eu" },
         { name: "Russia", value: "russia" },
         { name: "Australia", value: "australia" },
-      ],
-      cityOptions: [
-        { name: "Texas", value: "tx" },
-        { name: "Prague", value: "prg" },
-        { name: "Zurrich", value: "zurrich" },
       ],
       places: [
         {
@@ -319,6 +319,14 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gW_f/wZ1NHI.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "eur",
           currencyName: "EUR",
+          propertyType: "house",
+          propertyTypeName: "House",
+          investmentType: "ipo",
+          investmentTypeName: "Initial project offering",
+          region: "eu",
+          regionName: "EU",
+          city: "prague",
+          cityName: "Prague",
         },
         {
           id: "2",
@@ -335,6 +343,16 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_QJ_JV/ZGHIsk.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "eur",
           currencyName: "EUR",
+          propertyType: "appartment",
+          propertyTypeName: "Appartment",
+          investmentType: "ipo",
+          investmentTypeName: "Initial project offering",
+          region: "eu",
+          regionName: "EU",
+          state: "cz",
+          stateName: "Czech Republic",
+          city: "prague",
+          cityName: "Prague",
         },
         {
           id: "3",
@@ -347,8 +365,16 @@ export default {
           countryName: "Canada",
           image:
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "eur",
-          currencyName: "EUR",
+          currency: "cad",
+          currencyName: "CAD",
+          propertyType: "commercial",
+          propertyTypeName: "Commercial property",
+          investmentType: "bond",
+          investmentTypeName: "Bond",
+          region: "usa",
+          regionName: "USA",
+          city: "prague",
+          cityName: "Prague",
         },
         {
           id: "3",
@@ -363,6 +389,14 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "usd",
           currencyName: "USD",
+          propertyType: "hotel",
+          propertyTypeName: "Hotel",
+          investmentType: "live",
+          investmentTypeName: "Live real estate project",
+          region: "usa",
+          regionName: "USA",
+          city: "prague",
+          cityName: "Prague",
         },
         {
           id: "3",
@@ -377,6 +411,14 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "usd",
           currencyName: "USD",
+          propertyType: "aggriculture",
+          propertyTypeName: "Aggriculture",
+          investmentType: "live",
+          investmentTypeName: "Live real estate project",
+          region: "ca",
+          regionName: "Canada",
+          city: "prague",
+          cityName: "Prague",
         },
         {
           id: "3",
@@ -391,6 +433,16 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "usd",
           currencyName: "USD",
+          propertyType: "garage",
+          propertyTypeName: "Garage",
+          investmentType: "live",
+          investmentTypeName: "Live real estate project",
+          region: "eu",
+          regionName: "EU",
+          state: "sk",
+          stateName: "Slovakia",
+          city: "bratislava",
+          cityName: "Bratislava",
         },
         {
           id: "3",
@@ -403,6 +455,16 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "usd",
           currencyName: "USD",
+          propertyType: "garage",
+          propertyTypeName: "Garage",
+          investmentType: "live",
+          investmentTypeName: "Live real estate project",
+          region: "usa",
+          regionName: "USA",
+          state: "ny",
+          stateName: "New York",
+          city: "new-york",
+          cityName: "New York",
         },
         {
           id: "3",
@@ -415,6 +477,16 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "usd",
           currencyName: "USD",
+          propertyType: "aggriculture",
+          propertyTypeName: "Aggriculture",
+          investmentType: "live",
+          investmentTypeName: "Live real estate project",
+          region: "usa",
+          regionName: "USA",
+          state: "sc",
+          stateName: "South Carolina",
+          city: "bratislava",
+          cityName: "Bratislava",
         },
         {
           id: "3",
@@ -427,6 +499,16 @@ export default {
             "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
           currency: "usd",
           currencyName: "USD",
+          propertyType: "appartment",
+          propertyTypeName: "Appartment",
+          investmentType: "live",
+          investmentTypeName: "Live real estate project",
+          region: "usa",
+          regionName: "USA",
+          state: "tx",
+          stateName: "Texas",
+          city: "bratislava",
+          cityName: "Bratislava",
         },
       ],
       mapIsReady: false,
@@ -444,12 +526,40 @@ export default {
     };
   },
   computed: {
+    mapStyle() {
+      if (!this.showTop) {
+        return "height: 200px";
+      }
+      return "height: 410px";
+    },
+    showTop() {
+      return this.filteredItems.length > 4;
+    },
     filteredItems() {
       let ret = this.places;
       if (Object.values(this.filterCurrency).length > 0) {
         const currencies = this.filterCurrency.map((c) => c.value);
-        console.log("filterCurrency", currencies, this.filterCurrency);
         ret = ret.filter((i) => currencies.indexOf(i.currency) >= 0);
+      }
+      if (Object.values(this.filterPropertyType).length > 0) {
+        const values = this.filterPropertyType.map((c) => c.value);
+        ret = ret.filter((i) => values.indexOf(i.propertyType) >= 0);
+      }
+      if (Object.values(this.filterInvestmentType).length > 0) {
+        const values = this.filterInvestmentType.map((c) => c.value);
+        ret = ret.filter((i) => values.indexOf(i.investmentType) >= 0);
+      }
+      if (Object.values(this.filterRegion).length > 0) {
+        const values = this.filterRegion.map((c) => c.value);
+        ret = ret.filter((i) => values.indexOf(i.region) >= 0);
+      }
+      if (Object.values(this.filterState).length > 0) {
+        const values = this.filterState.map((c) => c.value);
+        ret = ret.filter((i) => values.indexOf(i.state) >= 0);
+      }
+      if (Object.values(this.filterCity).length > 0) {
+        const values = this.filterCity.map((c) => c.value);
+        ret = ret.filter((i) => values.indexOf(i.city) >= 0);
       }
       return ret;
     },
@@ -461,6 +571,55 @@ export default {
       const uniqCurrencies = uniqWith(currencies, isEqual);
       console.log("currencies", currencies, uniqCurrencies);
       return uniqCurrencies;
+    },
+    propertyTypeOptions() {
+      return uniqWith(
+        this.places.map((i) => ({
+          name: i.propertyTypeName,
+          value: i.propertyType,
+        })),
+        isEqual
+      );
+    },
+    regionOptions() {
+      return uniqWith(
+        this.places.map((i) => ({
+          name: i.regionName,
+          value: i.region,
+        })),
+        isEqual
+      );
+    },
+    stateOptions() {
+      return uniqWith(
+        this.filteredItems
+          .filter((i) => !!i.state)
+          .map((i) => ({
+            name: i.stateName,
+            value: i.state,
+          })),
+        isEqual
+      );
+    },
+    cityOptions() {
+      return uniqWith(
+        this.filteredItems
+          .filter((i) => !!i.city)
+          .map((i) => ({
+            name: i.cityName,
+            value: i.city,
+          })),
+        isEqual
+      );
+    },
+    investmentTypeOptions() {
+      return uniqWith(
+        this.places.map((i) => ({
+          name: i.investmentTypeName,
+          value: i.investmentType,
+        })),
+        isEqual
+      );
     },
     topplaces() {
       return [this.places[0], this.places[1], this.places[2], this.places[3]];
