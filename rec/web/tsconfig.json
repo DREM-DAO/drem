@@ -16,13 +16,20 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@data/*": ["data/*"],
+      "@styles/*": ["styles/*"],
+      "@components/*": ["components/*"],
+      "@containers/*": ["containers/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ],
+    "**/*.tsx",
+    "components/Header.js"  ],
   "exclude": [
     "node_modules"
   ]

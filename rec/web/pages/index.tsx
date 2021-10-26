@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import Layout from "../components/Layout"; // Layout
-
+import Layout from "@components/Layout"; // Layout
+import App from "./App.tsx";
 
 function Para(props){
 
@@ -24,6 +24,7 @@ function Para(props){
 export default function Home() {
   return (
     <Layout>
+    {/* <App/> */}
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
@@ -36,32 +37,21 @@ export default function Home() {
         <Para paragraph="Get started by entering Real Estate information" />
         
         <div className={styles.grid}>
-          <a href="/CreateRec" className={styles.card}>
+          <a href="/" className={styles.card}>
             <h2>REC &rarr;</h2>
             <p>Information about Real Estate Company!</p>
           </a>
-
-          <a href="/oppt" className={styles.card}>
+          <a href="/" className={styles.card}>
             <h2>Opportunity &rarr;</h2>
             <p>Information about the avalable opportunity!</p>
           </a>
-
-          <a
-            href="/review"
-            className={styles.card}
-          >
+          <a href="/" className={styles.card}>
             <h2>Review &rarr;</h2>
             <p>Review Assets proposed by REIT!</p>
           </a>
-
-          <a
-            href="/contract"
-            className={styles.card}
-          >
+          <a href="/" className={styles.card} >
             <h2>Contract &rarr;</h2>
-            <p>
-              Establish contractual agreement with REC
-            </p>
+            <p> Establish contractual agreement with REC </p>
           </a>
         </div>
       </main>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Layout from '../components/Layout'
 import styles from '../styles/Rec.module.css'
 import axios from "axios"; // axios requests
+//import App from "./App.tsx";
 
 export interface IREC {
   rec: {
@@ -53,6 +54,7 @@ const handleClick = () => {
 }
 
   return (
+    
     <Layout>
     <div className={styles.AddRec}>
           <h1>Real Estate Company Information </h1>

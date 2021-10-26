@@ -1,8 +1,9 @@
 import Head from "next/head"; // HTML Head
-import Header from "./Header"; // Header component
-import React from "react";
+import Header from "./Header.js"; // Header component
+import React, { useState } from "react";
 
 export default function Layout({ children }, isProfile) {
+
 
   const head = () => (
     <div>
@@ -15,7 +16,9 @@ export default function Layout({ children }, isProfile) {
 
   return  (
     <React.Fragment>
-      {head()} <Header /> <div className="container pt-5 pb-2">{children}</div>
+      {head()}  
+      <Header />
+      <div className="container pt-5 pb-2">{children}</div>
     </React.Fragment> 
   )  
            
