@@ -1,5 +1,6 @@
 const state = () => ({
   LOGO: "/img/drem.png",
+  dremapi: "https://api.globdrem.com",
   algod: "https://algoexplorerapi.io",
   kmd: "",
   indexer: "https://algoexplorerapi.io/idx2",
@@ -16,6 +17,9 @@ const mutations = {
   setConfig(state, value) {
     if (value.LOGO) {
       state.LOGO = value.LOGO;
+    }
+    if (value.dremapi) {
+      state.dremapi = value.dremapi;
     }
     if (value.algod) {
       state.algod = value.algod;
@@ -94,7 +98,6 @@ const mutations = {
   },
   setNoRedirect(state) {
     state.noredirect = true;
-    console.log("state.noredirect", state.noredirect);
   },
 };
 const actions = {
@@ -116,7 +119,6 @@ const actions = {
   },
   async getConfig({ dispatch, commit }) {
     try {
-      console.log("getConfig");
       const data = await dispatch(
         "axios/get",
         {

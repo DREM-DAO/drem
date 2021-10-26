@@ -27,6 +27,7 @@ import Toast from "primevue/toast";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 import ToastService from "primevue/toastservice";
+import MultiSelect from "primevue/multiselect";
 import Dropdown from "primevue/dropdown";
 import Galleria from "primevue/galleria";
 import Badge from "primevue/badge";
@@ -74,6 +75,7 @@ myApp.component("AccordionTab", AccordionTab);
 myApp.component("Dropdown", Dropdown);
 myApp.component("Galleria", Galleria);
 myApp.component("Badge", Badge);
+myApp.component("MultiSelect", MultiSelect);
 myApp.directive("badge", BadgeDirective);
 
 myApp.config.globalProperties.$filters = {
