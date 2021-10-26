@@ -22,6 +22,7 @@ namespace DREM_API.BusinessController
 
         internal Task<IEnumerable<RECWithId>> GetAll()
         {
+            
             return repository.GetAllAsync();
         }
     }

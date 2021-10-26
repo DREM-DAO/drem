@@ -4,6 +4,24 @@
         <name>DREM-API</name>
     </assembly>
     <members>
+        <member name="T:DREM_API.Controllers.ProjectController">
+            <summary>
+            This controller returns version of the current api
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.ProjectController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ProjectBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="visitorRepository"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.ProjectController.Create(DREM_API.Model.REC)">
+            <summary>
+            Register real estate company
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.RECController">
             <summary>
             This controller returns version of the current api
@@ -51,6 +69,24 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:DREM_API.Controllers.ValueSetController">
+            <summary>
+            This controller returns version of the current api
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.ValueSetController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ValueSetBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="visitorRepository"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.ValueSetController.Set(System.String,System.String,System.String)">
+            <summary>
+            Register real estate company
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.VersionController">
             <summary>
             This controller returns version of the current api
@@ -69,6 +105,19 @@
             
             For development purposes it returns version of assembly, for production purposes it returns string build by pipeline which contains project information, pipeline build version, assembly version, and build date
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Extensions.User">
+            <summary>
+            User extensions
+            </summary>
+        </member>
+        <member name="M:DREM_API.Extensions.User.IsAdmin(System.Security.Claims.ClaimsPrincipal,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Returns true if user is in admin list
+            </summary>
+            <param name="user"></param>
+            <param name="configuration"></param>
             <returns></returns>
         </member>
         <member name="T:DREM_API.Model.ADBContext">
@@ -178,6 +227,12 @@
             Creates web
             </summary>
             <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.ProjectRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
             <returns></returns>
         </member>
         <member name="M:DREM_API.Repository.RECMsSQLRepository.GetAllAsync">

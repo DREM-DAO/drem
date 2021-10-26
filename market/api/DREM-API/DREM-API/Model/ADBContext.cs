@@ -93,10 +93,28 @@ namespace DREM_API.Model
 
                     e.ToTable("REC");
                 });
+            modelBuilder.Entity<ValueSet>(
+                e =>
+                {
+                    e.HasKey(c => new { c.Id });
+                    e.HasIndex(c => new { c.ItemCode });
+                    e.HasIndex(c => new { c.Language });
+                    e.HasIndex(c => new { c.ValueSetCode });
+                    e.ToTable("ValueSet");
+                });
+
+            modelBuilder.Entity<Model.DB.Project>(
+                e =>
+                {
+                    e.HasKey(c => new { c.Id });
+                    e.ToTable("Project");
+                });
 
 
         }
         public DbSet<RECWithId> RECs { get; set; }
+        public DbSet<Model.DB.Project> Projects { get; set; }
+        public DbSet<ValueSet> ValueSets { get; set; }
         internal void EnsureCreated()
         {
             try
