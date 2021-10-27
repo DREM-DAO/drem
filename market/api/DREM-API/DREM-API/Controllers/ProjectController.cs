@@ -40,12 +40,11 @@ namespace DREM_API.Controllers
         [HttpPost("Create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.RECWithId>> Create([FromBody] Model.REC rec)
+        public async Task<ActionResult<Model.DB.Project>> Create([FromBody] Model.Comm.ProjectBase project)
         {
             try
             {
-                throw new Exception("Not implemented yet");
-                //return Ok(await projectBusinessController.Register(rec));
+                return Ok(await projectBusinessController.Create(project));
             }
             catch (Exception exc)
             {

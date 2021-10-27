@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DREM_API.Model.DB
+namespace DREM_API.Model.Comm
 {
-    public class Project
+    public class ProjectBase
     {
-        public string Id { get; set; }
         public bool Top { get; set; }
         public decimal Lat { get; set; }
         public decimal Lng { get; set; }
@@ -20,8 +19,5 @@ namespace DREM_API.Model.DB
         public string Region { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public DateTimeOffset Created { get; set; }
-        public DateTimeOffset Updated { get; set; }
-
     }
 }
