@@ -1,4 +1,6 @@
-# Table of contents
+# Decentralized Real Estate Marketplace
+
+## General
 
 * [DREM](README.md)
 
