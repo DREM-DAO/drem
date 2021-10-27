@@ -63,7 +63,7 @@ namespace DREM_API.Controllers
         [HttpPost("DeleteSet/{valueSetCode}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> DeleteSet([FromQuery] string valueSetCode)
+        public async Task<ActionResult<int>> DeleteSet([FromRoute] string valueSetCode)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace DREM_API.Controllers
         [HttpPost("DeleteItem/{valueSetCode}/{itemCode}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> DeleteItem([FromQuery] string valueSetCode, [FromQuery] string itemCode)
+        public async Task<ActionResult<int>> DeleteItem([FromRoute] string valueSetCode, [FromRoute] string itemCode)
         {
             try
             {
