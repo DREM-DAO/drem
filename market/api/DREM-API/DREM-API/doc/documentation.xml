@@ -87,6 +87,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:DREM_API.Controllers.ValueSetController.GetByValueSetCode(System.String)">
+            <summary>
+            Get specific value set in dictionary form key->Text
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.VersionController">
             <summary>
             This controller returns version of the current api

@@ -3,7 +3,6 @@
     <div class="row row-cols-lg-3">
       <div class="col">
         <h1>{{ project.name }}</h1>
-        <div class="alert alert-warning">Project is in the TestNet phase</div>
         <Badge class="m-1"> 3 bedrooms </Badge>
         <Badge class="m-1"> 1 bathroom </Badge>
         <Badge class="m-1"> 924 sqft </Badge>
@@ -387,7 +386,7 @@
           </template>
         </Galleria>
       </div>
-      <div class="col">
+      <div class="col d-md-none d-lg-block">
         <LMap
           style="min-height: 50vh"
           :zoom="zoom"
@@ -498,7 +497,7 @@ export default {
         id: "2",
         address: "Prague",
         top: true,
-        asa: 37074699, //37074699, //21582668, 33698417,15322902,39247510,22847688
+        asa: 15322902, //37074699, //21582668, 33698417,15322902,39247510,22847688,21582668
         lat: 47.369450301672266,
         lng: 8.539875999999893,
         name: "Trust Square",

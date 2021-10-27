@@ -14,14 +14,13 @@ namespace DREM_API.Repository
             this.context = context;
         }
 
-        internal async Task<ValueSet> SetAsync(string valueSetCode, string itemCode, string itemValue)
+        internal async Task<ValueSet> SetAsync(string valueSetCode, string itemCode, string itemValue, string language)
         {
             ValueSet ret;
-            var lang = "en-US";
-            var first = context.ValueSets.FirstOrDefault(vs => vs.ValueSetCode == valueSetCode && vs.ItemCode == itemCode && vs.Language == lang);
+            var first = context.ValueSets.FirstOrDefault(vs => vs.ValueSetCode == valueSetCode && vs.ItemCode == itemCode && vs.Language == language);
             if (first == null)
             {
-                await context.ValueSets.AddAsync(ret = new ValueSet() { Id = Guid.NewGuid().ToString(), ItemCode = itemCode, ValueSetCode = valueSetCode, ItemValue = itemValue, Language = lang });
+                await context.ValueSets.AddAsync(ret = new ValueSet() { Id = Guid.NewGuid().ToString(), ItemCode = itemCode, ValueSetCode = valueSetCode, ItemValue = itemValue, Language = language });
                 await context.SaveChangesAsync();
             }
             else
@@ -31,6 +30,11 @@ namespace DREM_API.Repository
                 await context.SaveChangesAsync();
             }
             return ret;
+        }
+
+        internal IQueryable<ValueSet> Get(string valueSetCode, string language)
+        {
+            return context.ValueSets.Where(v => v.ValueSetCode == valueSetCode && v.Language == language);
         }
     }
 }

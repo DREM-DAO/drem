@@ -17,7 +17,13 @@ namespace DREM_API.BusinessController
 
         internal Task<ValueSet> SetAsync(string valueSetCode, string itemCode, string itemValue)
         {
-            return repository.SetAsync(valueSetCode, itemCode, itemValue);
+            return repository.SetAsync(valueSetCode, itemCode, itemValue, "en-US");
+        }
+
+        internal Dictionary<string,string> Get(string valueSetCode)
+        {
+            var list = repository.Get(valueSetCode, "en-US");
+            return list.ToDictionary(k=>k.ItemCode, k=>k.ItemValue);
         }
     }
 }

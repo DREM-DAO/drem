@@ -71,8 +71,13 @@ namespace DREM_API
 
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"doc/documentation.xml"));
             });
-            services.AddTransient<RECBusinessController, RECBusinessController>();
-            services.AddScoped<RECMsSQLRepository, RECMsSQLRepository>();
+            services.AddTransient<RECBusinessController>();
+            services.AddTransient<ProjectBusinessController>();
+            services.AddTransient<ValueSetBusinessController>();
+
+            services.AddScoped<RECMsSQLRepository>();
+            services.AddScoped<ProjectRepository>();
+            services.AddScoped<ValueSetRepository>();
 
             services.AddDbContext<Model.ADBContext>(options =>
             {

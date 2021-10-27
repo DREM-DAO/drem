@@ -43,12 +43,30 @@ namespace DREM_API.Controllers
         [HttpPost("Set")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<ValueSet>> Set([FromQuery] string valueSetCode, [FromQuery] string itemCode, [FromQuery] string itemValue )
+        public async Task<ActionResult<ValueSet>> Set([FromQuery] string valueSetCode, [FromQuery] string itemCode, [FromQuery] string itemValue)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
                 return Ok(await valueSetBusinessController.SetAsync(valueSetCode, itemCode, itemValue));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
+        /// Get specific value set in dictionary form key->Text
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Get/{valueSetCode}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Dictionary<string, string>>> GetByValueSetCode([FromRoute] string valueSetCode)
+        {
+            try
+            {
+                return Ok(valueSetBusinessController.Get(valueSetCode));
             }
             catch (Exception exc)
             {
