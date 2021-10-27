@@ -7,6 +7,13 @@ coverY: 0
 
 # DREM
 
+## General
+
+DREM is a decentralized, fully collateralized debt market that allows you to draw interest based loans against  real assets used as collateral in form of NFTs. Loans and interest rates are paid out in USDT (a USD pegged stable coin).
+
+DREM also represents market for investors who wants to diversity their portfolio risks and at the same time keeping liquid and tradable instrument.
+
+
 The purpose of this project is to create demo applications for the [SB Hackathon](https://sbhack21.devpost.com).
 
 ## Git organization
