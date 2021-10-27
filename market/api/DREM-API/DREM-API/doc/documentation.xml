@@ -87,6 +87,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:DREM_API.Controllers.ValueSetController.DeleteSet(System.String)">
+            <summary>
+            Removes value set
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ValueSetController.DeleteItem(System.String,System.String)">
+            <summary>
+            Removes value set item
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:DREM_API.Controllers.ValueSetController.GetByValueSetCode(System.String)">
             <summary>
             Get specific value set in dictionary form key->Text

@@ -32,6 +32,20 @@ namespace DREM_API.Repository
             return ret;
         }
 
+        internal async Task<int> DeleteSetAsync(string valueSetCode)
+        {
+            var toRemove = context.ValueSets.Where(i => i.ValueSetCode == valueSetCode).ToArray();
+            context.ValueSets.RemoveRange(toRemove);
+            return await context.SaveChangesAsync();
+        }
+
+        internal async Task<int> DeleteItemAsync(string valueSetCode, string itemCode)
+        {
+            var toRemove = context.ValueSets.Where(i => i.ValueSetCode == valueSetCode && i.ItemCode == itemCode).ToArray();
+            context.ValueSets.RemoveRange(toRemove);
+            return await context.SaveChangesAsync();
+        }
+
         internal IQueryable<string> ListCodes()
         {
             return context.ValueSets.Select(i => i.ValueSetCode).Distinct();

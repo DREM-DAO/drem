@@ -56,6 +56,46 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
+        /// Removes value set
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("DeleteSet/{valueSetCode}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<int>> DeleteSet([FromQuery] string valueSetCode)
+        {
+            try
+            {
+                if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
+                return Ok(await valueSetBusinessController.DeleteSetAsync(valueSetCode));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
+        /// Removes value set item
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("DeleteItem/{valueSetCode}/{itemCode}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<int>> DeleteItem([FromQuery] string valueSetCode, [FromQuery] string itemCode)
+        {
+            try
+            {
+                if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
+                return Ok(await valueSetBusinessController.DeleteItemAsync(valueSetCode, itemCode));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
         /// Get specific value set in dictionary form key->Text
         /// </summary>
         /// <returns></returns>

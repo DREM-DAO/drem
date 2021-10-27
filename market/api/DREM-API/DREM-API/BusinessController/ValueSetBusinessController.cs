@@ -30,5 +30,15 @@ namespace DREM_API.BusinessController
         {
             return repository.ListCodes();
         }
+
+        internal Task<int> DeleteSetAsync(string valueSetCode)
+        {
+            return repository.DeleteSetAsync(valueSetCode);
+        }
+
+        internal Task<int> DeleteItemAsync(string valueSetCode, string itemCode)
+        {
+            return repository.DeleteItemAsync(valueSetCode, itemCode);
+        }
     }
 }
