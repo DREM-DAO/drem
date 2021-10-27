@@ -30,6 +30,7 @@ import Donation from "@/pages/Donation.vue";
 import Success from "@/pages/Success.vue";
 import Map from "@/pages/Map.vue";
 import ProjectOverview from "@/pages/project/Overview.vue";
+import ValueSets from "@/pages/admin/ValueSets.vue";
 
 const routes = [
   {
@@ -46,6 +47,11 @@ const routes = [
     path: "/project/:projectId",
     name: "ProjectOverview",
     component: ProjectOverview,
+  },
+  {
+    path: "/admin/value-sets",
+    name: "ValueSets",
+    component: ValueSets,
   },
   {
     path: "/privacy-policy",
