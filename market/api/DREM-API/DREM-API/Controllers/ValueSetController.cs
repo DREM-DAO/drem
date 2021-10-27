@@ -43,12 +43,12 @@ namespace DREM_API.Controllers
         [HttpPost("Set")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<ValueSet>> Set([FromQuery] string valueSetCode, [FromQuery] string itemCode, [FromQuery] string itemValue)
+        public async Task<ActionResult<ValueSet>> Set([FromBody] Model.Comm.ValueSetBase valueSet)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await valueSetBusinessController.SetAsync(valueSetCode, itemCode, itemValue));
+                return Ok(await valueSetBusinessController.SetAsync(valueSet.ValueSetCode, valueSet.ItemCode, valueSet.ItemValue));
             }
             catch (Exception exc)
             {

@@ -81,7 +81,7 @@
             <param name="configuration"></param>
             <param name="visitorRepository"></param>
         </member>
-        <member name="M:DREM_API.Controllers.ValueSetController.Set(System.String,System.String,System.String)">
+        <member name="M:DREM_API.Controllers.ValueSetController.Set(DREM_API.Model.Comm.ValueSetBase)">
             <summary>
             Register real estate company
             </summary>
