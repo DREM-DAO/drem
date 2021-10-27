@@ -73,5 +73,23 @@ namespace DREM_API.Controllers
                 return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
             }
         }
+        /// <summary>
+        /// Get specific value set in dictionary form key->Text
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("List")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Dictionary<string, string>>> List()
+        {
+            try
+            {
+                return Ok(valueSetBusinessController.List());
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
     }
 }

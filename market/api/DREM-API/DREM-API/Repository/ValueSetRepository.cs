@@ -32,6 +32,11 @@ namespace DREM_API.Repository
             return ret;
         }
 
+        internal IQueryable<string> ListCodes()
+        {
+            return context.ValueSets.Select(i => i.ValueSetCode);
+        }
+
         internal IQueryable<ValueSet> Get(string valueSetCode, string language)
         {
             return context.ValueSets.Where(v => v.ValueSetCode == valueSetCode && v.Language == language);

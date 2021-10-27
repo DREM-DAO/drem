@@ -25,5 +25,10 @@ namespace DREM_API.BusinessController
             var list = repository.Get(valueSetCode, "en-US");
             return list.ToDictionary(k=>k.ItemCode, k=>k.ItemValue);
         }
+
+        internal IQueryable<string> List()
+        {
+            return repository.ListCodes();
+        }
     }
 }
