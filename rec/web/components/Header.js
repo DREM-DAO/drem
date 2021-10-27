@@ -1,5 +1,5 @@
 import Link from "next/link"; // Dynamic routing
-import { useState } from "react"; // State management
+import { useState, useEffect } from "react"; // State management
 import Button from "./Button";
 import { authAlgo } from "@containers/index"; // Global state
 import { useRouter } from "next/router"; // Router
@@ -9,6 +9,7 @@ import { useRouter } from "next/router"; // Router
 export default function Header() {
   const router = useRouter(); // Router navigation
   const [loading, setLoading] = useState(false); // Loading state
+  const [ myAlgoWallet, setMyAlgoWallet] = useState(null);
   const { address, authenticateAlgo, killSession } = authAlgo.useContainer(); // Global state
   
   const authenticateWithLoading = async () => {
@@ -22,6 +23,10 @@ export default function Header() {
      console.log('Disconnect');
      router.push("/");
   }
+
+   useEffect(() => {
+     //myAlgoWallet = Pipeline.init();
+   }, [] );
 
   return (
     <div>
@@ -56,25 +61,30 @@ export default function Header() {
           </Link>
          {
            address ? (
+            <>
             <div>
                 <Link href={`/CreateRec`}>
-                  <a className="headerMenu">Create REC</a>
-                </Link>
+                  <Button>Create REC</Button>
+                </Link> &nbsp;
                 <Link href={`/oppt`}>
-                  <a className="headerMenu">Opportunity</a>
-                </Link>
+                  <Button className="headerMenu">Opportunity</Button>
+                </Link> &nbsp;
                 <Link href={`/review`}>
-                  <a className="headerMenu">Review</a>
-                </Link>
+                  <Button className="headerMenu">Review</Button>
+                </Link> &nbsp;
                 <Link href={`/contract`}>
-                  <a className="headerMenu">Contract</a>
-                </Link>
-                <button className="headerMenu" onClick={disconnect}> 
+                  <Button className="headerMenu">Contract</Button>
+                </Link> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+                <Button onClick={disconnect}> 
                         {"Disconnect " + address.substr(0, 3) + "..." + address.slice(address.length - 3)}
-                </button>
+                </Button>
             </div>
+            <div>
+                {/* <AlgoAddress address={address}/> */}
+            </div>
+            </>
            )  :  (
-             <button className="headerMenu" onClick={authenticateWithLoading}> Connect</button>
+             <Button onClick={authenticateWithLoading}>Connect</Button>
            )
          }   
       </div>
