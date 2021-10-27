@@ -1,8 +1,8 @@
-# Decentralized Real Estate Marketplace
+# DREM
 
 ## General
 
-* [DREM](README.md)
+* [Decentralized Real Estate Marketplace](README.md)
 
 ## Marketplace
 
