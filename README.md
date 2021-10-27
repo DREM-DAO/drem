@@ -1,34 +1,69 @@
 ---
 description: Decentralized Real Estate Marketplace
-cover: >-
-  https://images.unsplash.com/photo-1632493961992-cda046d7dd31?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxOTcwMjR8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MzQzNzU5NTU&ixlib=rb-1.2.1&q=85
-coverY: 0
 ---
 
-# DREM
+# ❤ DREM Intro
 
-## General
+{% hint style="success" %}
+#### DREM is a decentralized, fully collateralized debt market that allows you to draw interest based loans against  real assets used as collateral in form of NFTs. Loans and interest rates are paid out in USDT (a USD pegged stable coin).
+{% endhint %}
 
-DREM is a decentralized, fully collateralized debt market that allows you to draw interest based loans against  real assets used as collateral in form of NFTs. Loans and interest rates are paid out in USDT (a USD pegged stable coin).
+>
+>
+> DREM also represents market for investors who wants to diversity their portfolio risks and at the same time keeping liquid and tradable instrument.
+>
+>
 
-DREM also represents market for investors who wants to diversity their portfolio risks and at the same time keeping liquid and tradable instrument.
 
 
-The purpose of this project is to create demo applications for the [SB Hackathon](https://sbhack21.devpost.com).
+## Getting Started
 
-## Git organization
+**Got 2 minutes?** Check out a video overview of our product:
 
-* dao folder is meant for the DAO files
-* dao/web is for web of the DAO
-* market folder is meant for the main marketplace files
-* market/web is the vue.js project directory
-* rec folder is meant for REC files
-* rec/web is meant for REC website
-* analysis is meant for all the uml source files
+{% embed url="https://www.loom.com/share/3bfa83acc9fd41b7b98b803ba9197d90" %}
 
-## Websites
 
-* [https://www.globdrem.com/](https://www.globdrem.com) - CICD of market web folder
-* [https://process.globdrem.com/](https://process.globdrem.com)  - CICD of processes folder
-* [https://docs.globdrem.com/](https://docs.globdrem.com) - CICD documentation from branch gitbook
-* [https://rec.globdrem.com/](https://rec.globdrem.com/) - CICD of REC oriented web - gathering real estate investment opportunities
+
+### General: Motivation behind DREM
+
+Look deeper into the rabbit hole
+
+{% content-ref url="general/motivation-behind-drem.md" %}
+[motivation-behind-drem.md](general/motivation-behind-drem.md)
+{% endcontent-ref %}
+
+{% content-ref url="general/key-benefits.md" %}
+[key-benefits.md](general/key-benefits.md)
+{% endcontent-ref %}
+
+{% content-ref url="general/how-can-i-use-drem.md" %}
+[how-can-i-use-drem.md](general/how-can-i-use-drem.md)
+{% endcontent-ref %}
+
+{% hint style="info" %}
+**Good to know:** your product docs aren't just a reference of all your features! use them to encourage folks to perform certain actions and discover the value in your product.
+{% endhint %}
+
+### Fundamentals: Dive a little deeper
+
+Learn the fundamentals of MyProduct to get a deeper understanding of our main features:
+
+{% content-ref url="fundamentals/projects.md" %}
+[projects.md](fundamentals/projects.md)
+{% endcontent-ref %}
+
+{% content-ref url="fundamentals/members.md" %}
+[members.md](fundamentals/members.md)
+{% endcontent-ref %}
+
+{% content-ref url="fundamentals/task-lists.md" %}
+[task-lists.md](fundamentals/task-lists.md)
+{% endcontent-ref %}
+
+{% content-ref url="fundamentals/tasks.md" %}
+[tasks.md](fundamentals/tasks.md)
+{% endcontent-ref %}
+
+{% hint style="info" %}
+**Good to know:** Splitting your product into fundamental concepts, objects, or areas can be a great way to let readers deep dive into the concepts that matter most to them. Combine guides with this approach to 'fundamentals' and you're well on your way to great documentation!
+{% endhint %}

@@ -1,24 +1,29 @@
-# DREM
+# Table of contents
+
+* [❤ DREM Intro](README.md)
 
 ## General
 
-* [What is DREM?](README.md)
-* [MOTIVATION behind DREM](general/motivation.md)
-* [KEY BENEFITS](general/benefits.md)
-* [How can I use DREM](general/use.md)
+* [Motivation Behind DREM](general/motivation-behind-drem.md)
+* [Key BENEFITS](general/key-benefits.md)
+* [How can I use DREM?](general/how-can-i-use-drem.md)
 
-## Marketplace
+## Fundamentals
 
-* [Overview](marketplace/page-1.md)
-* [Buy existing project](marketplace/page-2.md)
-* [Standing payment purchase](marketplace/standing-payment-purchase.md)
-* [Invest to new projects](marketplace/invest-to-new-projects.md)
+* [Projects](fundamentals/projects.md)
+* [Members](fundamentals/members.md)
+* [Task Lists](fundamentals/task-lists.md)
+* [Tasks](fundamentals/tasks.md)
 
-## Real estate company
+## Use Cases
 
-* [Overview](real-estate-company/overview.md)
+* [For Designers](use-cases/for-designers/README.md)
+  * [Figma Integration](use-cases/for-designers/figma-integration.md)
+* [For Engineers](use-cases/for-engineers/README.md)
+  * [GitHub Integration](use-cases/for-engineers/github-integration.md)
+* [For Support](use-cases/for-support/README.md)
+  * [Intercom Integration](use-cases/for-support/intercom-integration.md)
 
-## SB Hack docs
+## Extras
 
-* [Update this documentation](sb-hack-docs/update-this-documentation.md)
-* [Update process image](sb-hack-docs/update-process-image.md)
+* [Keyboard Shortcuts](extras/keyboard-shortcuts.md)
