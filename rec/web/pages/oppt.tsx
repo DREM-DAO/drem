@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Layout from '../components/Layout'
 import styles from '../styles/Rec.module.css'
+import Button from "../components/Button";
+import { useRouter } from "next/router"; // Router
 
 export interface IOpportuniuty {
   property: {
@@ -23,7 +25,7 @@ export interface IOpportuniuty {
 }
 
 function Opportunity() {
-
+      const router = useRouter(); // Router navigation
   const [input, setInput] = useState({assetDesc:"", assetValue:"", comments:"",recName:"",
           addressLine1: "", addressLine2: "", city: "",  state: "", country: "", postalcode: "",
           contactFirstName:"", contactLastName: "", contactMiddleName:"",
@@ -34,14 +36,18 @@ function Opportunity() {
         setInput({ ...input, [e.target.name]: e.target.value })
   }
 
-const handleClick = () => {
+  const handleSave = () => {
     if(!input.assetDesc || !input.assetValue ) return
 
     //setInput({...input, assetDesc: input.assetDesc });
 
     console.log("Input: " ,  {...input} )
 
-}
+  }
+  
+  const handleCancel = () => {
+      router.push("/");
+  }
 
   return (
     <Layout>
@@ -118,7 +124,11 @@ const handleClick = () => {
           <div className="line"></div>
         <br/>
         
-        <button onClick={handleClick} className={styles.RecBtn} > Save </button>
+        <div>
+            <Button onClick={handleSave} > Save </Button>  
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <Button onClick={handleCancel}> Cancel </Button>
+        </div>
      
     </div>
     </Layout>

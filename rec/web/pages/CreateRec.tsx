@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import Layout from '../components/Layout'
 import styles from '../styles/Rec.module.css'
 import axios from "axios"; // axios requests
-//import App from "./App.tsx";
+import { useRouter } from "next/router"; // Router
+import Button from "../components/Button";
+import Banner from "../components/Banner";
 
 export interface IREC {
   rec: {
@@ -14,7 +16,7 @@ export interface IREC {
       city: string
       state: string
       country: string
-      postalcode: string
+      postalCode: string
       contactFirstName: string
       contactLastName: string
       contactMiddleName?: string
@@ -25,8 +27,9 @@ export interface IREC {
 
 function CreateRec() {
 
+  const router = useRouter(); // Router navigation
   const [input, setInput] = useState({orgName:"", orgTaxID:"", orgPhoneNumber:"",
-          addressLine1: "", addressLine2: "", city: "",  state: "", country: "", postalcode: "",
+          addressLine1: "", addressLine2: "", city: "",  state: "", country: "", postalCode: "",
           contactFirstName:"", contactLastName: "", contactMiddleName:"",
           contactPhoneNumber: "", contactEmail: "",
       }) 
@@ -35,26 +38,24 @@ function CreateRec() {
         setInput({ ...input, [e.target.name]: e.target.value })
   }
 
-const handleClick = () => {
+const handleSave = async () => {
     if(!input.orgName || !input.orgTaxID ) return
 
     setInput({...input, orgName: input.orgName });
-
     console.log("Input: " ,  {...input} )
-
-//     await axios.post("/api/tweet", { id: '0'})
-//         .then( (response) => {
-//             console.log("Response:", response);
-//             const _data = response.data.data;
-//             _data.map( (row) => { 
-//               row.text == address ? setTwitterMention(true) : '';
-//             })
-//     });
+    
+    await axios.post("/api/recapi", { ...input})
+        .then( (response) => {
+            console.log("Response:", response);
+    });
 
 }
 
-  return (
-    
+const handleCancel = () => {
+      router.push("/");
+}
+
+return (
     <Layout>
     <div className={styles.AddRec}>
           <h1>Real Estate Company Information </h1>
@@ -93,7 +94,7 @@ const handleClick = () => {
                   name="country" value={input.country}  placeholder="country"  /> &nbsp;
             Postalcode:&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput} 
-                  name="postalcode" value={input.postalcode}  placeholder="postalcode"  />
+                  name="postalCode" value={input.postalCode}  placeholder="postalCode"  />
           </div>
 
           <hr/>
@@ -122,9 +123,16 @@ const handleClick = () => {
 
           <div className="line"></div>
         <br/>
+        <div>
+            <Button onClick={handleSave} > Save </Button>  
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <Button onClick={handleCancel}> Cancel </Button>
+        </div>
         
-        <button onClick={handleClick} className={styles.RecBtn} > Save </button>
-     
+        
+   
+        
+        
     </div>
     </Layout>
   );
