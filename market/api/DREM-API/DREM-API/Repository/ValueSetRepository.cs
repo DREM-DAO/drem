@@ -34,7 +34,7 @@ namespace DREM_API.Repository
 
         internal IQueryable<string> ListCodes()
         {
-            return context.ValueSets.Select(i => i.ValueSetCode);
+            return context.ValueSets.Select(i => i.ValueSetCode).Distinct();
         }
 
         internal IQueryable<ValueSet> Get(string valueSetCode, string language)
