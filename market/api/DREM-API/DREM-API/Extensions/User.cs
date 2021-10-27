@@ -23,7 +23,7 @@ namespace DREM_API.Extensions
             if (user == null || configuration == null) return false;
             var admins = configuration.GetSection("admins").Get<string[]>();
             var isAdmin = admins.FirstOrDefault(i => i == user.Identity.Name);
-            return string.IsNullOrEmpty(isAdmin);
+            return !string.IsNullOrEmpty(isAdmin);
         }
     }
 }
