@@ -145,6 +145,26 @@
             </summary>
             <param name="modelBuilder"></param>
         </member>
+        <member name="T:DREM_API.Model.Comm.UserInfo">
+            <summary>
+            Show user information
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.UserInfo.Address">
+            <summary>
+            Crypto address
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.UserInfo.IsAdmin">
+            <summary>
+            Is admin
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.UserInfo.KYCVerified">
+            <summary>
+            is KYC verified
+            </summary>
+        </member>
         <member name="P:DREM_API.Model.Version.InstanceIdentifier">
             <summary>
             Instance identifier. Every application runtime has its own guid. If 3 pods are launched in kubernetes, it is possible to identify instance by this identifier
