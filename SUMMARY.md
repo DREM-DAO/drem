@@ -2,7 +2,10 @@
 
 ## General
 
-* [Decentralized Real Estate Marketplace](README.md)
+* [What is DREM?](README.md)
+* [MOTIVATION behind DREM](general/motivation.md)
+* [KEY BENEFITS](general/benefits.md)
+* [How can I use DREM](general/use.md)
 
 ## Marketplace
 
