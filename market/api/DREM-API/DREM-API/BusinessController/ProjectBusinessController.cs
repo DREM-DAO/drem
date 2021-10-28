@@ -96,5 +96,12 @@ namespace DREM_API.BusinessController
             }
             return ret;
         }
+        internal Model.Comm.ProjectDetail GetDetailByUrlId(string urlId)
+        {
+            var ret = new ProjectDetail();
+            ret.Project = Convert(repository.GetProjectByUrlId(urlId));
+
+            return ret;
+        }
     }
 }

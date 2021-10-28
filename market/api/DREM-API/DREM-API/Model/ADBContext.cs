@@ -108,6 +108,7 @@ namespace DREM_API.Model
                 {
                     e.HasKey(c => new { c.Id });
                     e.HasIndex(c => new { c.ShowToPublic });
+                    e.HasIndex(c => new { c.UrlId }).IsUnique(true);
                     e.ToTable("Project");
                 });
 

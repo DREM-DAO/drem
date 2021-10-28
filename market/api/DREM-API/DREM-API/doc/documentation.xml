@@ -80,6 +80,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:DREM_API.Controllers.ProjectController.GetDetail(System.String)">
+            <summary>
+            List all publicly visible projects
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.RECController">
             <summary>
             This controller returns version of the current api
@@ -241,6 +247,161 @@
             List of value sets
             </summary>
         </member>
+        <member name="T:DREM_API.Model.Comm.BufferTransferBase">
+            <summary>
+            Buffer transfer transaction s
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.BufferTransferBase.Note">
+            <summary>
+            Transfer reason
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.BufferTransferBase.Amount">
+            <summary>
+            Tx amount
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.BufferTransferBase.Currency">
+            <summary>
+            Tx currency
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.BufferTransferBase.Time">
+            <summary>
+            Time
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.DailyPayoutBase">
+            <summary>
+            List of daily payouts
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.DailyPayoutBase.ProjectId">
+            <summary>
+            Project.Id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.DailyPayoutBase.TxId">
+            <summary>
+            Published in the blockchain under tx ids
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.DailyPayoutBase.AggregatedAmount">
+            <summary>
+            Amout 
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.DailyPayoutBase.Asset">
+            <summary>
+            Asset id, eg usdc mainnet algo asset
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.DailyPayoutBase.ReceiverParty">
+            <summary>
+            Investors / REC / DREM / Liquidity providers
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ImageMeta">
+            <summary>
+            Picture metadata for specific project
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMeta.ProjectId">
+            <summary>
+            Project.Id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMeta.Name">
+            <summary>
+            Name of the picture
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMeta.Description">
+            <summary>
+            Description of the picture
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMeta.DateOfPicture">
+            <summary>
+            Time when picture has been taken 
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMeta.Src">
+            <summary>
+            Full picture resolution
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMeta.Thumbnail">
+            <summary>
+            Small picture 
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Order">
+            <summary>
+            Hittable Bid or Offer in the escrow account
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AssetReceiveAmount">
+            <summary>
+            Amount of asset to be recieved
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AssetPayAmount">
+            <summary>
+            Amount of asset to be paid
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AssetReceiveId">
+            <summary>
+            Asset id to be received. If algo, than null
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AssetPayId">
+            <summary>
+            Asset id to be paid. If algo, than null
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AssetReceiveDecimals">
+            <summary>
+            Receive asset decimals
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AssetPayDecimals">
+            <summary>
+            Pay asset decimals
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.EscrowAddress">
+            <summary>
+            Address of the escrow account
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.OwnerAddress">
+            <summary>
+            Address of the market maker account
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.Round">
+            <summary>
+            Round when the order has been placed
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.Time">
+            <summary>
+            Time when order has been placed
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.AppId">
+            <summary>
+            App id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Order.Version">
+            <summary>
+            Version of the approval application
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.Comm.ProjectBase">
             <summary>
             Project to show on the main screen
@@ -331,6 +492,56 @@
             The project is publicly visible
             </summary>
         </member>
+        <member name="T:DREM_API.Model.Comm.ProjectDetail">
+            <summary>
+            Project details
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Project">
+            <summary>
+            Project info
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.DailyPayouts">
+            <summary>
+            List of daily payments to owners of asa
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Images">
+            <summary>
+            List of images of the estate
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.BufferTxs">
+            <summary>
+            List of images of the estate
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Shareholders">
+            <summary>
+            List of all shareholders
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Transfers">
+            <summary>
+            List of all asset transfers. If the trading in place through known escrow smart contracts, than it shows also underlying price
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Bids">
+            <summary>
+            List of all current bids on the escrow accounts
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Offers">
+            <summary>
+            List of all current offers on the escrow accounts
+            </summary> 
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectDetail.Votings">
+            <summary>
+            Votings - List of questions with public auditable results
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.Comm.ProjectWithId">
             <summary>
             Project with id
@@ -376,6 +587,52 @@
             city name
             </summary>
         </member>
+        <member name="T:DREM_API.Model.Comm.Shareholder">
+            <summary>
+            Shareholder
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Shareholder.Account">
+            <summary>
+            Account address
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Shareholder.Share">
+            <summary>
+            Share
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Transfer">
+            <summary>
+            List of all asa transfers, except of transfers to know escrow accounts meant for trading
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Transfer.FromAccount">
+            <summary>
+            From account
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Transfer.ToAccount">
+            <summary>
+            To account
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Transfer.Amount">
+            <summary>
+            Amount
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Transfer.Price">
+            <summary>
+            Price if can be detected from the escrow smart contract
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Transfer.Asset">
+            <summary>
+            If price uknown always null
+            If price known and underlying trading asset is algo, asset is null and price filled in, if stable coin then ASA id
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.Comm.UserInfo">
             <summary>
             Show user information
@@ -414,6 +671,71 @@
         <member name="P:DREM_API.Model.Comm.ValueSetBase.ItemValue">
             <summary>
             item value
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Voting.Voting">
+            <summary>
+            Public voting
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.Voting.Question">
+            <summary>
+            Question
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.Voting.Result">
+            <summary>
+            Result
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Voting.VotingQuestion">
+            <summary>
+            Vote Coin AMS0001 https://scholtz.github.io/AMS/AMS-0001/AMS-0001.html specs
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.TxId">
+            <summary>
+            Tx Id with the question
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Question">
+            <summary>
+            Question
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Duration">
+            <summary>
+            Duration
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Category">
+            <summary>
+            Category
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Options">
+            <summary>
+            Options
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Voting.VotingResult">
+            <summary>
+            Result
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingResult.TxId">
+            <summary>
+            Tx Id with the results
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingResult.Options">
+            <summary>
+            Results calculated with rule 1 share = 1 vote
             </summary>
         </member>
         <member name="T:DREM_API.Model.DB.Project">
@@ -664,6 +986,13 @@
             <summary>
             Return all real estate companies
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.ProjectRepository.GetProjectByUrlId(System.String)">
+            <summary>
+            Returns one project by urlid
+            </summary>
+            <param name="urlId"></param>
             <returns></returns>
         </member>
         <member name="T:DREM_API.Repository.RECRepository">

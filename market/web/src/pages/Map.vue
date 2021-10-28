@@ -108,12 +108,16 @@
                     class="mt-auto c-subtitle d-flex justify-content-between"
                   >
                     <span class="">
-                      IRR {{ $filters.formatPercent(place.rate, 4) }}
+                      IRR {{ $filters.formatPercent(place.irr, 4) }}
                     </span>
                     <span class="text-right">
                       Buy at
                       {{
-                        $filters.formatCurrency(220000, place.currencyName, 0)
+                        $filters.formatCurrency(
+                          place.evaluation,
+                          place.currencyName,
+                          0
+                        )
                       }}
                     </span>
                   </div>
@@ -164,7 +168,7 @@
                         {{ place.name }}
                       </div>
                       <div class="mt-auto c-subtitle p-1">
-                        Hot deal IRR {{ $filters.formatPercent(place.rate, 4) }}
+                        Hot deal IRR {{ $filters.formatPercent(place.irr, 4) }}
                       </div>
                     </div>
                   </div>
@@ -209,7 +213,7 @@
                         style="max-width: 150px"
                       />
                     </VLink>
-                    <p>Rate: {{ $filters.formatPercent(place.rate, 4) }}</p>
+                    <p>IRR: {{ $filters.formatPercent(place.irr, 4) }}</p>
 
                     <p v-if="place.asa">
                       <a
@@ -249,10 +253,16 @@
                   {{ place.time }}
                 </span>
                 <span v-else>
-                  IRR {{ $filters.formatPercent(place.rate, 4) }}
+                  IRR {{ $filters.formatPercent(place.irr, 4) }}
                 </span>
                 <span class="text-right">
-                  {{ $filters.formatCurrency(220000, place.currencyName, 0) }}
+                  {{
+                    $filters.formatCurrency(
+                      place.evaluation,
+                      place.currencyName,
+                      0
+                    )
+                  }}
                 </span>
               </div>
             </div>
@@ -497,7 +507,7 @@ export default {
   color: #eee;
   background: rgba(0, 0, 0, 0.2);
   text-shadow: 1px 1px 1px #000;
-  font-size: 1.8em;
+  font-size: 1.3em;
   font-weight: bold;
   text-decoration: none;
 }

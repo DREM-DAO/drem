@@ -84,5 +84,14 @@ namespace DREM_API.Repository
             context.Projects.AddRange(data);
             return context.SaveChanges();
         }
+        /// <summary>
+        /// Returns one project by urlid
+        /// </summary>
+        /// <param name="urlId"></param>
+        /// <returns></returns>
+        internal Model.DB.Project GetProjectByUrlId(string urlId)
+        {
+            return context.Projects.FirstOrDefault(p => p.UrlId == urlId);
+        }
     }
 }

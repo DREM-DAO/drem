@@ -132,5 +132,23 @@ namespace DREM_API.Controllers
                 return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
             }
         }
+        /// <summary>
+        /// List all publicly visible projects
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetDetail/{urlId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public ActionResult<Model.Comm.ProjectDetail> GetDetail([FromRoute] string urlId)
+        {
+            try
+            {
+                return Ok(projectBusinessController.GetDetailByUrlId(urlId));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
     }
 }
