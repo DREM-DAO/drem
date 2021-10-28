@@ -95,6 +95,7 @@ namespace DREM_API
             services.AddScoped<RECRepository>();
             services.AddScoped<ProjectRepository>();
             services.AddScoped<ValueSetRepository>();
+            services.AddScoped<OpportunityRepository>();
 
             services.AddDbContext<Model.ADBContext>(options =>
             {

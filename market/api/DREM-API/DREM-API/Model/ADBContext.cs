@@ -112,6 +112,13 @@ namespace DREM_API.Model
                     e.ToTable("Project");
                 });
 
+            modelBuilder.Entity<Model.DB.Opportunity>(
+                e =>
+                {
+                    e.HasKey(c => new { c.Id });
+                    e.ToTable("Opportunity");
+                });
+
 
         }
         /// <summary>
@@ -126,6 +133,10 @@ namespace DREM_API.Model
         /// List of value sets
         /// </summary>
         public DbSet<ValueSet> ValueSets { get; set; }
+        /// <summary>
+        /// List of value sets
+        /// </summary>
+        public DbSet<DB.Opportunity> Opportunities { get; set; }
         internal void EnsureCreated()
         {
             try

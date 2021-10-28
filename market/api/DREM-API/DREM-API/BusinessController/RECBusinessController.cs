@@ -1,4 +1,5 @@
 ﻿using DREM_API.Model;
+using DREM_API.Model.Comm;
 using DREM_API.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,19 @@ namespace DREM_API.BusinessController
     public class RECBusinessController
     {
         private readonly RECRepository repository;
+        private readonly OpportunityRepository opportunityRepository;
         /// <summary>
         /// RECBusinessController constructor
         /// </summary>
         /// <param name="repository"></param>
-        public RECBusinessController(RECRepository repository)
+        /// <param name="opportunityRepository"></param>
+        public RECBusinessController(
+            RECRepository repository,
+            OpportunityRepository opportunityRepository
+            )
         {
             this.repository = repository;
+            this.opportunityRepository = opportunityRepository;
         }
 
         internal Task<RECWithId> Register(REC rec)
@@ -29,8 +36,17 @@ namespace DREM_API.BusinessController
 
         internal Task<IEnumerable<RECWithId>> GetAll()
         {
-            
+
             return repository.GetAllAsync();
+        }
+
+        internal Task<Model.DB.Opportunity> CreateOpportunity(OpportunityBase opportunity)
+        {
+            return opportunityRepository.AddAsync(opportunity);
+        }
+        internal Task<IEnumerable<Model.DB.Opportunity>> GetAllOpportunitiesAsync()
+        {
+            return opportunityRepository.GetAllAsync();
         }
     }
 }

@@ -21,11 +21,12 @@
             REC Business Controller
             </summary>
         </member>
-        <member name="M:DREM_API.BusinessController.RECBusinessController.#ctor(DREM_API.Repository.RECRepository)">
+        <member name="M:DREM_API.BusinessController.RECBusinessController.#ctor(DREM_API.Repository.RECRepository,DREM_API.Repository.OpportunityRepository)">
             <summary>
             RECBusinessController constructor
             </summary>
             <param name="repository"></param>
+            <param name="opportunityRepository"></param>
         </member>
         <member name="T:DREM_API.BusinessController.ValueSetBusinessController">
             <summary>
@@ -101,6 +102,18 @@
         <member name="M:DREM_API.Controllers.RECController.Register(DREM_API.Model.REC)">
             <summary>
             Register real estate company
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.RECController.CreateOpportunity(DREM_API.Model.Comm.OpportunityBase)">
+            <summary>
+            Register real estate company
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.RECController.ListAllOpportunities">
+            <summary>
+            List All Opportunities registered from rec
             </summary>
             <returns></returns>
         </member>
@@ -247,6 +260,11 @@
             List of value sets
             </summary>
         </member>
+        <member name="P:DREM_API.Model.ADBContext.Opportunities">
+            <summary>
+            List of value sets
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.Comm.BufferTransferBase">
             <summary>
             Buffer transfer transaction s
@@ -335,6 +353,21 @@
         <member name="P:DREM_API.Model.Comm.ImageMeta.Thumbnail">
             <summary>
             Small picture 
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.OpportunityBase">
+            <summary>
+            Opportunty from REC to DREM
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.OpportunityWithId">
+            <summary>
+            Opportunity to be updated
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.OpportunityWithId.Id">
+            <summary>
+            Id
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.Order">
@@ -738,6 +771,21 @@
             Results calculated with rule 1 share = 1 vote
             </summary>
         </member>
+        <member name="T:DREM_API.Model.DB.Opportunity">
+            <summary>
+            DB model for opportunity
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Opportunity.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Opportunity.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.DB.Project">
             <summary>
             db model for project
@@ -970,6 +1018,44 @@
             </summary>
             <param name="args"></param>
             <returns></returns>
+        </member>
+        <member name="T:DREM_API.Repository.OpportunityRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.OpportunityRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.OpportunityRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.OpportunityRepository.AddAsync(DREM_API.Model.Comm.OpportunityBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.OpportunityRepository.UpdateAsync(DREM_API.Model.Comm.OpportunityWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.OpportunityRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
         </member>
         <member name="T:DREM_API.Repository.ProjectRepository">
             <summary>
