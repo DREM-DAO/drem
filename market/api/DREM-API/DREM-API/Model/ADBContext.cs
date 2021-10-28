@@ -113,8 +113,17 @@ namespace DREM_API.Model
 
 
         }
+        /// <summary>
+        /// List of real estate companies
+        /// </summary>
         public DbSet<RECWithId> RECs { get; set; }
+        /// <summary>
+        /// List of projects to shown on the main screen
+        /// </summary>
         public DbSet<Model.DB.Project> Projects { get; set; }
+        /// <summary>
+        /// List of value sets
+        /// </summary>
         public DbSet<ValueSet> ValueSets { get; set; }
         internal void EnsureCreated()
         {

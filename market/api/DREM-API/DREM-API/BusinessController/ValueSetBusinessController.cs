@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace DREM_API.BusinessController
 {
+    /// <summary>
+    /// ValueSet Business Controller
+    /// </summary>
     public class ValueSetBusinessController
     {
         private readonly ValueSetRepository repository;
+        /// <summary>
+        /// ValueSet Business Controller constructor
+        /// </summary>
+        /// <param name="repository"></param>
         public ValueSetBusinessController(ValueSetRepository repository)
         {
             this.repository = repository;

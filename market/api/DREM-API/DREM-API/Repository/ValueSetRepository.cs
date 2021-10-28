@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace DREM_API.Repository
 {
+    /// <summary>
+    /// Value set EF repository
+    /// </summary>
     public class ValueSetRepository
     {
         private readonly ADBContext context;
+        /// <summary>
+        /// value set repo constructor
+        /// </summary>
+        /// <param name="context"></param>
         public ValueSetRepository(ADBContext context)
         {
             this.context = context;
@@ -28,6 +35,17 @@ namespace DREM_API.Repository
                 first.ItemValue = itemValue;
                 context.Update(ret = first);
                 await context.SaveChangesAsync();
+            }
+            return ret;
+        }
+
+        internal Dictionary<string, Dictionary<string, string>> ListAll(string language)
+        {
+            var ret = new Dictionary<string, Dictionary<string, string>>();
+            foreach (var item in context.ValueSets.Where(vs => vs.Language == language))
+            {
+                if (!ret.ContainsKey(item.ValueSetCode)) ret[item.ValueSetCode] = new Dictionary<string, string>();
+                ret[item.ValueSetCode][item.ItemCode] = item.ItemValue;
             }
             return ret;
         }
@@ -54,6 +72,12 @@ namespace DREM_API.Repository
         internal IQueryable<ValueSet> Get(string valueSetCode, string language)
         {
             return context.ValueSets.Where(v => v.ValueSetCode == valueSetCode && v.Language == language);
+        }
+
+        internal int AddRange(List<ValueSet> data)
+        {
+            context.ValueSets.AddRange(data);
+            return context.SaveChanges();
         }
     }
 }

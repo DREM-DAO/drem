@@ -4,6 +4,40 @@
         <name>DREM-API</name>
     </assembly>
     <members>
+        <member name="T:DREM_API.BusinessController.ProjectBusinessController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.ProjectBusinessController.#ctor(DREM_API.Repository.ProjectRepository,DREM_API.Repository.ValueSetRepository)">
+            <summary>
+            Constructor business project controller
+            </summary>
+            <param name="repository"></param>
+            <param name="valueSetRepository"></param>
+        </member>
+        <member name="T:DREM_API.BusinessController.RECBusinessController">
+            <summary>
+            REC Business Controller
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.RECBusinessController.#ctor(DREM_API.Repository.RECRepository)">
+            <summary>
+            RECBusinessController constructor
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="T:DREM_API.BusinessController.ValueSetBusinessController">
+            <summary>
+            ValueSet Business Controller
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.ValueSetBusinessController.#ctor(DREM_API.Repository.ValueSetRepository)">
+            <summary>
+            ValueSet Business Controller constructor
+            </summary>
+            <param name="repository"></param>
+        </member>
         <member name="T:DREM_API.Controllers.ProjectController">
             <summary>
             This controller returns version of the current api
@@ -14,7 +48,7 @@
             Constructor
             </summary>
             <param name="configuration"></param>
-            <param name="visitorRepository"></param>
+            <param name="projectBusinessController"></param>
         </member>
         <member name="M:DREM_API.Controllers.ProjectController.Create(DREM_API.Model.Comm.ProjectBase)">
             <summary>
@@ -56,7 +90,7 @@
             Constructor
             </summary>
             <param name="configuration"></param>
-            <param name="visitorRepository"></param>
+            <param name="recBusinessController"></param>
         </member>
         <member name="M:DREM_API.Controllers.RECController.Register(DREM_API.Model.REC)">
             <summary>
@@ -103,7 +137,7 @@
             Constructor
             </summary>
             <param name="configuration"></param>
-            <param name="visitorRepository"></param>
+            <param name="valueSetBusinessController"></param>
         </member>
         <member name="M:DREM_API.Controllers.ValueSetController.Set(DREM_API.Model.Comm.ValueSetBase)">
             <summary>
@@ -145,7 +179,6 @@
             Constructor
             </summary>
             <param name="configuration"></param>
-            <param name="visitorRepository"></param>
         </member>
         <member name="M:DREM_API.Controllers.VersionController.Get">
             <summary>
@@ -193,6 +226,96 @@
             </summary>
             <param name="modelBuilder"></param>
         </member>
+        <member name="P:DREM_API.Model.ADBContext.RECs">
+            <summary>
+            List of real estate companies
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.Projects">
+            <summary>
+            List of projects to shown on the main screen
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.ValueSets">
+            <summary>
+            List of value sets
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ProjectBase">
+            <summary>
+            Project to show on the main screen
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.UrlId">
+            <summary>
+            url friendly name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.ASA">
+            <summary>
+            Underlying algorand standard asset
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Top">
+            <summary>
+            is top offer
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Lat">
+            <summary>
+            Lattitude
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Lng">
+            <summary>
+            Longtitude
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Name">
+            <summary>
+            Project name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.IRR">
+            <summary>
+            Interest rate return
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Image">
+            <summary>
+            Image
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Currency">
+            <summary>
+            Currency
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.PropertyType">
+            <summary>
+            property type value set
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.InvestmentType">
+            <summary>
+            investment type value set
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Region">
+            <summary>
+            region value set
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Country">
+            <summary>
+            country value set code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.City">
+            <summary>
+            city value set code
+            </summary>
+        </member>
         <member name="P:DREM_API.Model.Comm.ProjectBase.Countdown">
             <summary>
             When project hit this time, it should get canceled
@@ -201,6 +324,51 @@
         <member name="P:DREM_API.Model.Comm.ProjectBase.ShowToPublic">
             <summary>
             The project is publicly visible
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ProjectWithId">
+            <summary>
+            Project with id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithId.Id">
+            <summary>
+            Unique id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ProjectWithValueSets">
+            <summary>
+            Project with filled in value set names in specific language
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithValueSets.CurrencyName">
+            <summary>
+            Currency
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithValueSets.PropertyTypeName">
+            <summary>
+            Property type
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithValueSets.InvestmentTypeName">
+            <summary>
+            investment type
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithValueSets.RegionName">
+            <summary>
+            region name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithValueSets.CountryName">
+            <summary>
+            country name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectWithValueSets.CityName">
+            <summary>
+            city name
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.UserInfo">
@@ -221,6 +389,171 @@
         <member name="P:DREM_API.Model.Comm.UserInfo.KYCVerified">
             <summary>
             is KYC verified
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ValueSetBase">
+            <summary>
+            value set
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ValueSetBase.ValueSetCode">
+            <summary>
+            value set code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ValueSetBase.ItemCode">
+            <summary>
+            item code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ValueSetBase.ItemValue">
+            <summary>
+            item value
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.Project">
+            <summary>
+            db model for project
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Project.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Project.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.ValueSet">
+            <summary>
+            value set db model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ValueSet.Id">
+            <summary>
+            id 
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ValueSet.ValueSetCode">
+            <summary>
+            value set code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ValueSet.ItemCode">
+            <summary>
+            value set item code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ValueSet.ItemValue">
+            <summary>
+            localization text in specific language
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ValueSet.Language">
+            <summary>
+            language
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.REC">
+            <summary>
+            Real estate company base model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.OrgName">
+            <summary>
+            Org name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.OrgTaxID">
+            <summary>
+            Tax id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.OrgPhoneNumber">
+            <summary>
+            phone
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.AddressLine1">
+            <summary>
+            address
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.AddressLine2">
+            <summary>
+            Address line 2
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.City">
+            <summary>
+            city 
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.State">
+            <summary>
+            State
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.Country">
+            <summary>
+            country
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.PostalCode">
+            <summary>
+            postal code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.ContactFirstName">
+            <summary>
+            contact first name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.ContactLastName">
+            <summary>
+            contact last name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.ContactMiddleName">
+            <summary>
+            middle name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.ContactPhoneNumber">
+            <summary>
+            phone
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.REC.ContactEmail">
+            <summary>
+            email
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.RECWithId">
+            <summary>
+            Real estate company db model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECWithId.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECWithId.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECWithId.Updated">
+            <summary>
+            time updated
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Version">
+            <summary>
+            Version model
             </summary>
         </member>
         <member name="P:DREM_API.Model.Version.InstanceIdentifier">
@@ -291,8 +624,12 @@
             <param name="start"></param>
             <param name="dllVersion"></param>
             <param name="configuration"></param>
-            <param name="visitorRepository"></param>
             <returns></returns>
+        </member>
+        <member name="T:DREM_API.Program">
+            <summary>
+            Main app class
+            </summary>
         </member>
         <member name="M:DREM_API.Program.Main(System.String[])">
             <summary>
@@ -307,41 +644,76 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="T:DREM_API.Repository.ProjectRepository">
+            <summary>
+            project EF repository 
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.ProjectRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            constructor for project repository
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="M:DREM_API.Repository.ProjectRepository.GetAllAsync">
             <summary>
             Return all real estate companies
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Repository.RECMsSQLRepository.GetAllAsync">
+        <member name="T:DREM_API.Repository.RECRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.RECRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.RECRepository.GetAllAsync">
             <summary>
             Return all real estate companies
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Repository.RECMsSQLRepository.AddAsync(DREM_API.Model.REC)">
+        <member name="M:DREM_API.Repository.RECRepository.AddAsync(DREM_API.Model.REC)">
             <summary>
             Adds record to DB.
             </summary>
-            <typeparam name="T">Model from interest repository.</typeparam>
             <param name="entity">Entity, that will be added.</param>
             <returns>Id of newly created record.</returns>
         </member>
-        <member name="M:DREM_API.Repository.RECMsSQLRepository.UpdateAsync(DREM_API.Model.RECWithId)">
+        <member name="M:DREM_API.Repository.RECRepository.UpdateAsync(DREM_API.Model.RECWithId)">
             <summary>
             Adds record to DB.
             </summary>
-            <typeparam name="T">Model from interest repository.</typeparam>
             <param name="entity">Entity, that will be added.</param>
             <returns>Id of newly created record.</returns>
         </member>
-        <member name="M:DREM_API.Repository.RECMsSQLRepository.DeleteAsync(DREM_API.Model.RECWithId)">
+        <member name="M:DREM_API.Repository.RECRepository.DeleteAsync(DREM_API.Model.RECWithId)">
             <summary>
             Adds record to DB.
             </summary>
-            <typeparam name="T">Model from interest repository.</typeparam>
             <param name="entity">Entity, that will be added.</param>
             <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.ValueSetRepository">
+            <summary>
+            Value set EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.ValueSetRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            value set repo constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:DREM_API.Startup">
+            <summary>
+            Startup class
+            </summary>
         </member>
         <member name="F:DREM_API.Startup.InstanceId">
             <summary>
@@ -353,14 +725,58 @@
             Identifies specific run of the application
             </summary>
         </member>
+        <member name="F:DREM_API.Startup.logger">
+            <summary>
+            Nlog logger
+            </summary>
+        </member>
         <member name="F:DREM_API.Startup.AppExitCancellationTokenSource">
             <summary>
             App exit catch event
             </summary>
         </member>
+        <member name="P:DREM_API.Startup.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
         <member name="P:DREM_API.Startup.Args">
             <summary>
             Args for tasks processing
+            </summary>
+        </member>
+        <member name="M:DREM_API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:DREM_API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:DREM_API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,DREM_API.Model.ADBContext,DREM_API.Repository.ProjectRepository,DREM_API.Repository.RECRepository,DREM_API.Repository.ValueSetRepository)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="context"></param>
+            <param name="projectRepository"></param>
+            <param name="recRepository"></param>
+            <param name="valueSetRepository"></param>
+        </member>
+        <member name="M:DREM_API.Startup.Dispose(System.Boolean)">
+            <summary>
+            protected dispose
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:DREM_API.Startup.Dispose">
+            <summary>
+            Dispose
             </summary>
         </member>
     </members>

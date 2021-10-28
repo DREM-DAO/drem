@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace DREM_API.BusinessController
 {
+    /// <summary>
+    /// REC Business Controller
+    /// </summary>
     public class RECBusinessController
     {
-        private readonly RECMsSQLRepository repository;
-        public RECBusinessController(RECMsSQLRepository repository)
+        private readonly RECRepository repository;
+        /// <summary>
+        /// RECBusinessController constructor
+        /// </summary>
+        /// <param name="repository"></param>
+        public RECBusinessController(RECRepository repository)
         {
             this.repository = repository;
         }

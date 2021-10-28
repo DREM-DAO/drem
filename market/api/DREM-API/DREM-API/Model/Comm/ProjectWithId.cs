@@ -5,8 +5,14 @@ using System.Threading.Tasks;
 
 namespace DREM_API.Model.Comm
 {
+    /// <summary>
+    /// Project with id
+    /// </summary>
     public class ProjectWithId : ProjectBase
     {
+        /// <summary>
+        /// Unique id
+        /// </summary>
         public string Id { get; set; }
     }
 }

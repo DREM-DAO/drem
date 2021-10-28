@@ -25,7 +25,7 @@ namespace DREM_API.Controllers
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="visitorRepository"></param>
+        /// <param name="projectBusinessController"></param>
         public ProjectController(
             IConfiguration configuration,
             ProjectBusinessController projectBusinessController
@@ -121,7 +121,7 @@ namespace DREM_API.Controllers
         [HttpGet("List")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.DB.Project>> List()
+        public ActionResult<IEnumerable<Model.Comm.ProjectWithValueSets>> List()
         {
             try
             {

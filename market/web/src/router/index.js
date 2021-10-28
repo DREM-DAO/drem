@@ -31,6 +31,7 @@ import Success from "@/pages/Success.vue";
 import Map from "@/pages/Map.vue";
 import ProjectOverview from "@/pages/project/Overview.vue";
 import ValueSets from "@/pages/admin/ValueSets.vue";
+import AdminProjects from "@/pages/admin/Projects.vue";
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
     path: "/project/:projectId",
     name: "ProjectOverview",
     component: ProjectOverview,
+  },
+  {
+    path: "/admin/projects",
+    name: "AdminProjects",
+    component: AdminProjects,
   },
   {
     path: "/admin/value-sets",

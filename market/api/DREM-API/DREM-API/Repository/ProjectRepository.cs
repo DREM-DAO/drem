@@ -10,10 +10,17 @@ using System.Threading.Tasks;
 
 namespace DREM_API.Repository
 {
+    /// <summary>
+    /// project EF repository 
+    /// </summary>
     public class ProjectRepository
     {
         private readonly ADBContext context;
         private readonly Mapper mapper;
+        /// <summary>
+        /// constructor for project repository
+        /// </summary>
+        /// <param name="context"></param>
         public ProjectRepository(ADBContext context)
         {
             this.context = context;
@@ -72,5 +79,10 @@ namespace DREM_API.Repository
             return await context.Projects.ToListAsync();
         }
 
+        internal int AddRange(List<Project> data)
+        {
+            context.Projects.AddRange(data);
+            return context.SaveChanges();
+        }
     }
 }

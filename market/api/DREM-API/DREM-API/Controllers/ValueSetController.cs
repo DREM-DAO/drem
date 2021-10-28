@@ -26,7 +26,7 @@ namespace DREM_API.Controllers
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="visitorRepository"></param>
+        /// <param name="valueSetBusinessController"></param>
         public ValueSetController(
             IConfiguration configuration,
             ValueSetBusinessController valueSetBusinessController
@@ -102,7 +102,7 @@ namespace DREM_API.Controllers
         [HttpGet("Get/{valueSetCode}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Dictionary<string, string>>> GetByValueSetCode([FromRoute] string valueSetCode)
+        public ActionResult<Dictionary<string, string>> GetByValueSetCode([FromRoute] string valueSetCode)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace DREM_API.Controllers
         [HttpGet("List")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Dictionary<string, string>>> List()
+        public ActionResult<Dictionary<string, string>> List()
         {
             try
             {

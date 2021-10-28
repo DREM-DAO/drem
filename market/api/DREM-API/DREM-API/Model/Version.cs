@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace DREM_API.Model
 {
+    /// <summary>
+    /// Version model
+    /// </summary>
     public class Version
     {
         /// <summary>
-     /// Instance identifier. Every application runtime has its own guid. If 3 pods are launched in kubernetes, it is possible to identify instance by this identifier
-     /// </summary>
+        /// Instance identifier. Every application runtime has its own guid. If 3 pods are launched in kubernetes, it is possible to identify instance by this identifier
+        /// </summary>
         public string InstanceIdentifier { get; set; }
         /// <summary>
         /// Last time when instance has been reset
@@ -65,9 +68,8 @@ namespace DREM_API.Model
         /// <param name="start"></param>
         /// <param name="dllVersion"></param>
         /// <param name="configuration"></param>
-        /// <param name="visitorRepository"></param>
         /// <returns></returns>
-        public async static Task<Version> GetVersion(string instanceId, DateTimeOffset start, string dllVersion, IConfiguration configuration)
+        public static Version GetVersion(string instanceId, DateTimeOffset start, string dllVersion, IConfiguration configuration)
         {
             if (string.IsNullOrEmpty(instanceId))
             {
@@ -117,5 +119,5 @@ namespace DREM_API.Model
 
             return ret;
         }
-}
+    }
 }

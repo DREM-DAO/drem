@@ -21,7 +21,10 @@ using System.Threading.Tasks;
 
 namespace DREM_API
 {
-    public class Startup
+    /// <summary>
+    /// Startup class
+    /// </summary>
+    public class Startup : IDisposable
     {
         /// <summary>
         /// Identifies specific run of the application.
@@ -32,21 +35,35 @@ namespace DREM_API
         /// </summary>
         public static readonly DateTimeOffset Started = DateTimeOffset.Now;
         /// <summary>
+        /// Nlog logger
+        /// </summary>
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        /// <summary>
         /// App exit catch event
         /// </summary>
         public static readonly CancellationTokenSource AppExitCancellationTokenSource = new CancellationTokenSource();
         /// <summary>
+        /// Configuration
+        /// </summary>
+        public IConfiguration Configuration { get; }
+        private bool disposedValue;
+
+        /// <summary>
         /// Args for tasks processing
         /// </summary>
         public static string[] Args { get; internal set; }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(
             IServiceCollection services)
         {
@@ -75,7 +92,7 @@ namespace DREM_API
             services.AddTransient<ProjectBusinessController>();
             services.AddTransient<ValueSetBusinessController>();
 
-            services.AddScoped<RECMsSQLRepository>();
+            services.AddScoped<RECRepository>();
             services.AddScoped<ProjectRepository>();
             services.AddScoped<ValueSetRepository>();
 
@@ -111,13 +128,25 @@ namespace DREM_API
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="context"></param>
+        /// <param name="projectRepository"></param>
+        /// <param name="recRepository"></param>
+        /// <param name="valueSetRepository"></param>
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
-            Model.ADBContext context
+            Model.ADBContext context,
+            Repository.ProjectRepository projectRepository,
+            Repository.RECRepository recRepository,
+            Repository.ValueSetRepository valueSetRepository
             )
         {
+            logger.Info($"App start {InstanceId}");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -139,6 +168,71 @@ namespace DREM_API
             {
                 endpoints.MapControllers();
             });
+            var mockFolder = Configuration["MockDataFolder"];
+            if (!string.IsNullOrEmpty(mockFolder))
+            {
+                var file = $"{mockFolder}/valueset.json";
+                if (File.Exists(file))
+                {
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Model.ValueSet>>(File.ReadAllText(file));
+                    valueSetRepository.AddRange(data);
+                }
+                file = $"{mockFolder}/projects.json";
+                if (File.Exists(file))
+                {
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Model.DB.Project>>(File.ReadAllText(file));
+                    projectRepository.AddRange(data);
+                }
+                file = $"{mockFolder}/rec.json";
+                if (File.Exists(file))
+                {
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Model.RECWithId>>(File.ReadAllText(file));
+                    recRepository.AddRange(data);
+                }
+            }
+
+            GC.Collect();
+            try
+            {
+                if (Directory.Exists("/app"))
+                {
+                    System.IO.File.WriteAllText("/app/ready.txt", DateTimeOffset.Now.ToString("o"));
+                }
+                else
+                {
+                    logger.Info("/app does not exists");
+                }
+            }
+            catch (Exception exc)
+            {
+                logger.Error(exc.Message);
+            }
+            logger.Info($"Application has been started {InstanceId}");
+        }
+        /// <summary>
+        /// protected dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    AppExitCancellationTokenSource?.Cancel();
+                    AppExitCancellationTokenSource?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

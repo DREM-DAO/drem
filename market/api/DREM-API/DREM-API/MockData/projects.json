@@ -1,0 +1,19 @@
+﻿[
+  {
+    "id": "1",
+    "urlId": "sk-app-123",
+    "city": "bratislava",
+    "currency": "eur",
+    "image": "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
+    "investmentType": "live",
+    "lat": 50,
+    "lng": -71,
+    "name": "Canada Wood",
+    "propertyType": "appartment",
+    "rate": 0.0205,
+    "region": "eu",
+    "state": "sk",
+    "top": false,
+    "showToPublic": true
+  }
+]

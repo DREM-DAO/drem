@@ -24,7 +24,7 @@ namespace DREM_API.Controllers
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="visitorRepository"></param>
+        /// <param name="recBusinessController"></param>
         public RECController(
             IConfiguration configuration,
             RECBusinessController recBusinessController
