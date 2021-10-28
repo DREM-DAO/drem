@@ -1,4 +1,5 @@
 ﻿using DREM_API.Model;
+using DREM_API.Model.Comm;
 using DREM_API.Model.DB;
 using DREM_API.Repository;
 using System;
@@ -16,9 +17,28 @@ namespace DREM_API.BusinessController
             this.repository = repository;
         }
 
-        internal Task<Model.DB.Project> Create(Model.Comm.ProjectBase project)
+        internal Task<Model.DB.Project> CreateAsync(Model.Comm.ProjectBase project)
         {
-            return repository.Create(project);
+            return repository.CreateAsync(project);
+        }
+
+        internal Task<Model.DB.Project> UpdateAsync(ProjectWithId project)
+        {
+            return repository.UpdateAsync(project);
+        }
+
+        internal Task<int> DeleteAsync(string id)
+        {
+            return repository.DeleteAsync(id);
+        }
+
+        internal IQueryable<Model.DB.Project> ListAll()
+        {
+            return repository.ListAll();
+        }
+        internal IQueryable<Model.DB.Project> ListAllPublic()
+        {
+            return repository.ListAllPublic();
         }
     }
 }

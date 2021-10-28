@@ -18,7 +18,31 @@
         </member>
         <member name="M:DREM_API.Controllers.ProjectController.Create(DREM_API.Model.Comm.ProjectBase)">
             <summary>
-            Register real estate company
+            Create project
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ProjectController.Update(DREM_API.Model.Comm.ProjectWithId)">
+            <summary>
+            Update project
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ProjectController.Delete(System.String)">
+            <summary>
+            Delete project
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ProjectController.ListAll">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ProjectController.List">
+            <summary>
+            List all publicly visible projects
             </summary>
             <returns></returns>
         </member>
@@ -168,6 +192,16 @@
             DB Schema
             </summary>
             <param name="modelBuilder"></param>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Countdown">
+            <summary>
+            When project hit this time, it should get canceled
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.ShowToPublic">
+            <summary>
+            The project is publicly visible
+            </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.UserInfo">
             <summary>

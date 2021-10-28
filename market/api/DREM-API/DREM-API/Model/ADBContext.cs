@@ -107,6 +107,7 @@ namespace DREM_API.Model
                 e =>
                 {
                     e.HasKey(c => new { c.Id });
+                    e.HasIndex(c => new { c.ShowToPublic });
                     e.ToTable("Project");
                 });
 
