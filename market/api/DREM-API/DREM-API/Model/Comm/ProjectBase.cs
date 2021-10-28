@@ -43,6 +43,10 @@ namespace DREM_API.Model.Comm
         /// </summary>
         public string Image { get; set; }
         /// <summary>
+        /// Current evaluation
+        /// </summary>
+        public decimal Evaluation { get; set; }
+        /// <summary>
         /// Currency
         /// </summary>
         public string Currency { get; set; }

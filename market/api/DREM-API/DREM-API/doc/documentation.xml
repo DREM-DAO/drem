@@ -286,6 +286,11 @@
             Image
             </summary>
         </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Evaluation">
+            <summary>
+            Current evaluation
+            </summary>
+        </member>
         <member name="P:DREM_API.Model.Comm.ProjectBase.Currency">
             <summary>
             Currency

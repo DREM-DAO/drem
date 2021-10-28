@@ -63,6 +63,13 @@
     "Language": "en-US"
   },
   {
+    "Id": "czk",
+    "ValueSetCode": "currency",
+    "ItemCode": "czk",
+    "ItemValue": "CZK",
+    "Language": "en-US"
+  },
+  {
     "Id": "bond",
     "ValueSetCode": "investmentType",
     "ItemCode": "bond",
