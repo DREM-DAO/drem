@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace DREM_API
 {
+    /// <summary>
+    /// Main app class
+    /// </summary>
     public class Program
     {
         /// <summary>

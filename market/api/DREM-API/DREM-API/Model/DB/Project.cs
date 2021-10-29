@@ -5,21 +5,18 @@ using System.Threading.Tasks;
 
 namespace DREM_API.Model.DB
 {
-    public class Project
+    /// <summary>
+    /// db model for project
+    /// </summary>
+    public class Project : Comm.ProjectWithId
     {
-        public string Id { get; set; }
-        public bool Top { get; set; }
-        public decimal Lat { get; set; }
-        public decimal Lng { get; set; }
-        public string Name { get; set; }
-        public decimal IRR { get; set; }
-        public string Image { get; set; }
-        public string Currency { get; set; }
-        public string PropertyType { get; set; }
-        public string InvestmentType { get; set; }
-        public string Region { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
-
+        /// <summary>
+        /// time created
+        /// </summary>
+        public DateTimeOffset Created { get; set; }
+        /// <summary>
+        /// time of last update
+        /// </summary>
+        public DateTimeOffset Updated { get; set; }
     }
 }

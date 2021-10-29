@@ -20,7 +20,6 @@ namespace DREM_API.Controllers
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="visitorRepository"></param>
         public VersionController(IConfiguration configuration)
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -34,11 +33,11 @@ namespace DREM_API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.Version>> Get()
+        public ActionResult<Model.Version> Get()
         {
             try
             {
-                var ret = await Model.Version.GetVersion(
+                var ret = Model.Version.GetVersion(
                     Startup.InstanceId,
                     Startup.Started,
                     GetType().Assembly.GetName().Version.ToString(),

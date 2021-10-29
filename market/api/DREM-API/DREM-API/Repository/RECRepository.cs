@@ -8,13 +8,20 @@ using System.Threading.Tasks;
 
 namespace DREM_API.Repository
 {
-    public class RECMsSQLRepository
+    /// <summary>
+    /// Real estate companies EF repository
+    /// </summary>
+    public class RECRepository
     {
-        private readonly ADBContext _context;
+        private readonly ADBContext context;
         private readonly Mapper mapper;
-        public RECMsSQLRepository(ADBContext context)
+        /// <summary>
+        /// rec repository constructor
+        /// </summary>
+        /// <param name="context"></param>
+        public RECRepository(ADBContext context)
         {
-            this._context = context;
+            this.context = context;
 
             mapper = new Mapper(new MapperConfiguration(cnf =>
             {
@@ -27,51 +34,53 @@ namespace DREM_API.Repository
         /// <returns></returns>
         internal async Task<IEnumerable<RECWithId>> GetAllAsync()
         {
-            return await _context.RECs.ToListAsync();
+            return await context.RECs.ToListAsync();
         }
 
         /// <summary>
         /// Adds record to DB.
         /// </summary>
-        /// <typeparam name="T">Model from interest repository.</typeparam>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<RECWithId> AddAsync(Model.REC entity) 
+        public async Task<RECWithId> AddAsync(Model.REC entity)
         {
 
             var ret = mapper.Map<Model.RECWithId>(entity);
             ret.Id = Guid.NewGuid().ToString();
             ret.Created = DateTimeOffset.UtcNow;
             ret.Updated = DateTimeOffset.UtcNow;
-            var result = _context.Add(ret);
-            await _context.SaveChangesAsync();
+            var result = context.Add(ret);
+            await context.SaveChangesAsync();
             return ret;
         }
         /// <summary>
         /// Adds record to DB.
         /// </summary>
-        /// <typeparam name="T">Model from interest repository.</typeparam>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
         public async Task<RECWithId> UpdateAsync(Model.RECWithId entity)
         {
-            var old = await _context.FindAsync<RECWithId>(entity.Id);
+            var old = await context.FindAsync<RECWithId>(entity.Id);
             entity.Created = old.Created;
-            var result = _context.Update(entity);
-            await _context.SaveChangesAsync();
+            var result = context.Update(entity);
+            await context.SaveChangesAsync();
             return entity;
         }
         /// <summary>
         /// Adds record to DB.
         /// </summary>
-        /// <typeparam name="T">Model from interest repository.</typeparam>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
         public async Task<bool> DeleteAsync(Model.RECWithId entity)
         {
-            _ = _context.Remove(entity);
-            await _context.SaveChangesAsync();
+            _ = context.Remove(entity);
+            await context.SaveChangesAsync();
             return true;
+        }
+        internal int AddRange(List<RECWithId> data)
+        {
+            context.RECs.AddRange(data);
+            return context.SaveChanges();
         }
     }
 }

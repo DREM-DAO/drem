@@ -39,8 +39,6 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Model\Comm\" />
-  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -21,7 +21,9 @@ namespace DREM_API.Extensions
         public static bool IsAdmin(this ClaimsPrincipal user, IConfiguration configuration)
         {
             if (user == null || configuration == null) return false;
-            return string.IsNullOrEmpty(configuration.GetSection("admins").AsEnumerable().FirstOrDefault(i => i.Value == user.Identity.Name).Value);
+            var admins = configuration.GetSection("admins").Get<string[]>();
+            var isAdmin = admins.FirstOrDefault(i => i == user.Identity.Name);
+            return !string.IsNullOrEmpty(isAdmin);
         }
     }
 }

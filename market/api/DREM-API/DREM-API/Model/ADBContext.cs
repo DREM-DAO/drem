@@ -107,14 +107,36 @@ namespace DREM_API.Model
                 e =>
                 {
                     e.HasKey(c => new { c.Id });
+                    e.HasIndex(c => new { c.ShowToPublic });
+                    e.HasIndex(c => new { c.UrlId }).IsUnique(true);
                     e.ToTable("Project");
+                });
+
+            modelBuilder.Entity<Model.DB.Opportunity>(
+                e =>
+                {
+                    e.HasKey(c => new { c.Id });
+                    e.ToTable("Opportunity");
                 });
 
 
         }
+        /// <summary>
+        /// List of real estate companies
+        /// </summary>
         public DbSet<RECWithId> RECs { get; set; }
+        /// <summary>
+        /// List of projects to shown on the main screen
+        /// </summary>
         public DbSet<Model.DB.Project> Projects { get; set; }
+        /// <summary>
+        /// List of value sets
+        /// </summary>
         public DbSet<ValueSet> ValueSets { get; set; }
+        /// <summary>
+        /// List of value sets
+        /// </summary>
+        public DbSet<DB.Opportunity> Opportunities { get; set; }
         internal void EnsureCreated()
         {
             try

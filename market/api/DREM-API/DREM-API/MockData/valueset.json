@@ -1,0 +1,177 @@
+﻿[
+  {
+    "Id": "house",
+    "ValueSetCode": "propertyType",
+    "ItemCode": "house",
+    "ItemValue": "House",
+    "Language": "en-US"
+  },
+  {
+    "Id": "appartment",
+    "ValueSetCode": "propertyType",
+    "ItemCode": "appartment",
+    "ItemValue": "Appartment",
+    "Language": "en-US"
+  },
+  {
+    "Id": "commercial",
+    "ValueSetCode": "propertyType",
+    "ItemCode": "commercial",
+    "ItemValue": "Commercial property",
+    "Language": "en-US"
+  },
+  {
+    "Id": "hotel",
+    "ValueSetCode": "propertyType",
+    "ItemCode": "hotel",
+    "ItemValue": "Hotel",
+    "Language": "en-US"
+  },
+  {
+    "Id": "aggriculture",
+    "ValueSetCode": "propertyType",
+    "ItemCode": "aggriculture",
+    "ItemValue": "Aggriculture",
+    "Language": "en-US"
+  },
+  {
+    "Id": "garage",
+    "ValueSetCode": "propertyType",
+    "ItemCode": "garage",
+    "ItemValue": "Garage",
+    "Language": "en-US"
+  },
+  {
+    "Id": "eur",
+    "ValueSetCode": "currency",
+    "ItemCode": "eur",
+    "ItemValue": "EUR",
+    "Language": "en-US"
+  },
+  {
+    "Id": "usd",
+    "ValueSetCode": "currency",
+    "ItemCode": "usd",
+    "ItemValue": "USD",
+    "Language": "en-US"
+  },
+  {
+    "Id": "chf",
+    "ValueSetCode": "currency",
+    "ItemCode": "chf",
+    "ItemValue": "CHF",
+    "Language": "en-US"
+  },
+  {
+    "Id": "czk",
+    "ValueSetCode": "currency",
+    "ItemCode": "czk",
+    "ItemValue": "CZK",
+    "Language": "en-US"
+  },
+  {
+    "Id": "bond",
+    "ValueSetCode": "investmentType",
+    "ItemCode": "bond",
+    "ItemValue": "Bond",
+    "Language": "en-US"
+  },
+  {
+    "Id": "live",
+    "ValueSetCode": "investmentType",
+    "ItemCode": "live",
+    "ItemValue": "Live real estate project",
+    "Language": "en-US"
+  },
+  {
+    "Id": "ipo",
+    "ValueSetCode": "investmentType",
+    "ItemCode": "ipo",
+    "ItemValue": "Initial project offering",
+    "Language": "en-US"
+  },
+  {
+    "Id": "ch",
+    "ValueSetCode": "country",
+    "ItemCode": "ch",
+    "ItemValue": "Switzerland",
+    "Language": "en-US"
+  },
+  {
+    "Id": "sk",
+    "ValueSetCode": "country",
+    "ItemCode": "sk",
+    "ItemValue": "Slovakia",
+    "Language": "en-US"
+  },
+  {
+    "Id": "cz",
+    "ValueSetCode": "country",
+    "ItemCode": "cz",
+    "ItemValue": "Czech Republic",
+    "Language": "en-US"
+  },
+  {
+    "Id": "tx",
+    "ValueSetCode": "country",
+    "ItemCode": "tx",
+    "ItemValue": "Texas",
+    "Language": "en-US"
+  },
+  {
+    "Id": "ny",
+    "ValueSetCode": "country",
+    "ItemCode": "ny",
+    "ItemValue": "New York",
+    "Language": "en-US"
+  },
+  {
+    "Id": "fl",
+    "ValueSetCode": "country",
+    "ItemCode": "fl",
+    "ItemValue": "Florida",
+    "Language": "en-US"
+  },
+  {
+    "Id": "usa",
+    "ValueSetCode": "region",
+    "ItemCode": "usa",
+    "ItemValue": "USA",
+    "Language": "en-US"
+  },
+  {
+    "Id": "eu",
+    "ValueSetCode": "region",
+    "ItemCode": "eu",
+    "ItemValue": "EU",
+    "Language": "en-US"
+  },
+  {
+    "Id": "new-york",
+    "ValueSetCode": "city",
+    "ItemCode": "new-york",
+    "ItemValue": "New York",
+    "Language": "en-US"
+  },
+  {
+    "Id": "bratislava",
+    "ValueSetCode": "city",
+    "ItemCode": "bratislava",
+    "ItemValue": "Bratislava",
+    "Language": "en-US"
+  },
+  {
+    "Id": "prague",
+    "ValueSetCode": "city",
+    "ItemCode": "prague",
+    "ItemValue": "Prague",
+    "Language": "en-US"
+  },
+  {
+    "Id": "zurich",
+    "ValueSetCode": "city",
+    "ItemCode": "zurich",
+    "ItemValue": "Zürich",
+    "Language": "en-US"
+  }
+]

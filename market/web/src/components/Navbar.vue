@@ -42,6 +42,31 @@
           <li class="nav-item active">
             <a class="nav-link" href="https://docs.globdrem.com">Docs</a>
           </li>
+          <li class="nav-item dropdown">
+            <!-- v-if="authData && authData.isAdmin" -->
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="adminDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+              <li>
+                <v-link class="nav-link" href="/admin/value-sets"
+                  >Value Sets</v-link
+                >
+              </li>
+              <li>
+                <v-link class="nav-link" href="/admin/projects"
+                  >Projects</v-link
+                >
+              </li>
+            </ul>
+          </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item active" v-if="!$store.state.wallet.isOpen">
@@ -52,8 +77,8 @@
               >{{ $store.state.wallet.lastActiveAccountName
               }}<span v-if="this.$store.state.wallet.authTx"
                 >&nbsp;<i class="pi pi-lock"></i></span
-              ><span v-else>&nbsp;<i class="pi pi-unlock"></i></span
-            ></v-link>
+              ><span v-else>&nbsp;<i class="pi pi-unlock"></i></span>
+            </v-link>
           </li>
           <Dropdown
             v-if="!$store.state.wallet.isOpen"
@@ -112,7 +137,7 @@ export default {
   },
   data() {
     return {
-      authToken: "",
+      authData: "",
     };
   },
   computed: {
@@ -121,17 +146,21 @@ export default {
     },
   },
   watch: {
-    token: {
-      handler: async function () {
-        // watch it
-        this.authToken = "";
-        if (this.token) {
-          const meEndpoint = this.$store.state.config.dremapi + "/User/Me";
-          const me = await this.axiosGet({ url: meEndpoint });
-          this.authToken = me;
-        }
-      },
-      deep: true,
+    async authData() {
+      console.log("authData watch", this.authData);
+    },
+    async token() {
+      // watch it
+      console.log("authTx updated", this.token);
+      if (this.token) {
+        const me = await this.axiosGet({
+          url: this.$store.state.config.dremapi + "/User/Me",
+        });
+        this.authData = me;
+        console.log("authData", this.authData);
+      } else {
+        this.authData = "";
+      }
     },
   },
   methods: {

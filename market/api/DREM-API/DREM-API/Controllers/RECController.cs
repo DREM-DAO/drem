@@ -24,7 +24,7 @@ namespace DREM_API.Controllers
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="visitorRepository"></param>
+        /// <param name="recBusinessController"></param>
         public RECController(
             IConfiguration configuration,
             RECBusinessController recBusinessController
@@ -45,6 +45,42 @@ namespace DREM_API.Controllers
             try
             {
                 return Ok(await recBusinessController.Register(rec));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
+        /// Register real estate company
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("CreateOpportunity")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Model.DB.Opportunity>> CreateOpportunity([FromBody] Model.Comm.OpportunityBase opportunity)
+        {
+            try
+            {
+                return Ok(await recBusinessController.CreateOpportunity(opportunity));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+        /// <summary>
+        /// List All Opportunities registered from rec
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ListAllOpportunities")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Model.DB.Opportunity>> ListAllOpportunities()
+        {
+            try
+            {
+                return Ok(await recBusinessController.GetAllOpportunitiesAsync());
             }
             catch (Exception exc)
             {

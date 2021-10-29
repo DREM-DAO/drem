@@ -398,6 +398,9 @@ export default {
     await this.reloadAccount();
     await this.makeAssets();
     this.prolong();
+    if (this.$route.params.account) {
+      await this.lastActiveAccount({ addr: this.$route.params.account });
+    }
   },
   methods: {
     ...mapActions({

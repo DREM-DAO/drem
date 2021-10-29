@@ -1,164 +1,175 @@
 <template>
   <PublicLayout>
-    <div class="row my-4">
-      <div class="col">
-        <MultiSelect
-          v-model="filterPropertyType"
-          :options="propertyTypeOptions"
-          optionLabel="name"
-          placeholder="Select property type"
-          class="w-100"
-        />
-      </div>
-      <div class="col">
-        <MultiSelect
-          v-model="filterInvestmentType"
-          :options="investmentTypeOptions"
-          optionLabel="name"
-          placeholder="Select investment type"
-          class="w-100"
-        />
-      </div>
-      <div class="col">
-        <MultiSelect
-          v-model="filterCurrency"
-          :options="currencyOptions"
-          optionLabel="name"
-          placeholder="Select currency"
-          class="w-100"
-        />
-      </div>
-      <div class="col">
-        <MultiSelect
-          v-model="filterRegion"
-          :options="regionOptions"
-          optionLabel="name"
-          placeholder="Select country"
-          class="w-100"
-        />
-      </div>
-      <div
-        class="col"
-        v-if="
-          Object.values(filterRegion).length > 0 &&
-          Object.values(stateOptions).length > 0
-        "
-      >
-        <MultiSelect
-          v-model="filterState"
-          :options="stateOptions"
-          optionLabel="name"
-          placeholder="Select state"
-          class="w-100"
-        />
-      </div>
-      <div class="col">
-        <MultiSelect
-          v-model="filterCity"
-          :options="cityOptions"
-          optionLabel="name"
-          placeholder="Select city"
-          class="w-100"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
+    <div v-if="Object.values(places).length < 4">Loading data</div>
+    <div v-else>
+      <div class="row my-4">
+        <div class="col">
+          <MultiSelect
+            v-model="filterPropertyType"
+            :options="propertyTypeOptions"
+            optionLabel="name"
+            placeholder="Select property type"
+            class="w-100"
+          />
+        </div>
+        <div class="col">
+          <MultiSelect
+            v-model="filterInvestmentType"
+            :options="investmentTypeOptions"
+            optionLabel="name"
+            placeholder="Select investment type"
+            class="w-100"
+          />
+        </div>
+        <div class="col">
+          <MultiSelect
+            v-model="filterCurrency"
+            :options="currencyOptions"
+            optionLabel="name"
+            placeholder="Select currency"
+            class="w-100"
+          />
+        </div>
+        <div class="col">
+          <MultiSelect
+            v-model="filterRegion"
+            :options="regionOptions"
+            optionLabel="name"
+            placeholder="Select country"
+            class="w-100"
+          />
+        </div>
         <div
-          v-if="showTop"
-          class="
-            row
-            row-cols-xxl-4
-            row-cols-lg-4
-            row-cols-md-2
-            row-cols-sm-1
-            row-cols-1
+          class="col"
+          v-if="
+            Object.values(filterRegion).length > 0 &&
+            Object.values(stateOptions).length > 0
           "
         >
-          <div class="col" v-for="place in topplaces" :key="place.id">
-            <div
-              class="card mr-3 mb-3 cardlink"
-              @click="$router.push(`/project/${place.id}`)"
-            >
-              <img
-                :src="place.image"
-                class="card-img"
-                :alt="place.name"
-                height="200"
-                style="object-fit: cover"
-              />
-
-              <div class="card-img-overlay d-flex flex-column p-0">
-                <div class="c-title d-flex justify-content-between">
-                  <div class="p-1">
-                    {{ place.name }}
-                  </div>
-                  <span class="p-1">
-                    <img
-                      :alt="place.countryName"
-                      :src="'/flags/3x2/' + place.country + '.svg'"
-                      height="25"
-                      class="rounded"
-                    />
-                  </span>
-                </div>
-                <div class="mt-auto c-subtitle d-flex justify-content-between">
-                  <span class="">
-                    IRR {{ $filters.formatPercent(place.rate, 4) }}
-                  </span>
-                  <span class="text-right">
-                    Buy at
-                    {{ $filters.formatCurrency(220000, place.currencyName, 0) }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <MultiSelect
+            v-model="filterState"
+            :options="stateOptions"
+            optionLabel="name"
+            placeholder="Select state"
+            class="w-100"
+          />
         </div>
-        <div class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1">
-          <div class="col">
-            <div
-              class="card mr-3 mb-3 cardlink"
-              @click="$router.push(`/recurring/`)"
-            >
-              <img
-                src="https://d18-a.sdn.cz/d_18/c_img_gY_e/HSeSpG.jpeg?fl=res,749,562,3|shr,,20|jpg,90"
-                class="card-img"
-                height="200"
-                style="object-fit: cover"
-              />
+        <div class="col">
+          <MultiSelect
+            v-model="filterCity"
+            :options="cityOptions"
+            optionLabel="name"
+            placeholder="Select city"
+            class="w-100"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div
+            v-if="showTop"
+            class="
+              row
+              row-cols-xxl-4
+              row-cols-lg-4
+              row-cols-md-2
+              row-cols-sm-1
+              row-cols-1
+            "
+          >
+            <div class="col" v-for="place in topplaces" :key="place.id">
+              <div
+                class="card mr-3 mb-3 cardlink"
+                @click="$router.push(`/project/${place.urlId}`)"
+              >
+                <img
+                  :src="place.image"
+                  class="card-img"
+                  :alt="place.name"
+                  height="200"
+                  style="object-fit: cover"
+                />
 
-              <div class="card-img-overlay d-flex flex-column p-0">
-                <div class="c-title p-1">Recurring investment</div>
-                <div class="mt-auto c-subtitle p-1">
-                  Buy best investment opportunity
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div
-              class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1"
-            >
-              <div class="col" v-for="place in hotplaces" :key="place.id">
-                <div
-                  class="card mr-3 mb-3 cardlink"
-                  @click="$router.push(`/project/${place.id}`)"
-                >
-                  <img
-                    :src="place.image"
-                    class="card-img"
-                    :alt="place.name"
-                    height="200"
-                    style="object-fit: cover"
-                  />
-
-                  <div class="card-img-overlay d-flex flex-column p-0">
-                    <div class="c-title p-1">
+                <div class="card-img-overlay d-flex flex-column p-0">
+                  <div class="c-title d-flex justify-content-between">
+                    <div class="p-1">
                       {{ place.name }}
                     </div>
-                    <div class="mt-auto c-subtitle p-1">
-                      Hot deal IRR {{ $filters.formatPercent(place.rate, 4) }}
+                    <span class="p-1">
+                      <img
+                        :alt="place.countryName"
+                        :src="'/flags/3x2/' + place.country + '.svg'"
+                        height="25"
+                        class="rounded"
+                      />
+                    </span>
+                  </div>
+                  <div
+                    class="mt-auto c-subtitle d-flex justify-content-between"
+                  >
+                    <span class="">
+                      IRR {{ $filters.formatPercent(place.irr, 4) }}
+                    </span>
+                    <span class="text-right">
+                      Buy at
+                      {{
+                        $filters.formatCurrency(
+                          place.evaluation,
+                          place.currencyName,
+                          0
+                        )
+                      }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1">
+            <div class="col">
+              <div
+                class="card mr-3 mb-3 cardlink"
+                @click="$router.push(`/recurring/`)"
+              >
+                <img
+                  src="https://d18-a.sdn.cz/d_18/c_img_gY_e/HSeSpG.jpeg?fl=res,749,562,3|shr,,20|jpg,90"
+                  class="card-img"
+                  height="200"
+                  style="object-fit: cover"
+                />
+
+                <div class="card-img-overlay d-flex flex-column p-0">
+                  <div class="c-title p-1">Recurring investment</div>
+                  <div class="mt-auto c-subtitle p-1">
+                    Buy best investment opportunity
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div
+                class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1"
+              >
+                <div class="col" v-for="place in hotplaces" :key="place.id">
+                  <div
+                    class="card mr-3 mb-3 cardlink"
+                    @click="$router.push(`/project/${place.urlId}`)"
+                  >
+                    <img
+                      :src="place.image"
+                      class="card-img"
+                      :alt="place.name"
+                      height="200"
+                      style="object-fit: cover"
+                    />
+
+                    <div class="card-img-overlay d-flex flex-column p-0">
+                      <div class="c-title p-1">
+                        {{ place.name }}
+                      </div>
+                      <div class="mt-auto c-subtitle p-1">
+                        Hot deal IRR {{ $filters.formatPercent(place.irr, 4) }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -166,88 +177,94 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-4 d-none d-xxl-block">
-        <div class="card">
-          <LMap
-            :style="mapStyle"
-            class="m-0 p-0"
-            :zoom="zoom"
-            :min-zoom="minZoom"
-            :max-zoom="maxZoom"
-            :center="center"
-          >
-            <LTileLayer
-              :url="url"
-              :attribution="attribution"
-              :options="options"
-            />
-            <LLayerGroup v-if="places">
-              <LMarker
-                v-for="place in places"
-                :key="place.id"
-                :lat-lng="getLatLng(place)"
-              >
-                <LIcon :icon-url="getIcon(place)" />
-                <LPopup :options="{ autoClose: true, closeOnClick: false }">
-                  <h4
-                    class="md-auto"
-                    style="text-align: center; min-width: 150px"
-                  >
-                    {{ place.name }}
-                  </h4>
-                  <VLink :href="`/project/${place.id}`">
-                    <img
-                      class="img thumbnail"
-                      :src="place.image"
-                      style="max-width: 150px"
-                    />
-                  </VLink>
-                  <p>Rate: {{ $filters.formatPercent(place.rate, 4) }}</p>
-
-                  <p v-if="place.asa">
-                    <a
-                      target="_blank"
-                      rel="norefferer"
-                      :href="`https://testnet.algoexplorer.io/asset/${place.asa}`"
-                      >AlgoExplorer info</a
+        <div class="col-4 d-none d-xxl-block">
+          <div class="card">
+            <LMap
+              :style="mapStyle"
+              class="m-0 p-0"
+              :zoom="zoom"
+              :min-zoom="minZoom"
+              :max-zoom="maxZoom"
+              :center="center"
+            >
+              <LTileLayer
+                :url="url"
+                :attribution="attribution"
+                :options="options"
+              />
+              <LLayerGroup v-if="places">
+                <LMarker
+                  v-for="place in places"
+                  :key="place.id"
+                  :lat-lng="getLatLng(place)"
+                >
+                  <LIcon :icon-url="getIcon(place)" />
+                  <LPopup :options="{ autoClose: true, closeOnClick: false }">
+                    <h4
+                      class="md-auto"
+                      style="text-align: center; min-width: 150px"
                     >
-                  </p>
-                </LPopup>
-              </LMarker>
-            </LLayerGroup>
-          </LMap>
+                      {{ place.name }}
+                    </h4>
+                    <VLink :href="`/project/${place.urlId}`">
+                      <img
+                        class="img thumbnail"
+                        :src="place.image"
+                        style="max-width: 150px"
+                      />
+                    </VLink>
+                    <p>IRR: {{ $filters.formatPercent(place.irr, 4) }}</p>
+
+                    <p v-if="place.asa">
+                      <a
+                        target="_blank"
+                        rel="norefferer"
+                        :href="`https://testnet.algoexplorer.io/asset/${place.asa}`"
+                        >AlgoExplorer info</a
+                      >
+                    </p>
+                  </LPopup>
+                </LMarker>
+              </LLayerGroup>
+            </LMap>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-xs-1">
-      <div class="col" v-for="place in filteredItems" :key="place.id">
-        <div
-          class="card mr-3 mb-3 cardlink"
-          @click="$router.push(`/project/${place.id}`)"
-        >
-          <img
-            :src="place.image"
-            class="card-img"
-            :alt="place.name"
-            height="200"
-            style="object-fit: cover"
-          />
+      <div class="row row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-xs-1">
+        <div class="col" v-for="place in filteredItems" :key="place.id">
+          <div
+            class="card mr-3 mb-3 cardlink"
+            @click="$router.push(`/project/${place.urlId}`)"
+          >
+            <img
+              :src="place.image"
+              class="card-img"
+              :alt="place.name"
+              height="200"
+              style="object-fit: cover"
+            />
 
-          <div class="card-img-overlay d-flex flex-column p-0">
-            <div class="c-title p-1">
-              {{ place.name }}
-            </div>
-            <div class="mt-auto c-subtitle d-flex justify-content-between">
-              <span class="" v-if="place.time">
-                {{ place.time }}
-              </span>
-              <span v-else>
-                IRR {{ $filters.formatPercent(place.rate, 4) }}
-              </span>
-              <span class="text-right">
-                {{ $filters.formatCurrency(220000, place.currencyName, 0) }}
-              </span>
+            <div class="card-img-overlay d-flex flex-column p-0">
+              <div class="c-title p-1">
+                {{ place.name }}
+              </div>
+              <div class="mt-auto c-subtitle d-flex justify-content-between">
+                <span class="" v-if="place.time">
+                  {{ place.time }}
+                </span>
+                <span v-else>
+                  IRR {{ $filters.formatPercent(place.irr, 4) }}
+                </span>
+                <span class="text-right">
+                  {{
+                    $filters.formatCurrency(
+                      place.evaluation,
+                      place.currencyName,
+                      0
+                    )
+                  }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -276,6 +293,7 @@ import isEqual from "lodash/isEqual";
 momentDurationFormatSetup(moment);
 
 import PublicLayout from "../layouts/Public.vue";
+import { mapActions } from "vuex";
 import VLink from "../components/VLink.vue";
 export default {
   components: {
@@ -304,213 +322,7 @@ export default {
         { name: "Russia", value: "russia" },
         { name: "Australia", value: "australia" },
       ],
-      places: [
-        {
-          id: "1",
-          asa: 37074699,
-          top: false,
-          lat: 50,
-          lng: 20,
-          name: "AA",
-          rate: 0.0405,
-          country: "sk",
-          countryName: "Slovakia",
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gW_f/wZ1NHI.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "eur",
-          currencyName: "EUR",
-          propertyType: "house",
-          propertyTypeName: "House",
-          investmentType: "ipo",
-          investmentTypeName: "Initial project offering",
-          region: "eu",
-          regionName: "EU",
-          city: "prague",
-          cityName: "Prague",
-        },
-        {
-          id: "2",
-          top: true,
-          asa: 33698417,
-          lat: 47.369450301672266,
-          lng: 8.539875999999893,
-          name: "Trust Square",
-          countdown: "2021-10-31T12:00:00+01:00",
-          rate: 0.0415,
-          country: "ch",
-          countryName: "Switzerland",
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_QJ_JV/ZGHIsk.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "eur",
-          currencyName: "EUR",
-          propertyType: "appartment",
-          propertyTypeName: "Appartment",
-          investmentType: "ipo",
-          investmentTypeName: "Initial project offering",
-          region: "eu",
-          regionName: "EU",
-          state: "cz",
-          stateName: "Czech Republic",
-          city: "prague",
-          cityName: "Prague",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          country: "ca",
-          countryName: "Canada",
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "cad",
-          currencyName: "CAD",
-          propertyType: "commercial",
-          propertyTypeName: "Commercial property",
-          investmentType: "bond",
-          investmentTypeName: "Bond",
-          region: "usa",
-          regionName: "USA",
-          city: "prague",
-          cityName: "Prague",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          country: "ch",
-          countryName: "Switzerland",
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "usd",
-          currencyName: "USD",
-          propertyType: "hotel",
-          propertyTypeName: "Hotel",
-          investmentType: "live",
-          investmentTypeName: "Live real estate project",
-          region: "usa",
-          regionName: "USA",
-          city: "prague",
-          cityName: "Prague",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          country: "ch",
-          countryName: "Switzerland",
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "usd",
-          currencyName: "USD",
-          propertyType: "aggriculture",
-          propertyTypeName: "Aggriculture",
-          investmentType: "live",
-          investmentTypeName: "Live real estate project",
-          region: "ca",
-          regionName: "Canada",
-          city: "prague",
-          cityName: "Prague",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          country: "ch",
-          countryName: "Switzerland",
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "usd",
-          currencyName: "USD",
-          propertyType: "garage",
-          propertyTypeName: "Garage",
-          investmentType: "live",
-          investmentTypeName: "Live real estate project",
-          region: "eu",
-          regionName: "EU",
-          state: "sk",
-          stateName: "Slovakia",
-          city: "bratislava",
-          cityName: "Bratislava",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "usd",
-          currencyName: "USD",
-          propertyType: "garage",
-          propertyTypeName: "Garage",
-          investmentType: "live",
-          investmentTypeName: "Live real estate project",
-          region: "usa",
-          regionName: "USA",
-          state: "ny",
-          stateName: "New York",
-          city: "new-york",
-          cityName: "New York",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "usd",
-          currencyName: "USD",
-          propertyType: "aggriculture",
-          propertyTypeName: "Aggriculture",
-          investmentType: "live",
-          investmentTypeName: "Live real estate project",
-          region: "usa",
-          regionName: "USA",
-          state: "sc",
-          stateName: "South Carolina",
-          city: "bratislava",
-          cityName: "Bratislava",
-        },
-        {
-          id: "3",
-          top: false,
-          lat: 50,
-          lng: -71,
-          name: "Canada Wood",
-          rate: 0.0205,
-          image:
-            "https://d18-a.sdn.cz/d_18/c_img_gV_a/eJcsgF.jpeg?fl=res,749,562,3|shr,,20|jpg,90",
-          currency: "usd",
-          currencyName: "USD",
-          propertyType: "appartment",
-          propertyTypeName: "Appartment",
-          investmentType: "live",
-          investmentTypeName: "Live real estate project",
-          region: "usa",
-          regionName: "USA",
-          state: "tx",
-          stateName: "Texas",
-          city: "bratislava",
-          cityName: "Bratislava",
-        },
-      ],
+      places: [],
       mapIsReady: false,
       minZoom: 2,
       maxZoom: 18,
@@ -537,6 +349,7 @@ export default {
     },
     filteredItems() {
       let ret = this.places;
+      if (Object.values(this.places).length == 0) return [];
       if (Object.values(this.filterCurrency).length > 0) {
         const currencies = this.filterCurrency.map((c) => c.value);
         ret = ret.filter((i) => currencies.indexOf(i.currency) >= 0);
@@ -622,9 +435,11 @@ export default {
       );
     },
     topplaces() {
+      if (Object.values(this.places).length < 4) return [];
       return [this.places[0], this.places[1], this.places[2], this.places[3]];
     },
     hotplaces() {
+      if (Object.values(this.places).length < 2) return [];
       return [this.places[0], this.places[1]];
     },
   },
@@ -642,9 +457,23 @@ export default {
     this.countdown();
   },
   beforeUnmount() {
-    clearInterval(this.timer);
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  },
+  async mounted() {
+    await this.prolong();
+    this.places = await this.axiosGet({
+      url: `${this.$store.state.config.dremapi}/Project/List`,
+    });
+    console.log("places", this.places);
   },
   methods: {
+    ...mapActions({
+      prolong: "wallet/prolong",
+      axiosGet: "axios/get",
+      axiosPost: "axios/post",
+    }),
     async countdown() {
       for (let index in this.places) {
         const place = this.places[index];
@@ -678,7 +507,7 @@ export default {
   color: #eee;
   background: rgba(0, 0, 0, 0.2);
   text-shadow: 1px 1px 1px #000;
-  font-size: 1.8em;
+  font-size: 1.3em;
   font-weight: bold;
   text-decoration: none;
 }

@@ -3,25 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DREM_API.Model
+namespace DREM_API.Model.DB
 {
     /// <summary>
-    /// Real estate company db model
+    /// DB model for opportunity
     /// </summary>
-    public class RECWithId : REC
+    public class Opportunity : Comm.OpportunityWithId
     {
-        /// <summary>
-        /// id
-        /// </summary>
-        public string Id { get; set; }
         /// <summary>
         /// time created
         /// </summary>
         public DateTimeOffset Created { get; set; }
         /// <summary>
-        /// time updated
+        /// time of last update
         /// </summary>
         public DateTimeOffset Updated { get; set; }
-
     }
 }

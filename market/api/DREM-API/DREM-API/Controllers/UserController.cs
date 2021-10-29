@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DREM_API.BusinessController;
+using DREM_API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -37,11 +38,11 @@ namespace DREM_API.Controllers
         [HttpGet("Me")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.RECWithId>> Me()
+        public ActionResult<Model.Comm.UserInfo> Me()
         {
             try
             {
-                return Ok(User.Identity.Name);
+                return Ok(new Model.Comm.UserInfo { Address = User.Identity.Name, IsAdmin = User.IsAdmin(configuration), KYCVerified = false });
             }
             catch (Exception exc)
             {
