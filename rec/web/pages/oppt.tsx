@@ -3,45 +3,58 @@ import Layout from '../components/Layout'
 import styles from '../styles/Rec.module.css'
 import Button from "../components/Button";
 import { useRouter } from "next/router"; // Router
+import axios from "axios"; // axios requests
 
 export interface IOpportuniuty {
-  property: {
-      assetDesc: string
-      assetValue: number
-      comments: string
-      recName: string
-      addressLine1: string
-      addressLine2?: string
-      city: string
-      state: string
-      country: string
-      postalcode: string
-      contactFirstName: string
-      contactLastName: string
-      contactMiddleName?: string
-      contactPhoneNumber: string
-      contactEmail: string
-  }
+  recName: string
+  recID: string 
+  assetType: String
+  bedRooms: number 
+  bathRooms: number
+  livingAreaSqft: number
+  nonLivingAreaSqft: number
+  landSqft: number 
+  yearBuilt: number
+  asaID: number 
+  assetValue: number 
+  assetValueCurrency: string
+  estimatedIRR: number   
+  comments: string 
+  addressLine1: string 
+  addressLine2?: string 
+  city: string   
+  state: string    
+  country: string      
+  postalCode: string    
+  ownerFirstName: string  
+  ownerLastName: string   
+  ownerMiddleName?: string  
+  ownerPhoneNumber: string   
+  ownerEmail: string        
 }
 
+
+  
 function Opportunity() {
       const router = useRouter(); // Router navigation
-  const [input, setInput] = useState({assetDesc:"", assetValue:"", comments:"",recName:"",
-          addressLine1: "", addressLine2: "", city: "",  state: "", country: "", postalcode: "",
-          contactFirstName:"", contactLastName: "", contactMiddleName:"",
-          contactPhoneNumber: "", contactEmail: "",
-      }) 
+      const [input, setInput] = useState({recName:"", recID:"", assetType:"", bedRooms:0, bathRooms:0, 
+            livingAreaSqft:0, nonLivingAreaSqft:0, landSqft:0, yearBuilt:0, asaID:0, assetValue:0, 
+            assetValueCurrency:"", estimatedIRR:0, comments:"", addressLine1:"" , addressLine2:"", 
+            city:"",  state:"", country:"", postalCode:"", ownerFirstName:"", ownerLastName:"", 
+            ownerMiddleName:"", ownerPhoneNumber:"", ownerEmail:"" } ) 
 
+      
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setInput({ ...input, [e.target.name]: e.target.value })
   }
 
-  const handleSave = () => {
-    if(!input.assetDesc || !input.assetValue ) return
-
-    //setInput({...input, assetDesc: input.assetDesc });
-
+  const handleSave = async () => {
+    if(!input.recName || !input.assetType ) return
     console.log("Input: " ,  {...input} )
+    await axios.post("/api/opptapi", { ...input})
+        .then( (response) => {
+            console.log("Response:", response);
+    });
 
   }
   
@@ -55,30 +68,54 @@ function Opportunity() {
           <h1>Asset Identification </h1>
            <hr/>
            <div>
-           Real Estate Company Name:&nbsp;
-           <input type="textArea" onChange={handleChange} className={styles.RecInput}
+            Real Estate Company Name:&nbsp; <input type="textArea" onChange={handleChange} className={styles.RecInput}
                   name="recName" value={input.recName} placeholder="recName"  /> &nbsp;
+            REC ID: &nbsp; <input type="textArea" onChange={handleChange} className={styles.RecInput}
+                  name="recID" value={input.recID} placeholder="recID"  /> &nbsp;
            </div>
            <hr/>
+          
+           <p><b>Property Details: </b></p>
+         <div> 
+            Asset Type:&nbsp; <input type="text" onChange={handleChange} className={styles.RecInput}
+                  name="assetType" value={input.assetType} placeholder="assetType"  /> &nbsp;
+            Bed Rooms:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput}
+                  name="bedRooms" value={input.bedRooms}  placeholder="bedRooms"  /> &nbsp;
+            Bath Rooms:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput} 
+                  name="bathRooms" value={input.bathRooms}  placeholder="bathRooms"  />
+          </div>
           <div> 
-            Asset Description:&nbsp;
-            <input type="textArea" onChange={handleChange} className={styles.RecInput}
-                  name="assetDesc" value={input.assetDesc} placeholder="assetDesc"  /> &nbsp;
-            Asset Value:&nbsp;
-            <input type="text" onChange={handleChange}  className={styles.RecInput}
-                  name="assetValue" value={input.assetValue}  placeholder="assetValue"  /> &nbsp;
-            Comments:&nbsp;
-            <input type="text" onChange={handleChange}  className={styles.RecInput} 
+            Living Area Sqft:&nbsp; <input type="text" onChange={handleChange} className={styles.RecInput}
+                  name="livingAreaSqft" value={input.livingAreaSqft} placeholder="livingAreaSqft"  /> &nbsp;
+            Non Living Area Sqft:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput}
+                  name="nonLivingAreaSqft" value={input.nonLivingAreaSqft}  placeholder="nonLivingAreaSqft"  /> &nbsp;
+            Land Sqft:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput} 
+                  name="landSqft" value={input.landSqft}  placeholder="landSqft"  />
+          </div>
+          <div> 
+            Year Built:&nbsp; <input type="text" onChange={handleChange} className={styles.RecInput}
+                  name="yearBuilt" value={input.yearBuilt} placeholder="yearBuilt"  /> &nbsp;
+            ASA ID:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput}
+                  name="asaID" value={input.nonLivingAreaSqft}  placeholder="asaID"  /> &nbsp;
+            Asset Value:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput} 
+                  name="assetValue" value={input.assetValue}  placeholder="assetValue"  />
+          </div>
+          <div> 
+            Asset Value Currency:&nbsp; <input type="text" onChange={handleChange} className={styles.RecInput}
+                  name="assetValueCurrency" value={input.assetValueCurrency} placeholder="assetValueCurrency"  /> &nbsp;
+            Estimated IRR:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput}
+                  name="estimatedIRR" value={input.estimatedIRR}  placeholder="estimatedIRR"  /> &nbsp;
+            Comments:&nbsp; <input type="text" onChange={handleChange}  className={styles.RecInput} 
                   name="comments" value={input.comments}  placeholder="comments"  />
           </div>
 
           <hr/>
-          <p><b>Asset Address Information: </b></p>
+          <p><b>Property Address Information: </b></p>
           <div> 
-            AddressLine1:&nbsp;
+            Address Line1:&nbsp;
             <input type="text" onChange={handleChange} className={styles.RecInput}
                   name="addressLine1" value={input.addressLine1} placeholder="addressLine1"  /> &nbsp;
-            AddressLine2:&nbsp;
+            Line2:&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput}
                   name="addressLine2" value={input.addressLine2}  placeholder="addressLine2"  /> &nbsp;
             City:&nbsp;
@@ -92,33 +129,33 @@ function Opportunity() {
             Country:&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput}
                   name="country" value={input.country}  placeholder="country"  /> &nbsp;
-            Postalcode:&nbsp;
+            Postal Code:&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput} 
-                  name="postalcode" value={input.postalcode}  placeholder="postalcode"  />
+                  name="postalCode" value={input.postalCode}  placeholder="postalCode"  />
           </div>
 
           <hr/>
-          <p><b>Asset Current Owner Information: </b></p>
-         
+          <p><b>Property Current Owner Information: </b></p>
+            
           <div> 
             First Name:&nbsp;
             <input type="text" onChange={handleChange} className={styles.RecInput}
-                  name="contactFirstName" value={input.contactFirstName} placeholder="contactFirstName"  /> &nbsp;
+                  name="ownerFirstName" value={input.ownerFirstName} placeholder="ownerFirstName"  /> &nbsp;
             Last Name:&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput}
-                  name="contactLastName" value={input.contactLastName}  placeholder="contactLastName"  /> &nbsp;
+                  name="ownerLastName" value={input.ownerLastName}  placeholder="ownerLastName"  /> &nbsp;
             Middle Name&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput} 
-                  name="contactMiddleName" value={input.contactMiddleName}  placeholder="contactMiddleName"  />
+                  name="ownerMiddleName" value={input.ownerMiddleName}  placeholder="ownerMiddleName"  />
           </div>
           
           <div> 
-            <label htmlFor="Contact Phone Number">Phone Number: </label>  &nbsp;
+            <label htmlFor="Owner Phone Number">Phone Number: </label>  &nbsp;
             <input type="text" onChange={handleChange} className={styles.RecInput}
-                  name="contactPhoneNumber" value={input.contactPhoneNumber} placeholder="contactPhoneNumber"  /> &nbsp;
-            Email:&nbsp;
+                  name="ownerPhoneNumber" value={input.ownerPhoneNumber} placeholder="ownerPhoneNumber"  /> &nbsp;
+            Owner Email:&nbsp;
             <input type="text" onChange={handleChange}  className={styles.RecInput}
-                  name="contactEmail" value={input.contactEmail}  placeholder="contactEmail"  /> &nbsp;
+                  name="ownerEmail" value={input.ownerEmail}  placeholder="ownerEmail"  /> &nbsp;
           </div>
 
           <div className="line"></div>
