@@ -11,6 +11,10 @@ namespace DREM_API.Model.Comm
     public class BufferTransferBase
     {
         /// <summary>
+        /// Project.Id
+        /// </summary>
+        public string ProjectId { get; set; }
+        /// <summary>
         /// Transfer reason
         /// </summary>
         public string Note { get; set; }

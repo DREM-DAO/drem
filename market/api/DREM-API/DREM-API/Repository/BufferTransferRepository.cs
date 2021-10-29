@@ -10,7 +10,7 @@ namespace DREM_API.Repository
     /// <summary>
     /// Real estate companies EF repository
     /// </summary>
-    public class OpportunityRepository
+    public class BufferTransferRepository
     {
         private readonly Model.ADBContext context;
         private readonly Mapper mapper;
@@ -18,23 +18,23 @@ namespace DREM_API.Repository
         /// rec repository constructor
         /// </summary>
         /// <param name="context"></param>
-        public OpportunityRepository(Model.ADBContext context)
+        public BufferTransferRepository(Model.ADBContext context)
         {
             this.context = context;
 
             mapper = new Mapper(new MapperConfiguration(cnf =>
             {
-                cnf.CreateMap<Model.Comm.OpportunityBase, Model.DB.Opportunity>();
-                cnf.CreateMap<Model.Comm.OpportunityWithId, Model.DB.Opportunity>();
+                cnf.CreateMap<Model.Comm.BufferTransferBase, Model.DB.BufferTransfer>();
+                cnf.CreateMap<Model.Comm.BufferTransferWithId, Model.DB.BufferTransfer>();
             }));
         }
         /// <summary>
         /// Return all real estate companies
         /// </summary>
         /// <returns></returns>
-        internal async Task<IEnumerable<Model.DB.Opportunity>> GetAllAsync()
+        internal async Task<IEnumerable<Model.DB.BufferTransfer>> GetAllAsync()
         {
-            return await context.Opportunities.ToListAsync();
+            return await context.BufferTransfers.ToListAsync();
         }
 
         /// <summary>
@@ -42,10 +42,10 @@ namespace DREM_API.Repository
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<Model.DB.Opportunity> AddAsync(Model.Comm.OpportunityBase entity)
+        public async Task<Model.DB.BufferTransfer> AddAsync(Model.Comm.BufferTransferBase entity)
         {
 
-            var ret = mapper.Map<Model.DB.Opportunity>(entity);
+            var ret = mapper.Map<Model.DB.BufferTransfer>(entity);
             ret.Id = Guid.NewGuid().ToString();
             ret.Created = DateTimeOffset.UtcNow;
             ret.Updated = DateTimeOffset.UtcNow;
@@ -54,14 +54,24 @@ namespace DREM_API.Repository
             return ret;
         }
         /// <summary>
+        /// List payouts for specific project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        internal IQueryable<Model.DB.BufferTransfer> ListAllForProject(string projectId)
+        {
+            return context.BufferTransfers.Where(p => p.ProjectId == projectId).OrderByDescending(p => p.Created);
+        }
+
+        /// <summary>
         /// Adds record to DB.
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<Model.DB.Opportunity> UpdateAsync(Model.Comm.OpportunityWithId entity)
+        public async Task<Model.DB.BufferTransfer> UpdateAsync(Model.Comm.BufferTransferWithId entity)
         {
-            var old = await context.FindAsync<Model.DB.Opportunity>(entity.Id);
-            var updated = mapper.Map<Model.Comm.OpportunityWithId, Model.DB.Opportunity>(entity, old);
+            var old = await context.FindAsync<Model.DB.BufferTransfer>(entity.Id);
+            var updated = mapper.Map<Model.Comm.BufferTransferWithId, Model.DB.BufferTransfer>(entity, old);
             var result = context.Update(updated);
             await context.SaveChangesAsync();
             return updated;
@@ -79,9 +89,9 @@ namespace DREM_API.Repository
             _ = context.Remove(toRemove);
             return await context.SaveChangesAsync();
         }
-        internal int AddRange(List<Model.DB.Opportunity> data)
+        internal int AddRange(List<Model.DB.BufferTransfer> data)
         {
-            context.Opportunities.AddRange(data);
+            context.BufferTransfers.AddRange(data);
             return context.SaveChanges();
         }
     }

@@ -8,7 +8,7 @@ namespace DREM_API.Model
     /// <summary>
     /// Real estate company base model
     /// </summary>
-    public class REC
+    public class RECBase
     {
         /// <summary>
         /// Org name

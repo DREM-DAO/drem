@@ -8,8 +8,12 @@ namespace DREM_API.Model.Comm
     /// <summary>
     /// Hittable Bid or Offer in the escrow account
     /// </summary>
-    public class Order
+    public class OrderBase
     {
+        /// <summary>
+        /// Calculated price between the first asa and second asa with respect for assets decimals
+        /// </summary>
+        public decimal Price { get; set; }
         /// <summary>
         /// Amount of asset to be recieved
         /// </summary>
@@ -21,11 +25,11 @@ namespace DREM_API.Model.Comm
         /// <summary>
         /// Asset id to be received. If algo, than null
         /// </summary>
-        public ulong? AssetReceiveId { get; set; }
+        public ulong? AssetToReceiveId { get; set; }
         /// <summary>
         /// Asset id to be paid. If algo, than null
         /// </summary>
-        public ulong? AssetPayId { get; set; }
+        public ulong? AssetToPayId { get; set; }
         /// <summary>
         /// Receive asset decimals
         /// </summary>

@@ -25,14 +25,14 @@ namespace DREM_API.Repository
 
             mapper = new Mapper(new MapperConfiguration(cnf =>
             {
-                cnf.CreateMap<Model.REC, Model.RECWithId>();
+                cnf.CreateMap<Model.DB.REC, Model.DB.REC>();
             }));
         }
         /// <summary>
         /// Return all real estate companies
         /// </summary>
         /// <returns></returns>
-        internal async Task<IEnumerable<RECWithId>> GetAllAsync()
+        internal async Task<IEnumerable<Model.DB.REC>> GetAllAsync()
         {
             return await context.RECs.ToListAsync();
         }
@@ -42,10 +42,10 @@ namespace DREM_API.Repository
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<RECWithId> AddAsync(Model.REC entity)
+        public async Task<Model.DB.REC> AddAsync(Model.DB.REC entity)
         {
 
-            var ret = mapper.Map<Model.RECWithId>(entity);
+            var ret = mapper.Map<Model.DB.REC>(entity);
             ret.Id = Guid.NewGuid().ToString();
             ret.Created = DateTimeOffset.UtcNow;
             ret.Updated = DateTimeOffset.UtcNow;
@@ -58,9 +58,9 @@ namespace DREM_API.Repository
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<RECWithId> UpdateAsync(Model.RECWithId entity)
+        public async Task<Model.DB.REC> UpdateAsync(Model.DB.REC entity)
         {
-            var old = await context.FindAsync<RECWithId>(entity.Id);
+            var old = await context.FindAsync<Model.DB.REC>(entity.Id);
             entity.Created = old.Created;
             var result = context.Update(entity);
             await context.SaveChangesAsync();
@@ -71,13 +71,13 @@ namespace DREM_API.Repository
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<bool> DeleteAsync(Model.RECWithId entity)
+        public async Task<bool> DeleteAsync(Model.DB.REC entity)
         {
             _ = context.Remove(entity);
             await context.SaveChangesAsync();
             return true;
         }
-        internal int AddRange(List<RECWithId> data)
+        internal int AddRange(List<Model.DB.REC> data)
         {
             context.RECs.AddRange(data);
             return context.SaveChanges();

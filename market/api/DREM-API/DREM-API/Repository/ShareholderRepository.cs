@@ -10,7 +10,7 @@ namespace DREM_API.Repository
     /// <summary>
     /// Real estate companies EF repository
     /// </summary>
-    public class OpportunityRepository
+    public class ShareholderRepository
     {
         private readonly Model.ADBContext context;
         private readonly Mapper mapper;
@@ -18,23 +18,23 @@ namespace DREM_API.Repository
         /// rec repository constructor
         /// </summary>
         /// <param name="context"></param>
-        public OpportunityRepository(Model.ADBContext context)
+        public ShareholderRepository(Model.ADBContext context)
         {
             this.context = context;
 
             mapper = new Mapper(new MapperConfiguration(cnf =>
             {
-                cnf.CreateMap<Model.Comm.OpportunityBase, Model.DB.Opportunity>();
-                cnf.CreateMap<Model.Comm.OpportunityWithId, Model.DB.Opportunity>();
+                cnf.CreateMap<Model.Comm.ShareholderBase, Model.DB.Shareholder>();
+                cnf.CreateMap<Model.Comm.ShareholderWithId, Model.DB.Shareholder>();
             }));
         }
         /// <summary>
         /// Return all real estate companies
         /// </summary>
         /// <returns></returns>
-        internal async Task<IEnumerable<Model.DB.Opportunity>> GetAllAsync()
+        internal async Task<IEnumerable<Model.DB.Shareholder>> GetAllAsync()
         {
-            return await context.Opportunities.ToListAsync();
+            return await context.Shareholders.ToListAsync();
         }
 
         /// <summary>
@@ -42,10 +42,10 @@ namespace DREM_API.Repository
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<Model.DB.Opportunity> AddAsync(Model.Comm.OpportunityBase entity)
+        public async Task<Model.DB.Shareholder> AddAsync(Model.Comm.ShareholderBase entity)
         {
 
-            var ret = mapper.Map<Model.DB.Opportunity>(entity);
+            var ret = mapper.Map<Model.DB.Shareholder>(entity);
             ret.Id = Guid.NewGuid().ToString();
             ret.Created = DateTimeOffset.UtcNow;
             ret.Updated = DateTimeOffset.UtcNow;
@@ -54,14 +54,24 @@ namespace DREM_API.Repository
             return ret;
         }
         /// <summary>
+        /// List all transactions for asset
+        /// </summary>
+        /// <param name="asaId"></param>
+        /// <returns></returns>
+        internal IQueryable<Model.DB.Shareholder> ListAllForAsset(ulong asaId)
+        {
+            return context.Shareholders.Where(p => p.ProjectAsset == asaId).OrderByDescending(p => p.Created);
+        }
+
+        /// <summary>
         /// Adds record to DB.
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<Model.DB.Opportunity> UpdateAsync(Model.Comm.OpportunityWithId entity)
+        public async Task<Model.DB.Shareholder> UpdateAsync(Model.Comm.ShareholderWithId entity)
         {
-            var old = await context.FindAsync<Model.DB.Opportunity>(entity.Id);
-            var updated = mapper.Map<Model.Comm.OpportunityWithId, Model.DB.Opportunity>(entity, old);
+            var old = await context.FindAsync<Model.DB.Shareholder>(entity.Id);
+            var updated = mapper.Map<Model.Comm.ShareholderWithId, Model.DB.Shareholder>(entity, old);
             var result = context.Update(updated);
             await context.SaveChangesAsync();
             return updated;
@@ -79,9 +89,9 @@ namespace DREM_API.Repository
             _ = context.Remove(toRemove);
             return await context.SaveChangesAsync();
         }
-        internal int AddRange(List<Model.DB.Opportunity> data)
+        internal int AddRange(List<Model.DB.Shareholder> data)
         {
-            context.Opportunities.AddRange(data);
+            context.Shareholders.AddRange(data);
             return context.SaveChanges();
         }
     }

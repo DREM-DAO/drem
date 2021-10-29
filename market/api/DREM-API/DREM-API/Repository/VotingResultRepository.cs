@@ -10,7 +10,7 @@ namespace DREM_API.Repository
     /// <summary>
     /// Real estate companies EF repository
     /// </summary>
-    public class OpportunityRepository
+    public class VotingResultRepository
     {
         private readonly Model.ADBContext context;
         private readonly Mapper mapper;
@@ -18,23 +18,23 @@ namespace DREM_API.Repository
         /// rec repository constructor
         /// </summary>
         /// <param name="context"></param>
-        public OpportunityRepository(Model.ADBContext context)
+        public VotingResultRepository(Model.ADBContext context)
         {
             this.context = context;
 
             mapper = new Mapper(new MapperConfiguration(cnf =>
             {
-                cnf.CreateMap<Model.Comm.OpportunityBase, Model.DB.Opportunity>();
-                cnf.CreateMap<Model.Comm.OpportunityWithId, Model.DB.Opportunity>();
+                cnf.CreateMap<Model.Comm.Voting.VotingResultBase, Model.DB.VotingResult>();
+                cnf.CreateMap<Model.Comm.Voting.VotingResultWithId, Model.DB.VotingResult>();
             }));
         }
         /// <summary>
         /// Return all real estate companies
         /// </summary>
         /// <returns></returns>
-        internal async Task<IEnumerable<Model.DB.Opportunity>> GetAllAsync()
+        internal async Task<IEnumerable<Model.DB.VotingResult>> GetAllAsync()
         {
-            return await context.Opportunities.ToListAsync();
+            return await context.VotingResults.ToListAsync();
         }
 
         /// <summary>
@@ -42,10 +42,10 @@ namespace DREM_API.Repository
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<Model.DB.Opportunity> AddAsync(Model.Comm.OpportunityBase entity)
+        public async Task<Model.DB.VotingResult> AddAsync(Model.Comm.Voting.VotingResultBase entity)
         {
 
-            var ret = mapper.Map<Model.DB.Opportunity>(entity);
+            var ret = mapper.Map<Model.DB.VotingResult>(entity);
             ret.Id = Guid.NewGuid().ToString();
             ret.Created = DateTimeOffset.UtcNow;
             ret.Updated = DateTimeOffset.UtcNow;
@@ -54,14 +54,24 @@ namespace DREM_API.Repository
             return ret;
         }
         /// <summary>
+        /// List all transactions for asset
+        /// </summary>
+        /// <param name="questionTxId">Tx id where question has been asked</param>
+        /// <returns></returns>
+        internal Model.DB.VotingResult  GetResultForQuestion(string questionTxId)
+        {
+            return context.VotingResults.Where(p => p.QuestionTxId == questionTxId).OrderByDescending(p => p.Created).FirstOrDefault();
+        }
+
+        /// <summary>
         /// Adds record to DB.
         /// </summary>
         /// <param name="entity">Entity, that will be added.</param>
         /// <returns>Id of newly created record.</returns>
-        public async Task<Model.DB.Opportunity> UpdateAsync(Model.Comm.OpportunityWithId entity)
+        public async Task<Model.DB.VotingResult> UpdateAsync(Model.Comm.Voting.VotingResultWithId entity)
         {
-            var old = await context.FindAsync<Model.DB.Opportunity>(entity.Id);
-            var updated = mapper.Map<Model.Comm.OpportunityWithId, Model.DB.Opportunity>(entity, old);
+            var old = await context.FindAsync<Model.DB.VotingResult>(entity.Id);
+            var updated = mapper.Map<Model.Comm.Voting.VotingResultWithId, Model.DB.VotingResult>(entity, old);
             var result = context.Update(updated);
             await context.SaveChangesAsync();
             return updated;
@@ -79,9 +89,9 @@ namespace DREM_API.Repository
             _ = context.Remove(toRemove);
             return await context.SaveChangesAsync();
         }
-        internal int AddRange(List<Model.DB.Opportunity> data)
+        internal int AddRange(List<Model.DB.VotingResult> data)
         {
-            context.Opportunities.AddRange(data);
+            context.VotingResults.AddRange(data);
             return context.SaveChanges();
         }
     }

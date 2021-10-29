@@ -29,14 +29,13 @@ namespace DREM_API.BusinessController
             this.opportunityRepository = opportunityRepository;
         }
 
-        internal Task<RECWithId> Register(REC rec)
+        internal Task<Model.DB.REC> Register(Model.DB.REC rec)
         {
             return repository.AddAsync(rec);
         }
 
-        internal Task<IEnumerable<RECWithId>> GetAll()
+        internal Task<IEnumerable<Model.DB.REC>> GetAll()
         {
-
             return repository.GetAllAsync();
         }
 

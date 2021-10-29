@@ -187,7 +187,7 @@ namespace DREM_API
                 file = $"{mockFolder}/rec.json";
                 if (File.Exists(file))
                 {
-                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Model.RECWithId>>(File.ReadAllText(file));
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Model.DB.REC>>(File.ReadAllText(file));
                     recRepository.AddRange(data);
                 }
             }
