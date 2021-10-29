@@ -44,7 +44,7 @@ module.exports = async (req, res) => {
     redirect: 'follow'
   };
   
-  fetch("https://api.globdrem.com/REC/Register", requestOptions)
+  fetch("https://api.globdrem.com/REC/CreateOpportunity", requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));

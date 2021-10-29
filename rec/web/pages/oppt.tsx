@@ -68,9 +68,10 @@ function Opportunity() {
           <h1>Asset Identification </h1>
            <hr/>
            <div>
-           Real Estate Company Name:&nbsp;
-           <input type="textArea" onChange={handleChange} className={styles.RecInput}
+            Real Estate Company Name:&nbsp; <input type="textArea" onChange={handleChange} className={styles.RecInput}
                   name="recName" value={input.recName} placeholder="recName"  /> &nbsp;
+            REC ID: &nbsp; <input type="textArea" onChange={handleChange} className={styles.RecInput}
+                  name="recID" value={input.recID} placeholder="recID"  /> &nbsp;
            </div>
            <hr/>
           
