@@ -4,6 +4,7 @@ import Button from "./Button";
 import { authAlgo } from "@containers/index"; // Global state
 import { useRouter } from "next/router"; // Router
 
+//import { AlgoButton, AlgoSendButton, Pipeline} from 'pipeline-express-react'
 
 // Header
 export default function Header() {
@@ -24,7 +25,7 @@ export default function Header() {
      router.push("/");
   }
 
-   useEffect(() => {
+   useEffect(() => { 
      //myAlgoWallet = Pipeline.init();
    }, [] );
 

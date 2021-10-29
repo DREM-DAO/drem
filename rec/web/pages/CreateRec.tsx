@@ -41,8 +41,8 @@ function CreateRec() {
 const handleSave = async () => {
     if(!input.orgName || !input.orgTaxID ) return
 
-    setInput({...input, orgName: input.orgName });
-    console.log("Input: " ,  {...input} )
+    //setInput({...input, orgName: input.orgName });
+    //console.log("Input: " ,  {...input} )
     
     await axios.post("/api/recapi", { ...input})
         .then( (response) => {
