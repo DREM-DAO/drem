@@ -59,15 +59,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPost("Update/{orderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Order>> Update([FromBody] Model.Comm.OrderWithId item)
+        public async Task<ActionResult<Model.DB.Order>> Update([FromRoute] string orderId, [FromBody] Model.Comm.OrderBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await OrderBusinessController.UpdateAsync(item));
+                return Ok(await OrderBusinessController.UpdateAsync(orderId, item));
             }
             catch (Exception exc)
             {
@@ -79,15 +79,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete/{orderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromBody] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string orderId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await OrderBusinessController.DeleteAsync(new string[] { id }));
+                return Ok(await OrderBusinessController.DeleteAsync(new string[] { orderId }));
             }
             catch (Exception exc)
             {

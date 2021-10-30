@@ -59,15 +59,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPut("Update/{bufferTransferId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.BufferTransfer>> Update([FromBody] Model.Comm.BufferTransferWithId item)
+        public async Task<ActionResult<Model.DB.BufferTransfer>> Update([FromRoute] string bufferTransferId, [FromBody] Model.Comm.BufferTransferBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await bufferTransferBusinessController.UpdateAsync(item));
+                return Ok(await bufferTransferBusinessController.UpdateAsync(bufferTransferId, item));
             }
             catch (Exception exc)
             {
@@ -79,15 +79,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete/{bufferTransferId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromBody] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string bufferTransferId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await bufferTransferBusinessController.DeleteAsync(new string[] { id }));
+                return Ok(await bufferTransferBusinessController.DeleteAsync(new string[] { bufferTransferId }));
             }
             catch (Exception exc)
             {

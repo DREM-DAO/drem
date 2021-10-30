@@ -59,15 +59,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPut("Update/{dailyPayoutId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.DailyPayout>> Update([FromBody] Model.Comm.DailyPayoutWithId item)
+        public async Task<ActionResult<Model.DB.DailyPayout>> Update([FromRoute] string dailyPayoutId, [FromBody] Model.Comm.DailyPayoutBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await DailyPayoutBusinessController.UpdateAsync(item));
+                return Ok(await DailyPayoutBusinessController.UpdateAsync(dailyPayoutId, item));
             }
             catch (Exception exc)
             {
@@ -79,15 +79,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete/{dailyPayoutId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromBody] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string dailyPayoutId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await DailyPayoutBusinessController.DeleteAsync(new string[] { id }));
+                return Ok(await DailyPayoutBusinessController.DeleteAsync(new string[] { dailyPayoutId }));
             }
             catch (Exception exc)
             {

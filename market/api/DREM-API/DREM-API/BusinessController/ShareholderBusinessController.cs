@@ -16,6 +16,7 @@ namespace DREM_API.BusinessController
     public class ShareholderBusinessController
     {
         private readonly ShareholderRepository repository;
+        private readonly Mapper mapper;
         /// <summary>
         /// Constructor business Shareholder controller
         /// </summary>
@@ -23,6 +24,10 @@ namespace DREM_API.BusinessController
         public ShareholderBusinessController(ShareholderRepository repository)
         {
             this.repository = repository;
+            mapper = new Mapper(new MapperConfiguration(cnf =>
+            {
+                cnf.CreateMap<ShareholderBase, ShareholderWithId>();
+            }));
         }
 
         internal Task<Model.DB.Shareholder> CreateAsync(Model.Comm.ShareholderBase Shareholder)
@@ -30,9 +35,11 @@ namespace DREM_API.BusinessController
             return repository.AddAsync(Shareholder);
         }
 
-        internal Task<Model.DB.Shareholder> UpdateAsync(ShareholderWithId Shareholder)
+        internal Task<Model.DB.Shareholder> UpdateAsync(string id, ShareholderBase item)
         {
-            return repository.UpdateAsync(Shareholder);
+            var withId = mapper.Map<ShareholderWithId>(item);
+            withId.Id = id;
+            return repository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteAsync(string[] id)

@@ -38,6 +38,7 @@ namespace DREM_API.BusinessController
         /// <param name="transferBusinessController"></param>
         /// <param name="bufferTransferBusinessController"></param>
         /// <param name="shareholderBusinessController"></param>
+        /// <param name="votingBusinessController"></param>
         public ProjectBusinessController(
             ProjectRepository repository,
             ValueSetRepository valueSetRepository,

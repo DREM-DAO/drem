@@ -15,6 +15,7 @@ namespace DREM_API.BusinessController
     {
         private readonly VotingQuestionRepository votingQuestionRepository;
         private readonly VotingResultRepository votingResultRepository;
+        private readonly Mapper mapper;
         /// <summary>
         /// Constructor business Voting controller
         /// </summary>
@@ -27,6 +28,11 @@ namespace DREM_API.BusinessController
         {
             this.votingQuestionRepository = votingQuestionRepository;
             this.votingResultRepository = votingResultRepository;
+            mapper = new Mapper(new MapperConfiguration(cnf =>
+            {
+                cnf.CreateMap<Model.Comm.Voting.VotingQuestionBase, Model.Comm.Voting.VotingQuestionWithId>();
+                cnf.CreateMap<Model.Comm.Voting.VotingResultBase, Model.Comm.Voting.VotingResultWithId>();
+            }));
         }
 
         internal IQueryable<Model.DB.VotingQuestion> ListAllForProject(string questionerAccount)
@@ -44,9 +50,11 @@ namespace DREM_API.BusinessController
             return votingQuestionRepository.AddAsync(item);
         }
 
-        internal Task<Model.DB.VotingQuestion> UpdateVotingQuestionAsync(Model.Comm.Voting.VotingQuestionWithId item)
+        internal Task<Model.DB.VotingQuestion> UpdateVotingQuestionAsync(string id, Model.Comm.Voting.VotingQuestionBase item)
         {
-            return votingQuestionRepository.UpdateAsync(item);
+            var withId = mapper.Map<Model.Comm.Voting.VotingQuestionWithId>(item);
+            withId.Id = id;
+            return votingQuestionRepository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteVotingQuestionAsync(string[] id)
@@ -58,9 +66,11 @@ namespace DREM_API.BusinessController
             return votingResultRepository.AddAsync(item);
         }
 
-        internal Task<Model.DB.VotingResult> UpdateVotingResultAsync(Model.Comm.Voting.VotingResultWithId item)
+        internal Task<Model.DB.VotingResult> UpdateVotingResultAsync(string id, Model.Comm.Voting.VotingResultBase item)
         {
-            return votingResultRepository.UpdateAsync(item);
+            var withId = mapper.Map<Model.Comm.Voting.VotingResultWithId>(item);
+            withId.Id = id;
+            return votingResultRepository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteVotingResultAsync(string[] id)

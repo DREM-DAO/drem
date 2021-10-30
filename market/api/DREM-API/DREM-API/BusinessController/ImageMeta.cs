@@ -16,6 +16,7 @@ namespace DREM_API.BusinessController
     public class ImageMetaBusinessController
     {
         private readonly ImageMetaRepository repository;
+        private readonly Mapper mapper;
         /// <summary>
         /// Constructor business ImageMeta controller
         /// </summary>
@@ -23,6 +24,10 @@ namespace DREM_API.BusinessController
         public ImageMetaBusinessController(ImageMetaRepository repository)
         {
             this.repository = repository;
+            mapper = new Mapper(new MapperConfiguration(cnf =>
+            {
+                cnf.CreateMap<ImageMetaBase, ImageMetaWithId>();
+            }));
         }
 
         internal Task<Model.DB.ImageMeta> CreateAsync(Model.Comm.ImageMetaBase ImageMeta)
@@ -30,9 +35,11 @@ namespace DREM_API.BusinessController
             return repository.AddAsync(ImageMeta);
         }
 
-        internal Task<Model.DB.ImageMeta> UpdateAsync(ImageMetaWithId ImageMeta)
+        internal Task<Model.DB.ImageMeta> UpdateAsync(string id, ImageMetaBase item)
         {
-            return repository.UpdateAsync(ImageMeta);
+            var withId = mapper.Map<ImageMetaWithId>(item);
+            withId.Id = id;
+            return repository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteAsync(string[] id)

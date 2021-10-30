@@ -16,6 +16,7 @@ namespace DREM_API.BusinessController
     public class DailyPayoutBusinessController
     {
         private readonly DailyPayoutRepository repository;
+        private readonly Mapper mapper;
         /// <summary>
         /// Constructor business DailyPayout controller
         /// </summary>
@@ -23,16 +24,22 @@ namespace DREM_API.BusinessController
         public DailyPayoutBusinessController(DailyPayoutRepository repository)
         {
             this.repository = repository;
+            mapper = new Mapper(new MapperConfiguration(cnf =>
+            {
+                cnf.CreateMap<DailyPayoutBase, DailyPayoutWithId>();
+            }));
         }
 
-        internal Task<Model.DB.DailyPayout> CreateAsync(Model.Comm.DailyPayoutBase DailyPayout)
+        internal Task<Model.DB.DailyPayout> CreateAsync(Model.Comm.DailyPayoutBase item)
         {
-            return repository.AddAsync(DailyPayout);
+            return repository.AddAsync(item);
         }
 
-        internal Task<Model.DB.DailyPayout> UpdateAsync(DailyPayoutWithId DailyPayout)
+        internal Task<Model.DB.DailyPayout> UpdateAsync(string id, DailyPayoutBase item)
         {
-            return repository.UpdateAsync(DailyPayout);
+            var withId = mapper.Map<DailyPayoutWithId>(item);
+            withId.Id = id;
+            return repository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteAsync(string[] id)

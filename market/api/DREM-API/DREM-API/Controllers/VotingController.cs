@@ -79,15 +79,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("UpdateVotingQuestion")]
+        [HttpPut("UpdateVotingQuestion/{votingQuestionId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.VotingQuestion>> UpdateVotingQuestion([FromBody] Model.Comm.Voting.VotingQuestionWithId item)
+        public async Task<ActionResult<Model.DB.VotingQuestion>> UpdateVotingQuestion([FromRoute] string votingQuestionId, [FromBody] Model.Comm.Voting.VotingQuestionWithId item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await VotingBusinessController.UpdateVotingQuestionAsync(item));
+                return Ok(await VotingBusinessController.UpdateVotingQuestionAsync(votingQuestionId, item));
             }
             catch (Exception exc)
             {
@@ -99,15 +99,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("UpdateVotingResult")]
+        [HttpPut("UpdateVotingResult/{votingResultId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.VotingResult>> UpdateVotingResult([FromBody] Model.Comm.Voting.VotingResultWithId item)
+        public async Task<ActionResult<Model.DB.VotingResult>> UpdateVotingResult([FromRoute] string votingResultId, [FromBody] Model.Comm.Voting.VotingResultWithId item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await VotingBusinessController.UpdateVotingResultAsync(item));
+                return Ok(await VotingBusinessController.UpdateVotingResultAsync(votingResultId, item));
             }
             catch (Exception exc)
             {
@@ -120,15 +120,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("DeleteVotingQuestion/{id}")]
+        [HttpDelete("DeleteVotingQuestion/{votingQuestionId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> DeleteVotingQuestion([FromBody] string id)
+        public async Task<ActionResult<int>> DeleteVotingQuestion([FromRoute] string votingQuestionId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await VotingBusinessController.DeleteVotingQuestionAsync(new string[] { id }));
+                return Ok(await VotingBusinessController.DeleteVotingQuestionAsync(new string[] { votingQuestionId }));
             }
             catch (Exception exc)
             {
@@ -141,15 +141,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("DeleteVotingResult/{id}")]
+        [HttpDelete("DeleteVotingResult/{votingResultId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> DeleteVotingResult([FromBody] string id)
+        public async Task<ActionResult<int>> DeleteVotingResult([FromRoute] string votingResultId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await VotingBusinessController.DeleteVotingResultAsync(new string[] { id }));
+                return Ok(await VotingBusinessController.DeleteVotingResultAsync(new string[] { votingResultId }));
             }
             catch (Exception exc)
             {

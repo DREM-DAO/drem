@@ -16,6 +16,7 @@ namespace DREM_API.BusinessController
     public class OrderBusinessController
     {
         private readonly OrderRepository repository;
+        private readonly Mapper mapper;
         /// <summary>
         /// Constructor business Order controller
         /// </summary>
@@ -23,6 +24,10 @@ namespace DREM_API.BusinessController
         public OrderBusinessController(OrderRepository repository)
         {
             this.repository = repository;
+            mapper = new Mapper(new MapperConfiguration(cnf =>
+            {
+                cnf.CreateMap<OrderBase, OrderWithId>();
+            }));
         }
 
         internal Task<Model.DB.Order> CreateAsync(Model.Comm.OrderBase Order)
@@ -30,9 +35,11 @@ namespace DREM_API.BusinessController
             return repository.AddAsync(Order);
         }
 
-        internal Task<Model.DB.Order> UpdateAsync(OrderWithId Order)
+        internal Task<Model.DB.Order> UpdateAsync(string id, OrderBase item)
         {
-            return repository.UpdateAsync(Order);
+            var withId = mapper.Map<OrderWithId>(item);
+            withId.Id = id;
+            return repository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteAsync(string[] id)

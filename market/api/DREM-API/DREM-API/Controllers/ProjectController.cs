@@ -82,7 +82,7 @@ namespace DREM_API.Controllers
         [HttpPost("Delete/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromBody] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string id)
         {
             try
             {

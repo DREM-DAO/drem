@@ -59,15 +59,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPost("Update/{shareholderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Shareholder>> Update([FromBody] Model.Comm.ShareholderWithId item)
+        public async Task<ActionResult<Model.DB.Shareholder>> Update([FromRoute] string shareholderId, [FromBody] Model.Comm.ShareholderBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await ShareholderBusinessController.UpdateAsync(item));
+                return Ok(await ShareholderBusinessController.UpdateAsync(shareholderId, item));
             }
             catch (Exception exc)
             {
@@ -79,15 +79,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete/{shareholderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromBody] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string shareholderId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await ShareholderBusinessController.DeleteAsync(new string[] { id }));
+                return Ok(await ShareholderBusinessController.DeleteAsync(new string[] { shareholderId }));
             }
             catch (Exception exc)
             {

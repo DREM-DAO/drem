@@ -59,15 +59,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPost("Update/{imageId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.ImageMeta>> Update([FromBody] Model.Comm.ImageMetaWithId item)
+        public async Task<ActionResult<Model.DB.ImageMeta>> Update([FromRoute] string imageId, [FromBody] Model.Comm.ImageMetaWithId item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await ImageMetaBusinessController.UpdateAsync(item));
+                return Ok(await ImageMetaBusinessController.UpdateAsync(imageId, item));
             }
             catch (Exception exc)
             {
@@ -79,15 +79,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete/{imageId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromBody] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string imageId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await ImageMetaBusinessController.DeleteAsync(new string[] { id }));
+                return Ok(await ImageMetaBusinessController.DeleteAsync(new string[] { imageId }));
             }
             catch (Exception exc)
             {

@@ -16,6 +16,7 @@ namespace DREM_API.BusinessController
     public class TransferBusinessController
     {
         private readonly TransferRepository repository;
+        private readonly Mapper mapper;
         /// <summary>
         /// Constructor business Transfer controller
         /// </summary>
@@ -23,6 +24,10 @@ namespace DREM_API.BusinessController
         public TransferBusinessController(TransferRepository repository)
         {
             this.repository = repository;
+            mapper = new Mapper(new MapperConfiguration(cnf =>
+            {
+                cnf.CreateMap<TransferBase, TransferWithId>();
+            }));
         }
 
         internal Task<Model.DB.Transfer> CreateAsync(Model.Comm.TransferBase Transfer)
@@ -30,9 +35,11 @@ namespace DREM_API.BusinessController
             return repository.AddAsync(Transfer);
         }
 
-        internal Task<Model.DB.Transfer> UpdateAsync(TransferWithId Transfer)
+        internal Task<Model.DB.Transfer> UpdateAsync(string id, TransferBase item)
         {
-            return repository.UpdateAsync(Transfer);
+            var withId = mapper.Map<TransferWithId>(item);
+            withId.Id = id;
+            return repository.UpdateAsync(withId);
         }
 
         internal Task<int> DeleteAsync(string[] id)

@@ -65,6 +65,7 @@
             <param name="transferBusinessController"></param>
             <param name="bufferTransferBusinessController"></param>
             <param name="shareholderBusinessController"></param>
+            <param name="votingBusinessController"></param>
         </member>
         <member name="T:DREM_API.BusinessController.RECBusinessController">
             <summary>
@@ -141,7 +142,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.BufferTransferController.Update(DREM_API.Model.Comm.BufferTransferWithId)">
+        <member name="M:DREM_API.Controllers.BufferTransferController.Update(System.String,DREM_API.Model.Comm.BufferTransferBase)">
             <summary>
             Create BufferTransfer
             </summary>
@@ -177,7 +178,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.DailyPayoutController.Update(DREM_API.Model.Comm.DailyPayoutWithId)">
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Update(System.String,DREM_API.Model.Comm.DailyPayoutBase)">
             <summary>
             Create DailyPayout
             </summary>
@@ -213,7 +214,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.ImageMetaController.Update(DREM_API.Model.Comm.ImageMetaWithId)">
+        <member name="M:DREM_API.Controllers.ImageMetaController.Update(System.String,DREM_API.Model.Comm.ImageMetaWithId)">
             <summary>
             Create ImageMeta
             </summary>
@@ -249,7 +250,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.OrderController.Update(DREM_API.Model.Comm.OrderWithId)">
+        <member name="M:DREM_API.Controllers.OrderController.Update(System.String,DREM_API.Model.Comm.OrderBase)">
             <summary>
             Create Order
             </summary>
@@ -381,7 +382,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.ShareholderController.Update(DREM_API.Model.Comm.ShareholderWithId)">
+        <member name="M:DREM_API.Controllers.ShareholderController.Update(System.String,DREM_API.Model.Comm.ShareholderBase)">
             <summary>
             Create Shareholder
             </summary>
@@ -417,7 +418,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.TransferController.Update(DREM_API.Model.Comm.TransferWithId)">
+        <member name="M:DREM_API.Controllers.TransferController.Update(System.String,DREM_API.Model.Comm.TransferBase)">
             <summary>
             Create Transfer
             </summary>
@@ -537,13 +538,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingQuestion(DREM_API.Model.Comm.Voting.VotingQuestionWithId)">
+        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingQuestion(System.String,DREM_API.Model.Comm.Voting.VotingQuestionWithId)">
             <summary>
             Update VotingQuestion
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingResult(DREM_API.Model.Comm.Voting.VotingResultWithId)">
+        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingResult(System.String,DREM_API.Model.Comm.Voting.VotingResultWithId)">
             <summary>
             Update VotingQuestion
             </summary>
