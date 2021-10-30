@@ -59,7 +59,7 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update/{shareholderId}")]
+        [HttpPut("Update/{shareholderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<Model.DB.Shareholder>> Update([FromRoute] string shareholderId, [FromBody] Model.Comm.ShareholderBase item)

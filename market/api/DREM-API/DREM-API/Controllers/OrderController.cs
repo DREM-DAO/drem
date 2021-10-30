@@ -59,7 +59,7 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update/{orderId}")]
+        [HttpPut("Update/{orderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<Model.DB.Order>> Update([FromRoute] string orderId, [FromBody] Model.Comm.OrderBase item)

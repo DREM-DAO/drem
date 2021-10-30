@@ -59,7 +59,7 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update/{imageId}")]
+        [HttpPut("Update/{imageId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<Model.DB.ImageMeta>> Update([FromRoute] string imageId, [FromBody] Model.Comm.ImageMetaWithId item)
