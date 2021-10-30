@@ -931,9 +931,9 @@
             Image
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ProjectBase.Evaluation">
+        <member name="P:DREM_API.Model.Comm.ProjectBase.Valuation">
             <summary>
-            Current evaluation
+            Current valuation
             </summary>
         </member>
         <member name="P:DREM_API.Model.Comm.ProjectBase.Currency">
