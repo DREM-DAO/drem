@@ -126,7 +126,7 @@
               <Column field="name" header="Name" :sortable="true"></Column>
               <Column
                 field="description"
-                header="description"
+                header="Description"
                 :sortable="true"
               ></Column>
               <Column field="src" header="src" :sortable="true"></Column>
@@ -228,6 +228,14 @@
             <div class="card">
               <div class="card-header d-flex">
                 <h3 class="flex-grow-1">List of buffer txs</h3>
+
+                <button
+                  class="btn btn-dark btn-sm"
+                  style="width: 100px"
+                  @click="this.showBufferForm = true"
+                >
+                  +
+                </button>
               </div>
             </div>
             <DataTable
@@ -240,19 +248,87 @@
               :rows="5"
             >
               <template #empty> There are no transfers in the buffer </template>
-              <Column field="name" header="Name" :sortable="true"></Column>
+              <Column field="time" header="Time" :sortable="true"></Column>
+              <Column field="note" header="Note" :sortable="true"></Column>
+              <Column field="amount" header="Amount" :sortable="true"></Column>
               <Column
-                field="description"
-                header="description"
+                field="currency"
+                header="Currency"
                 :sortable="true"
               ></Column>
-              <Column field="src" header="src" :sortable="true"></Column>
-              <Column
-                field="thumbnail"
-                header="thumbnail"
-                :sortable="true"
-              ></Column>
+              <Column header="Actions"
+                ><template #body="slotProps">
+                  <button
+                    @click="this.deleteBufferTx(slotProps)"
+                    class="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </button>
+                </template></Column
+              >
             </DataTable>
+          </div>
+          <div class="card-body" v-if="showBufferForm">
+            <div class="card">
+              <div class="card-header d-flex">
+                <h3 class="flex-grow-1">Buffer transaction form</h3>
+                <button
+                  class="btn btn-dark btn-sm"
+                  style="width: 100px"
+                  @click="
+                    this.showBufferForm = false;
+                    this.selectedBufferTx = {};
+                  "
+                >
+                  X
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="m-1">
+                <label for="Note">Note</label>
+                <div class="input-group">
+                  <input
+                    id="Note"
+                    class="form-control"
+                    v-model="selectedBufferTx.note"
+                  />
+                </div>
+              </div>
+              <div class="m-1">
+                <label for="Amount">Amount</label>
+                <div class="input-group">
+                  <input
+                    id="Amount"
+                    class="form-control"
+                    v-model="selectedBufferTx.amount"
+                  />
+                </div>
+              </div>
+              <div class="m-1">
+                <label for="Currency">Currency</label>
+                <div class="input-group">
+                  <input
+                    id="Currency"
+                    class="form-control"
+                    v-model="selectedBufferTx.currency"
+                  />
+                </div>
+              </div>
+              <div class="m-1">
+                <label for="DateOfPicture">Time</label>
+                <div class="input-group">
+                  <Datepicker v-model="selectedBufferTx.time"></Datepicker>
+                </div>
+              </div>
+              <div class="m-1">
+                <div class="input-group">
+                  <button class="btn btn-primary" @click="saveBufferTx">
+                    Save tx data
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="card-body"
@@ -353,8 +429,7 @@ export default {
       selectedKey: "",
       itemText: "",
       value: "",
-      selectedImage: null,
-      selectedBufferTx: null,
+      selectedBufferTx: {},
       selectedDailyPayout: null,
       selectedShareholder: null,
       showPhotoForm: false,
@@ -373,6 +448,17 @@ export default {
     imageMeta() {
       if (this.imageMeta && this.imageMeta.id) {
         this.showPhotoForm = true;
+      }
+      if (!this.imageMeta) {
+        this.imageMeta = {};
+      }
+    },
+    selectedBufferTx() {
+      if (this.selectedBufferTx && this.selectedBufferTx.id) {
+        this.showBufferForm = true;
+      }
+      if (!this.selectedBufferTx) {
+        this.selectedBufferTx = {};
       }
     },
   },
@@ -491,9 +577,62 @@ export default {
       }
       this.loadProject();
     },
+    async saveBufferTx() {
+      if (!this.selectedProject || !this.selectedProject.id) {
+        this.openError("You must select project first");
+        return;
+      }
+      if (this.selectedBufferTx.id) {
+        this.selectedBufferTx.projectId = this.selectedProject.id;
+        const ret = await this.axiosPut({
+          url: `${this.$store.state.config.dremapi}/BufferTransfer/Update/${this.selectedBufferTx.id}`,
+          body: this.selectedBufferTx,
+        });
+        this.closeForm();
+        if (ret) {
+          this.openSuccess("BufferTransfer updated");
+        } else {
+          this.openError("Error updating bufferTransfer");
+        }
+      } else {
+        this.selectedBufferTx.projectId = this.selectedProject.id;
+        const ret = await this.axiosPost({
+          url: `${this.$store.state.config.dremapi}/BufferTransfer/Create`,
+          body: this.selectedBufferTx,
+        });
+        this.closeForm();
+        if (ret) {
+          this.openSuccess("BufferTransfer created");
+        } else {
+          this.openError("Error creating bufferTransfer");
+        }
+      }
+      this.loadProject();
+    },
+    async deleteBufferTx(item) {
+      console.log("item", item);
+      if (!item || !item.data || !item.data.id) {
+        this.openError("You must select image first");
+        return;
+      }
+      if (!confirm("Are you sure?")) return;
+      const ret = await this.axiosDelete({
+        url: `${this.$store.state.config.dremapi}/BufferTransfer/Delete/${item.data.id}`,
+      });
+      this.closeForm();
+      if (ret) {
+        this.openSuccess("BufferTransfer deleted");
+      } else {
+        this.openError("Error deleting bufferTransfer");
+      }
+      this.loadProject();
+    },
+
     closeForm() {
       this.imageMeta = {};
       this.showPhotoForm = false;
+      this.selectedBufferTx = {};
+      this.showBufferForm = false;
     },
   },
 };
