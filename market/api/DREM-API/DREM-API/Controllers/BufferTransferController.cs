@@ -55,7 +55,7 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Create BufferTransfer
+        /// Update Buffer Transfer
         /// </summary>
         /// <returns></returns>
         [Authorize]
