@@ -3,8 +3,8 @@ import Layout from '../components/Layout'
 import styles from '../styles/Rec.module.css'
 import axios from "axios"; // axios requests
 import { useRouter } from "next/router"; // Router
-import Button from "../components/Button";
-import Banner from "../components/Banner";
+import Button from "@components/Button";
+import {showSuccessMessage, showErrorMessage} from './alerts';
 
 export interface IREC {
   rec: {
@@ -33,6 +33,8 @@ function CreateRec() {
           contactFirstName:"", contactLastName: "", contactMiddleName:"",
           contactPhoneNumber: "", contactEmail: "",
       }) 
+  
+  const [status, setStatus] = useState({success: "", error: ""});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -40,14 +42,18 @@ function CreateRec() {
 
 const handleSave = async () => {
     if(!input.orgName || !input.orgTaxID ) return
-
+    
     //setInput({...input, orgName: input.orgName });
     //console.log("Input: " ,  {...input} )
-    
-    await axios.post("/api/recapi", { ...input})
-        .then( (response) => {
-            console.log("Response:", response);
-    });
+    try {
+      await axios.post("/api/createRec", { ...input})
+      .then( (response) => {
+          console.log("Response:", response);
+          setStatus({...status, error: "", success: "Record saved successfully."})
+      });
+    } catch(error) {
+            setStatus({...status, error, success: ""})
+    }
 
 }
 
@@ -57,9 +63,11 @@ const handleCancel = () => {
 
 return (
     <Layout>
-    <div className={styles.AddRec}>
+    <div>
           <h1>Real Estate Company Information </h1>
-           <hr/>
+          <hr/>
+          {status.success && showSuccessMessage(status.success)}
+          {status.error && showErrorMessage(status.error)}
           <div> 
             Orgnization Name:&nbsp;
             <input type="text" onChange={handleChange} className={styles.RecInput}
@@ -96,7 +104,7 @@ return (
             <input type="text" onChange={handleChange}  className={styles.RecInput} 
                   name="postalCode" value={input.postalCode}  placeholder="postalCode"  />
           </div>
-
+          
           <hr/>
           <p><b>Oragnization Contact Information: </b></p>
          
@@ -120,18 +128,13 @@ return (
             <input type="text" onChange={handleChange}  className={styles.RecInput}
                   name="contactEmail" value={input.contactEmail}  placeholder="contactEmail"  /> &nbsp;
           </div>
-
-          <div className="line"></div>
-        <br/>
+        
+        <hr/>
         <div>
             <Button onClick={handleSave} > Save </Button>  
             &nbsp;&nbsp;&nbsp;&nbsp;
             <Button onClick={handleCancel}> Cancel </Button>
         </div>
-        
-        
-   
-        
         
     </div>
     </Layout>

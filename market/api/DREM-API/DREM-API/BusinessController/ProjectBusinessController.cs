@@ -135,16 +135,16 @@ namespace DREM_API.BusinessController
             ret.Project = Convert(repository.GetProjectByUrlId(urlId));
             if (!string.IsNullOrEmpty(ret.Project?.Id))
             {
-                ret.Images = imageMetaBusinessController.ListAllForProject(ret.Project.Id).ToArray();
-                ret.BufferTxs = bufferTransferBusinessController.ListAllForProject(ret.Project.Id).ToArray();
+                ret.Images = imageMetaBusinessController.ListAllForProject(ret.Project.Id)?.ToArray();
+                ret.BufferTxs = bufferTransferBusinessController.ListAllForProject(ret.Project.Id)?.ToArray();
             }
             if (ret.Project.ASA.HasValue)
             {
-                ret.Shareholders = shareholderBusinessController.ListAllForAsset(ret.Project.ASA.Value).ToArray();
-                ret.Transfers = transferBusinessController.ListAllForAsset(ret.Project.ASA.Value).ToArray();
-                ret.Bids = orderBusinessController.ListAllBidsForProject(ret.Project.ASA.Value).ToArray();
-                ret.Offers = orderBusinessController.ListAllOffersForProject(ret.Project.ASA.Value).ToArray();
-                ret.Bids = orderBusinessController.ListAllBidsForProject(ret.Project.ASA.Value).ToArray();
+                ret.Shareholders = shareholderBusinessController.ListAllForAsset(ret.Project.ASA.Value)?.ToArray();
+                ret.Transfers = transferBusinessController.ListAllForAsset(ret.Project.ASA.Value)?.ToArray();
+                ret.Bids = orderBusinessController.ListAllBidsForProject(ret.Project.ASA.Value)?.ToArray();
+                ret.Offers = orderBusinessController.ListAllOffersForProject(ret.Project.ASA.Value)?.ToArray();
+                ret.Bids = orderBusinessController.ListAllBidsForProject(ret.Project.ASA.Value)?.ToArray();
             }
             if (!string.IsNullOrEmpty(ret.Project.IssuerAccount))
             {
