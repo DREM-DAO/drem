@@ -136,32 +136,21 @@ export default {
     VLink,
   },
   data() {
-    return {
-      authData: "",
-    };
+    return {};
   },
   computed: {
     token() {
       return this.$store.state.wallet.authTx;
+    },
+    authData() {
+      return this.$store.state.wallet.me;
     },
   },
   watch: {
     async authData() {
       console.log("authData watch", this.authData);
     },
-    async token() {
-      // watch it
-      console.log("authTx updated", this.token);
-      if (this.token) {
-        const me = await this.axiosGet({
-          url: this.$store.state.config.dremapi + "/User/Me",
-        });
-        this.authData = me;
-        console.log("authData", this.authData);
-      } else {
-        this.authData = "";
-      }
-    },
+    async token() {},
   },
   methods: {
     ...mapActions({
