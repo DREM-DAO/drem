@@ -26,6 +26,9 @@ namespace AlgorandAuthentication
         public const string ID = "AlgorandAuthentication";
         public const string AuthPrefix = "SigTx ";
         private readonly ILogger<AlgorandAuthenticationHandler> logger;
+        private static DateTimeOffset? t;
+        private static ulong block;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -62,32 +65,76 @@ namespace AlgorandAuthentication
         /// <returns></returns>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            logger.LogInformation("HandleAuthenticateAsync");
-            if (!Request.Headers.ContainsKey("Authorization"))
-                return AuthenticateResult.NoResult();
-
-            var auth = Request.Headers["Authorization"].ToString();
-            if (!auth.StartsWith(AuthPrefix)) {
-                return AuthenticateResult.NoResult();
-            }
-            var tx = Convert.FromBase64String(auth.Replace(AuthPrefix, ""));
-            var tr = Algorand.Encoder.DecodeFromMsgPack<SignedTransaction>(tx);
-
-            if (!Verify(tr.tx.sender.Bytes, tr.tx.BytesToSign(), tr.sig.Bytes))
+            try
             {
-                return AuthenticateResult.Fail(new Exception("Signature is invalid"));
-            }
-            var user = tr.tx.sender.ToString();
-            var claims = new[] {
+                logger.LogInformation("HandleAuthenticateAsync");
+                if (!Request.Headers.ContainsKey("Authorization"))
+                    return AuthenticateResult.NoResult();
+
+                var auth = Request.Headers["Authorization"].ToString();
+                if (!auth.StartsWith(AuthPrefix))
+                {
+                    return AuthenticateResult.NoResult();
+                }
+                var tx = Convert.FromBase64String(auth.Replace(AuthPrefix, ""));
+                var tr = Algorand.Encoder.DecodeFromMsgPack<SignedTransaction>(tx);
+
+                if (!Verify(tr.tx.sender.Bytes, tr.tx.BytesToSign(), tr.sig.Bytes))
+                {
+                    return AuthenticateResult.Fail(new Exception("Signature is invalid"));
+                }
+                if (Convert.ToBase64String(tr.tx.genesisHash.Bytes) != Options.NetworkGenesisHash)
+                {
+                    return AuthenticateResult.Fail(new Exception("Invalid Network"));
+                }
+                if (Options.Realm != Encoding.ASCII.GetString(tr.tx.note))
+                {
+                    // todo: add meaningful message
+                    return AuthenticateResult.Fail(new Exception("Wrong Realm"));
+                }
+                if (Options.CheckExpiration)
+                {
+                    ulong estimatedCurrentBlock;
+                    if (t.HasValue && t.Value.AddHours(1) > DateTimeOffset.UtcNow)
+                    {
+                        estimatedCurrentBlock = Convert.ToUInt64((DateTimeOffset.UtcNow - t.Value).TotalSeconds) / 5 + block;
+                    }
+                    else
+                    {
+                        var client = new Algorand.V2.AlgodApi(Options.AlgodServer, Options.AlgodServerToken);
+
+                        var c = await client.GetStatusAsync();
+                        if (c.LastRound.HasValue)
+                        {
+                            t = DateTimeOffset.UtcNow;
+                            block = (ulong)c.LastRound.Value;
+                        }
+                        estimatedCurrentBlock = block;
+                    }
+
+                    if (tr.tx.lastValid.Value < estimatedCurrentBlock)
+                    {
+                        return AuthenticateResult.Fail(new Exception("Session timed out"));
+                    }
+                }
+
+                var user = tr.tx.sender.ToString();
+                var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier,user),
                 new Claim(ClaimTypes.Name,user),
             };
-            var identity = new ClaimsIdentity(claims, Scheme.Name);
-            var principal = new ClaimsPrincipal(identity);
-            var ticket = new AuthenticationTicket(principal, Scheme.Name);
-            
-            return AuthenticateResult.Success(ticket);
+                var identity = new ClaimsIdentity(claims, Scheme.Name);
+                var principal = new ClaimsPrincipal(identity);
+                var ticket = new AuthenticationTicket(principal, Scheme.Name);
+
+                return AuthenticateResult.Success(ticket);
+            }
+            catch(Exception e)
+            {
+                return AuthenticateResult.Fail(e);
+            }
         }
+
         private bool Verify(byte[] address, byte[] message, byte[] sig)
         {
 
