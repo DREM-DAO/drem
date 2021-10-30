@@ -48,7 +48,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            ./run.sh ${{ steps.date.outputs.datehour }}
+            ./run.sh ${{ steps.datehour.outputs.datehour }}
           host: ${{ secrets.HOST }}
           port: ${{ secrets.HOSTPORT }}
           user: ${{ secrets.SSH_USER }}
