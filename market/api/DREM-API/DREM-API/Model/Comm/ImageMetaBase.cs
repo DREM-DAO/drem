@@ -8,7 +8,7 @@ namespace DREM_API.Model.Comm
     /// <summary>
     /// Picture metadata for specific project
     /// </summary>
-    public class ImageMeta
+    public class ImageMetaBase
     {
         /// <summary>
         /// Project.Id

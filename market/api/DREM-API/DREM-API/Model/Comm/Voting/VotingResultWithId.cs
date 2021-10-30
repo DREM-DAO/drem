@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 namespace DREM_API.Model.Comm.Voting
 {
     /// <summary>
-    /// Public voting
+    /// voting result 
     /// </summary>
-    public class Voting
+    public class VotingResultWithId : VotingResultBase
     {
         /// <summary>
-        /// Question
+        /// Id
         /// </summary>
-        public VotingQuestion Question { get; set; }
-        /// <summary>
-        /// Result
-        /// </summary>
-        public VotingResult Result { get; set; }
+        public string Id { get; set; }
     }
 }

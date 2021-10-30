@@ -13,41 +13,41 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller manages api methods for projects 
+    /// This controller manages api methods for buffer Votings
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ProjectController : ControllerBase
+    public class VotingController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        private readonly ProjectBusinessController projectBusinessController;
+        private readonly VotingBusinessController VotingBusinessController;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="projectBusinessController"></param>
-        public ProjectController(
+        /// <param name="VotingBusinessController"></param>
+        public VotingController(
             IConfiguration configuration,
-            ProjectBusinessController projectBusinessController
+            VotingBusinessController VotingBusinessController
             )
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.projectBusinessController = projectBusinessController;
+            this.VotingBusinessController = VotingBusinessController;
         }
         /// <summary>
-        /// Create project
+        /// Create Voting Question
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Create")]
+        [HttpPost("CreateVotingQuestion")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Create([FromBody] Model.Comm.ProjectBase project)
+        public async Task<ActionResult<Model.DB.VotingQuestion>> CreateVotingQuestion([FromBody] Model.Comm.Voting.VotingQuestionBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.CreateAsync(project));
+                return Ok(await VotingBusinessController.CreateVotingQuestionAsync(item));
             }
             catch (Exception exc)
             {
@@ -55,19 +55,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Update project
+        /// Create Voting Result
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPost("CreateVotingResult")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Update([FromBody] Model.Comm.ProjectWithId project)
+        public async Task<ActionResult<Model.DB.VotingResult>> CreateVotingQuestion([FromBody] Model.Comm.Voting.VotingResultBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.UpdateAsync(project));
+                return Ok(await VotingBusinessController.CreateVotingResultAsync(item));
             }
             catch (Exception exc)
             {
@@ -75,75 +75,102 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Delete project
+        /// Update VotingQuestion
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Delete/{id}")]
+        [HttpPut("UpdateVotingQuestion/{votingQuestionId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromRoute] string id)
+        public async Task<ActionResult<Model.DB.VotingQuestion>> UpdateVotingQuestion([FromRoute] string votingQuestionId, [FromBody] Model.Comm.Voting.VotingQuestionWithId item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.DeleteAsync(id));
+                return Ok(await VotingBusinessController.UpdateVotingQuestionAsync(votingQuestionId, item));
             }
             catch (Exception exc)
             {
                 return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
             }
         }
+        /// <summary>
+        /// Update VotingQuestion
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut("UpdateVotingResult/{votingResultId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Model.DB.VotingResult>> UpdateVotingResult([FromRoute] string votingResultId, [FromBody] Model.Comm.Voting.VotingResultWithId item)
+        {
+            try
+            {
+                if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
+                return Ok(await VotingBusinessController.UpdateVotingResultAsync(votingResultId, item));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+
+        /// <summary>
+        /// Delete Voting Question
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpDelete("DeleteVotingQuestion/{votingQuestionId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<int>> DeleteVotingQuestion([FromRoute] string votingQuestionId)
+        {
+            try
+            {
+                if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
+                return Ok(await VotingBusinessController.DeleteVotingQuestionAsync(new string[] { votingQuestionId }));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+
+        /// <summary>
+        /// Delete Voting Result
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpDelete("DeleteVotingResult/{votingResultId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<int>> DeleteVotingResult([FromRoute] string votingResultId)
+        {
+            try
+            {
+                if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
+                return Ok(await VotingBusinessController.DeleteVotingResultAsync(new string[] { votingResultId }));
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
+            }
+        }
+
         /// <summary>
         /// List all projects for administration purposes
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("ListAll")]
+        [HttpGet("ListAllForAsset/{projectId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.DB.Project>> ListAll()
+        public ActionResult<IEnumerable<Model.Comm.Voting.VotingBase>> ListAllForAsset([FromRoute] string projectId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(projectBusinessController.ListAll().Where(p => p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("List")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.Comm.ProjectWithValueSets>> List()
-        {
-            try
-            {
-                return Ok(projectBusinessController.ListAllPublic().Where(p=>p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("GetDetail/{urlId}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<Model.Comm.ProjectDetail> GetDetail([FromRoute] string urlId)
-        {
-            try
-            {
-                return Ok(projectBusinessController.GetDetailByUrlId(urlId));
+                return Ok(VotingBusinessController.ListAllForProject(projectId));
             }
             catch (Exception exc)
             {

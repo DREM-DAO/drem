@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 namespace DREM_API.Model.Comm
 {
     /// <summary>
-    /// Shareholder
+    /// Image meta
     /// </summary>
-    public class Shareholder
+    public class ImageMetaWithId : ImageMetaBase
     {
         /// <summary>
-        /// Account address
+        /// Id
         /// </summary>
-        public string Account { get; set; }
-        /// <summary>
-        /// Share
-        /// </summary>
-        public decimal Share { get; set; }
+        public string Id { get; set; }
     }
 }

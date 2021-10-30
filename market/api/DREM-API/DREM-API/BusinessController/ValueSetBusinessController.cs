@@ -1,4 +1,5 @@
-﻿using DREM_API.Model;
+﻿using AutoMapper;
+using DREM_API.Model;
 using DREM_API.Repository;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,7 @@
   <MainLayout>
     <h1>Manage projects</h1>
 
-    <div class="row">
+    <div class="row" v-if="!selectedProject">
       <div class="col">
         <div class="card">
           <div class="card-header">
@@ -18,11 +18,8 @@
             :rows="20"
           >
             <template #empty> No projects </template>
-            <Column
-              field="tx-type"
-              :header="$t('acc_overview.type')"
-              :sortable="true"
-            ></Column>
+            <Column field="asa" header="AsaId" :sortable="true"></Column>
+            <Column field="name" header="Name" :sortable="true"></Column>
           </DataTable>
         </div>
       </div>
@@ -74,6 +71,55 @@
         </div>
       </div>
     </div>
+    <div class="row" v-if="selectedProject">
+      <div class="col">
+        <div class="card">
+          <div class="card-header d-flex">
+            <h2 class="flex-grow-1">
+              Project:
+              <span v-if="project && project.project && project.project.name">
+                {{ project.project.name }}
+              </span>
+              <span
+                v-else
+                class="spinner-grow spinner-grow-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </h2>
+            <button
+              class="btn btn-dark btn-sm"
+              style="width: 100px"
+              @click="this.selectedProject = null"
+            >
+              X
+            </button>
+          </div>
+          <div
+            class="card-body"
+            v-if="project && project.project && project.project.name"
+          >
+            <div class="card">
+              <div class="card-header d-flex">
+                <h3 class="flex-grow-1">List of photos:</h3>
+              </div>
+            </div>
+            <DataTable
+              :value="projects"
+              responsiveLayout="scroll"
+              selectionMode="single"
+              v-model:selection="selectedProject"
+              :paginator="true"
+              :rows="20"
+            >
+              <template #empty> No projects </template>
+              <Column field="asa" header="AsaId" :sortable="true"></Column>
+              <Column field="name" header="Name" :sortable="true"></Column>
+            </DataTable>
+          </div>
+        </div>
+      </div>
+    </div>
   </MainLayout>
 </template>
 
@@ -87,6 +133,7 @@ export default {
 
   data() {
     return {
+      project: null,
       projects: [],
       selectedProject: null,
       codes: [],
@@ -97,7 +144,18 @@ export default {
       value: "",
     };
   },
-  watch: {},
+  watch: {
+    project() {
+      console.log("project", this.project);
+    },
+    async selectedProject() {
+      if (this.selectedProject && this.selectedProject.urlId) {
+        this.project = await this.axiosGet({
+          url: `${this.$store.state.config.dremapi}/Project/GetDetail/${this.selectedProject.urlId}`,
+        });
+      }
+    },
+  },
 
   async mounted() {
     await this.prolong();

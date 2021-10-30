@@ -13,41 +13,41 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller manages api methods for projects 
+    /// This controller manages api methods for image processor
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ProjectController : ControllerBase
+    public class ImageMetaController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        private readonly ProjectBusinessController projectBusinessController;
+        private readonly ImageMetaBusinessController ImageMetaBusinessController;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="projectBusinessController"></param>
-        public ProjectController(
+        /// <param name="ImageMetaBusinessController"></param>
+        public ImageMetaController(
             IConfiguration configuration,
-            ProjectBusinessController projectBusinessController
+            ImageMetaBusinessController ImageMetaBusinessController
             )
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.projectBusinessController = projectBusinessController;
+            this.ImageMetaBusinessController = ImageMetaBusinessController;
         }
         /// <summary>
-        /// Create project
+        /// Create ImageMeta
         /// </summary>
         /// <returns></returns>
         [Authorize]
         [HttpPost("Create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Create([FromBody] Model.Comm.ProjectBase project)
+        public async Task<ActionResult<Model.DB.ImageMeta>> Create([FromBody] Model.Comm.ImageMetaBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.CreateAsync(project));
+                return Ok(await ImageMetaBusinessController.CreateAsync(item));
             }
             catch (Exception exc)
             {
@@ -55,19 +55,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Update project
+        /// Create ImageMeta
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPut("Update/{imageId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Update([FromBody] Model.Comm.ProjectWithId project)
+        public async Task<ActionResult<Model.DB.ImageMeta>> Update([FromRoute] string imageId, [FromBody] Model.Comm.ImageMetaWithId item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.UpdateAsync(project));
+                return Ok(await ImageMetaBusinessController.UpdateAsync(imageId, item));
             }
             catch (Exception exc)
             {
@@ -75,19 +75,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Delete project
+        /// Delete ImageMeta
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Delete/{id}")]
+        [HttpDelete("Delete/{imageId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromRoute] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string imageId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.DeleteAsync(id));
+                return Ok(await ImageMetaBusinessController.DeleteAsync(new string[] { imageId }));
             }
             catch (Exception exc)
             {
@@ -99,51 +99,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("ListAll")]
+        [HttpGet("ListAllForProject/{projectId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.DB.Project>> ListAll()
+        public ActionResult<IEnumerable<Model.DB.ImageMeta>> ListAllForProject([FromRoute] string projectId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(projectBusinessController.ListAll().Where(p => p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("List")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.Comm.ProjectWithValueSets>> List()
-        {
-            try
-            {
-                return Ok(projectBusinessController.ListAllPublic().Where(p=>p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("GetDetail/{urlId}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<Model.Comm.ProjectDetail> GetDetail([FromRoute] string urlId)
-        {
-            try
-            {
-                return Ok(projectBusinessController.GetDetailByUrlId(urlId));
+                return Ok(ImageMetaBusinessController.ListAllForProject(projectId));
             }
             catch (Exception exc)
             {

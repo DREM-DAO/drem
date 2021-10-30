@@ -78,5 +78,9 @@ namespace DREM_API.Model.Comm
         /// The project is publicly visible
         /// </summary>
         public bool ShowToPublic { get; set; } = false;
+        /// <summary>
+        /// The account of the issuer is allowed to ask questions and set its results
+        /// </summary>
+        public string IssuerAccount { get; set; }
     }
 }

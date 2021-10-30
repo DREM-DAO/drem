@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller returns version of the current api
+    /// This controller manages api methods for recs
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -40,7 +40,7 @@ namespace DREM_API.Controllers
         [HttpPost("Register")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.RECWithId>> Register([FromBody] Model.REC rec)
+        public async Task<ActionResult<Model.DB.REC>> Register([FromBody] Model.DB.REC rec)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace DREM_API.Controllers
         [HttpGet("GetAll")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<IEnumerable<Model.RECWithId>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Model.DB.REC>>> GetAll()
         {
             try
             {
@@ -113,7 +113,7 @@ namespace DREM_API.Controllers
         [HttpGet("GetAllAuth")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<IEnumerable<Model.RECWithId>>> GetAll2()
+        public async Task<ActionResult<IEnumerable<Model.DB.REC>>> GetAll2()
         {
             try
             {

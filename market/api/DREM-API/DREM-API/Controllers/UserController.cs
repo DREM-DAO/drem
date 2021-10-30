@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller returns version of the current api
+    /// This controller manages user data
     /// </summary>
     [ApiController]
     [Route("[controller]")]

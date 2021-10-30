@@ -1,4 +1,5 @@
-﻿using DREM_API.Model;
+﻿using AutoMapper;
+using DREM_API.Model;
 using DREM_API.Model.Comm;
 using DREM_API.Repository;
 using System;
@@ -29,14 +30,13 @@ namespace DREM_API.BusinessController
             this.opportunityRepository = opportunityRepository;
         }
 
-        internal Task<RECWithId> Register(REC rec)
+        internal Task<Model.DB.REC> Register(Model.DB.REC rec)
         {
             return repository.AddAsync(rec);
         }
 
-        internal Task<IEnumerable<RECWithId>> GetAll()
+        internal Task<IEnumerable<Model.DB.REC>> GetAll()
         {
-
             return repository.GetAllAsync();
         }
 

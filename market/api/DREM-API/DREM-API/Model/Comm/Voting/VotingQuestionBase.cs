@@ -9,12 +9,16 @@ namespace DREM_API.Model.Comm.Voting
     /// <summary>
     /// Vote Coin AMS0001 https://scholtz.github.io/AMS/AMS-0001/AMS-0001.html specs
     /// </summary>
-    public class VotingQuestion
+    public class VotingQuestionBase
     {
         /// <summary>
         /// Tx Id with the question
         /// </summary>
         public string TxId { get; set; }
+        /// <summary>
+        /// The questioner
+        /// </summary>
+        public string QuestionerAccount { get; set; }
         /// <summary>
         /// Title
         /// </summary>

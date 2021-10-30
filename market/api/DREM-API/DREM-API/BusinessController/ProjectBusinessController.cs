@@ -17,6 +17,14 @@ namespace DREM_API.BusinessController
     {
         private readonly ProjectRepository repository;
         private readonly ValueSetRepository valueSetRepository;
+        private readonly OrderBusinessController orderBusinessController;
+        private readonly DailyPayoutBusinessController dailyPayoutBusinessController;
+        private readonly ImageMetaBusinessController imageMetaBusinessController;
+        private readonly TransferBusinessController transferBusinessController;
+        private readonly BufferTransferBusinessController bufferTransferBusinessController;
+        private readonly ShareholderBusinessController shareholderBusinessController;
+        private readonly VotingBusinessController votingBusinessController;
+
         private readonly Mapper mapper;
         private readonly Dictionary<string, Dictionary<string, string>> valueSets;
         /// <summary>
@@ -24,10 +32,35 @@ namespace DREM_API.BusinessController
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="valueSetRepository"></param>
-        public ProjectBusinessController(ProjectRepository repository, ValueSetRepository valueSetRepository)
+        /// <param name="orderBusinessController"></param>
+        /// <param name="dailyPayoutBusinessController"></param>
+        /// <param name="imageMetaBusinessController"></param>
+        /// <param name="transferBusinessController"></param>
+        /// <param name="bufferTransferBusinessController"></param>
+        /// <param name="shareholderBusinessController"></param>
+        /// <param name="votingBusinessController"></param>
+        public ProjectBusinessController(
+            ProjectRepository repository,
+            ValueSetRepository valueSetRepository,
+            OrderBusinessController orderBusinessController,
+            DailyPayoutBusinessController dailyPayoutBusinessController,
+            ImageMetaBusinessController imageMetaBusinessController,
+            TransferBusinessController transferBusinessController,
+            BufferTransferBusinessController bufferTransferBusinessController,
+            ShareholderBusinessController shareholderBusinessController,
+            VotingBusinessController votingBusinessController
+            )
         {
             this.repository = repository;
             this.valueSetRepository = valueSetRepository;
+            this.orderBusinessController = orderBusinessController;
+            this.dailyPayoutBusinessController = dailyPayoutBusinessController;
+            this.imageMetaBusinessController = imageMetaBusinessController;
+            this.transferBusinessController = transferBusinessController;
+            this.bufferTransferBusinessController = bufferTransferBusinessController;
+            this.shareholderBusinessController = shareholderBusinessController;
+            this.votingBusinessController = votingBusinessController;
+
             valueSets = valueSetRepository.ListAll("en-US");
             mapper = new Mapper(new MapperConfiguration(cnf =>
             {
@@ -100,7 +133,32 @@ namespace DREM_API.BusinessController
         {
             var ret = new ProjectDetail();
             ret.Project = Convert(repository.GetProjectByUrlId(urlId));
+            if (!string.IsNullOrEmpty(ret.Project?.Id))
+            {
+                ret.Images = imageMetaBusinessController.ListAllForProject(ret.Project.Id).ToArray();
+                ret.BufferTxs = bufferTransferBusinessController.ListAllForProject(ret.Project.Id).ToArray();
+            }
+            if (ret.Project.ASA.HasValue)
+            {
+                ret.Shareholders = shareholderBusinessController.ListAllForAsset(ret.Project.ASA.Value).ToArray();
+                ret.Transfers = transferBusinessController.ListAllForAsset(ret.Project.ASA.Value).ToArray();
+                ret.Bids = orderBusinessController.ListAllBidsForProject(ret.Project.ASA.Value).ToArray();
+                ret.Offers = orderBusinessController.ListAllOffersForProject(ret.Project.ASA.Value).ToArray();
+                ret.Bids = orderBusinessController.ListAllBidsForProject(ret.Project.ASA.Value).ToArray();
+            }
+            if (!string.IsNullOrEmpty(ret.Project.IssuerAccount))
+            {
+                var qList = new List<Model.Comm.Voting.VotingBase>();
+                foreach (var item in votingBusinessController.ListAllForProject(ret.Project.IssuerAccount))
+                {
+                    qList.Add(new Model.Comm.Voting.VotingBase()
+                    {
+                        Question = item,
+                        Result = votingBusinessController.Get(item.TxId)
+                    });
+                }
 
+            }
             return ret;
         }
     }

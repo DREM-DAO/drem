@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller returns version of the current api
+    /// This controller manages value sets
     /// </summary>
     [ApiController]
     [Route("[controller]")]

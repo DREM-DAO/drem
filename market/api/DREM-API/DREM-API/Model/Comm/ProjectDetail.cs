@@ -21,7 +21,7 @@ namespace DREM_API.Model.Comm
         /// <summary>
         /// List of images of the estate
         /// </summary>
-        public ImageMeta[] Images { get; set; }
+        public ImageMetaBase[] Images { get; set; }
         /// <summary>
         /// List of images of the estate
         /// </summary>
@@ -29,22 +29,22 @@ namespace DREM_API.Model.Comm
         /// <summary>
         /// List of all shareholders
         /// </summary>
-        public Shareholder[] Shareholders { get; set; }
+        public ShareholderBase[] Shareholders { get; set; }
         /// <summary>
         /// List of all asset transfers. If the trading in place through known escrow smart contracts, than it shows also underlying price
         /// </summary>
-        public Transfer[] Transfers { get; set; }
+        public TransferBase[] Transfers { get; set; }
         /// <summary>
         /// List of all current bids on the escrow accounts
         /// </summary>
-        public Order[] Bids { get; set; }
+        public Model.DB.Order[] Bids { get; set; }
         /// <summary>
         /// List of all current offers on the escrow accounts
         /// </summary> 
-        public Order[] Offers { get; set; }
+        public OrderBase[] Offers { get; set; }
         /// <summary>
         /// Votings - List of questions with public auditable results
         /// </summary>
-        public Voting.Voting[] Votings { get; set; }
+        public Voting.VotingBase[] Votings { get; set; }
     }
 }

@@ -13,41 +13,41 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller manages api methods for projects 
+    /// This controller manages api methods for buffer transfers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ProjectController : ControllerBase
+    public class TransferController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        private readonly ProjectBusinessController projectBusinessController;
+        private readonly TransferBusinessController TransferBusinessController;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="projectBusinessController"></param>
-        public ProjectController(
+        /// <param name="TransferBusinessController"></param>
+        public TransferController(
             IConfiguration configuration,
-            ProjectBusinessController projectBusinessController
+            TransferBusinessController TransferBusinessController
             )
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.projectBusinessController = projectBusinessController;
+            this.TransferBusinessController = TransferBusinessController;
         }
         /// <summary>
-        /// Create project
+        /// Create Transfer
         /// </summary>
         /// <returns></returns>
         [Authorize]
         [HttpPost("Create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Create([FromBody] Model.Comm.ProjectBase project)
+        public async Task<ActionResult<Model.DB.Transfer>> Create([FromBody] Model.Comm.TransferBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.CreateAsync(project));
+                return Ok(await TransferBusinessController.CreateAsync(item));
             }
             catch (Exception exc)
             {
@@ -55,19 +55,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Update project
+        /// Create Transfer
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPut("Update/{transferId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Update([FromBody] Model.Comm.ProjectWithId project)
+        public async Task<ActionResult<Model.DB.Transfer>> Update([FromRoute] string transferId, [FromBody] Model.Comm.TransferBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.UpdateAsync(project));
+                return Ok(await TransferBusinessController.UpdateAsync(transferId, item));
             }
             catch (Exception exc)
             {
@@ -75,19 +75,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Delete project
+        /// Delete Transfer
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Delete/{id}")]
+        [HttpDelete("Delete/{transferId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromRoute] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string transferId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.DeleteAsync(id));
+                return Ok(await TransferBusinessController.DeleteAsync(new string[] { transferId }));
             }
             catch (Exception exc)
             {
@@ -99,51 +99,15 @@ namespace DREM_API.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("ListAll")]
+        [HttpGet("ListAllForAsset/{asaId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.DB.Project>> ListAll()
+        public ActionResult<IEnumerable<Model.DB.Transfer>> ListAllForAsset([FromRoute] ulong asaId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(projectBusinessController.ListAll().Where(p => p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("List")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.Comm.ProjectWithValueSets>> List()
-        {
-            try
-            {
-                return Ok(projectBusinessController.ListAllPublic().Where(p=>p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("GetDetail/{urlId}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<Model.Comm.ProjectDetail> GetDetail([FromRoute] string urlId)
-        {
-            try
-            {
-                return Ok(projectBusinessController.GetDetailByUrlId(urlId));
+                return Ok(TransferBusinessController.ListAllForAsset(asaId));
             }
             catch (Exception exc)
             {

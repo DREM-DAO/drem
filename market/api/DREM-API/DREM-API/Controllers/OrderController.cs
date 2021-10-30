@@ -13,41 +13,41 @@ using System.Threading.Tasks;
 namespace DREM_API.Controllers
 {
     /// <summary>
-    /// This controller manages api methods for projects 
+    /// This controller manages api methods for image processor
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ProjectController : ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        private readonly ProjectBusinessController projectBusinessController;
+        private readonly OrderBusinessController OrderBusinessController;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration"></param>
-        /// <param name="projectBusinessController"></param>
-        public ProjectController(
+        /// <param name="OrderBusinessController"></param>
+        public OrderController(
             IConfiguration configuration,
-            ProjectBusinessController projectBusinessController
+            OrderBusinessController OrderBusinessController
             )
         {
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.projectBusinessController = projectBusinessController;
+            this.OrderBusinessController = OrderBusinessController;
         }
         /// <summary>
-        /// Create project
+        /// Create Order
         /// </summary>
         /// <returns></returns>
         [Authorize]
         [HttpPost("Create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Create([FromBody] Model.Comm.ProjectBase project)
+        public async Task<ActionResult<Model.DB.Order>> Create([FromBody] Model.Comm.OrderBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.CreateAsync(project));
+                return Ok(await OrderBusinessController.CreateAsync(item));
             }
             catch (Exception exc)
             {
@@ -55,19 +55,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Update project
+        /// Create Order
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Update")]
+        [HttpPut("Update/{orderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Model.DB.Project>> Update([FromBody] Model.Comm.ProjectWithId project)
+        public async Task<ActionResult<Model.DB.Order>> Update([FromRoute] string orderId, [FromBody] Model.Comm.OrderBase item)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.UpdateAsync(project));
+                return Ok(await OrderBusinessController.UpdateAsync(orderId, item));
             }
             catch (Exception exc)
             {
@@ -75,19 +75,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// Delete project
+        /// Delete Order
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Delete/{id}")]
+        [HttpDelete("Delete/{orderId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<int>> Delete([FromRoute] string id)
+        public async Task<ActionResult<int>> Delete([FromRoute] string orderId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(await projectBusinessController.DeleteAsync(id));
+                return Ok(await OrderBusinessController.DeleteAsync(new string[] { orderId }));
             }
             catch (Exception exc)
             {
@@ -95,19 +95,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// List all projects for administration purposes
+        /// List all asa bids
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("ListAll")]
+        [HttpGet("ListAllBidsForProject/{asaId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.DB.Project>> ListAll()
+        public ActionResult<IEnumerable<Model.DB.Order>> ListAllBidsForProject(ulong asaId)
         {
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(projectBusinessController.ListAll().Where(p => p != null));
+                return Ok(OrderBusinessController.ListAllBidsForProject(asaId));
             }
             catch (Exception exc)
             {
@@ -115,35 +115,19 @@ namespace DREM_API.Controllers
             }
         }
         /// <summary>
-        /// List all publicly visible projects
+        /// List all asa bids
         /// </summary>
         /// <returns></returns>
-        [HttpGet("List")]
+        [Authorize]
+        [HttpGet("ListAllOffersForProject/{asaId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Model.Comm.ProjectWithValueSets>> List()
+        public ActionResult<IEnumerable<Model.DB.Order>> ListAllOffersForProject(ulong asaId)
         {
             try
             {
-                return Ok(projectBusinessController.ListAllPublic().Where(p=>p != null));
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new ProblemDetails() { Detail = exc.Message + (exc.InnerException != null ? $";\n{exc.InnerException.Message}" : "") + "\n" + exc.StackTrace, Title = exc.Message, Type = exc.GetType().ToString() });
-            }
-        }
-        /// <summary>
-        /// List all publicly visible projects
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("GetDetail/{urlId}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<Model.Comm.ProjectDetail> GetDetail([FromRoute] string urlId)
-        {
-            try
-            {
-                return Ok(projectBusinessController.GetDetailByUrlId(urlId));
+                if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
+                return Ok(OrderBusinessController.ListAllOffersForProject(asaId));
             }
             catch (Exception exc)
             {

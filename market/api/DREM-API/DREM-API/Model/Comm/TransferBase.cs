@@ -8,7 +8,7 @@ namespace DREM_API.Model.Comm
     /// <summary>
     /// List of all asa transfers, except of transfers to know escrow accounts meant for trading
     /// </summary>
-    public class Transfer
+    public class TransferBase
     {
         /// <summary>
         /// From account
@@ -30,6 +30,10 @@ namespace DREM_API.Model.Comm
         /// If price uknown always null
         /// If price known and underlying trading asset is algo, asset is null and price filled in, if stable coin then ASA id
         /// </summary>
-        public ulong? Asset { get; set; }
+        public ulong PriceAsset { get; set; }
+        /// <summary>
+        /// Project asa id
+        /// </summary>
+        public ulong ProjectAsset { get; set; }
     }
 }

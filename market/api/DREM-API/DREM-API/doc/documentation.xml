@@ -4,17 +4,68 @@
         <name>DREM-API</name>
     </assembly>
     <members>
+        <member name="T:DREM_API.BusinessController.BufferTransferBusinessController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.BufferTransferBusinessController.#ctor(DREM_API.Repository.BufferTransferRepository)">
+            <summary>
+            Constructor business BufferTransfer controller
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="T:DREM_API.BusinessController.DailyPayoutBusinessController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.DailyPayoutBusinessController.#ctor(DREM_API.Repository.DailyPayoutRepository)">
+            <summary>
+            Constructor business DailyPayout controller
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="T:DREM_API.BusinessController.ImageMetaBusinessController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.ImageMetaBusinessController.#ctor(DREM_API.Repository.ImageMetaRepository)">
+            <summary>
+            Constructor business ImageMeta controller
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="T:DREM_API.BusinessController.OrderBusinessController">
+            <summary>
+            OrderBusinessController
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.OrderBusinessController.#ctor(DREM_API.Repository.OrderRepository)">
+            <summary>
+            Constructor business Order controller
+            </summary>
+            <param name="repository"></param>
+        </member>
         <member name="T:DREM_API.BusinessController.ProjectBusinessController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:DREM_API.BusinessController.ProjectBusinessController.#ctor(DREM_API.Repository.ProjectRepository,DREM_API.Repository.ValueSetRepository)">
+        <member name="M:DREM_API.BusinessController.ProjectBusinessController.#ctor(DREM_API.Repository.ProjectRepository,DREM_API.Repository.ValueSetRepository,DREM_API.BusinessController.OrderBusinessController,DREM_API.BusinessController.DailyPayoutBusinessController,DREM_API.BusinessController.ImageMetaBusinessController,DREM_API.BusinessController.TransferBusinessController,DREM_API.BusinessController.BufferTransferBusinessController,DREM_API.BusinessController.ShareholderBusinessController,DREM_API.BusinessController.VotingBusinessController)">
             <summary>
             Constructor business project controller
             </summary>
             <param name="repository"></param>
             <param name="valueSetRepository"></param>
+            <param name="orderBusinessController"></param>
+            <param name="dailyPayoutBusinessController"></param>
+            <param name="imageMetaBusinessController"></param>
+            <param name="transferBusinessController"></param>
+            <param name="bufferTransferBusinessController"></param>
+            <param name="shareholderBusinessController"></param>
+            <param name="votingBusinessController"></param>
         </member>
         <member name="T:DREM_API.BusinessController.RECBusinessController">
             <summary>
@@ -28,6 +79,28 @@
             <param name="repository"></param>
             <param name="opportunityRepository"></param>
         </member>
+        <member name="T:DREM_API.BusinessController.ShareholderBusinessController">
+            <summary>
+            ShareholderBusinessController
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.ShareholderBusinessController.#ctor(DREM_API.Repository.ShareholderRepository)">
+            <summary>
+            Constructor business Shareholder controller
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="T:DREM_API.BusinessController.TransferBusinessController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.TransferBusinessController.#ctor(DREM_API.Repository.TransferRepository)">
+            <summary>
+            Constructor business Transfer controller
+            </summary>
+            <param name="repository"></param>
+        </member>
         <member name="T:DREM_API.BusinessController.ValueSetBusinessController">
             <summary>
             ValueSet Business Controller
@@ -39,9 +112,171 @@
             </summary>
             <param name="repository"></param>
         </member>
+        <member name="T:DREM_API.BusinessController.VotingBusinessController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DREM_API.BusinessController.VotingBusinessController.#ctor(DREM_API.Repository.VotingQuestionRepository,DREM_API.Repository.VotingResultRepository)">
+            <summary>
+            Constructor business Voting controller
+            </summary>
+            <param name="votingQuestionRepository"></param>
+            <param name="votingResultRepository"></param>
+        </member>
+        <member name="T:DREM_API.Controllers.BufferTransferController">
+            <summary>
+            This controller manages api methods for buffer transfers
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.BufferTransferBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="bufferTransferBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.Create(DREM_API.Model.Comm.BufferTransferBase)">
+            <summary>
+            Create BufferTransfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.Update(System.String,DREM_API.Model.Comm.BufferTransferBase)">
+            <summary>
+            Update Buffer Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.Delete(System.String)">
+            <summary>
+            Delete BufferTransfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.ListAllForProject(System.String)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.DailyPayoutController">
+            <summary>
+            This controller manages api methods for daily pauouts 
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.DailyPayoutBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="DailyPayoutBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Create(DREM_API.Model.Comm.DailyPayoutBase)">
+            <summary>
+            Create DailyPayout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Update(System.String,DREM_API.Model.Comm.DailyPayoutBase)">
+            <summary>
+            Create DailyPayout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Delete(System.String)">
+            <summary>
+            Delete DailyPayout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.ListAllForProject(System.String)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.ImageMetaController">
+            <summary>
+            This controller manages api methods for image processor
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ImageMetaBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="ImageMetaBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.Create(DREM_API.Model.Comm.ImageMetaBase)">
+            <summary>
+            Create ImageMeta
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.Update(System.String,DREM_API.Model.Comm.ImageMetaWithId)">
+            <summary>
+            Create ImageMeta
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.Delete(System.String)">
+            <summary>
+            Delete ImageMeta
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.ListAllForProject(System.String)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.OrderController">
+            <summary>
+            This controller manages api methods for image processor
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.OrderBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="OrderBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.Create(DREM_API.Model.Comm.OrderBase)">
+            <summary>
+            Create Order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.Update(System.String,DREM_API.Model.Comm.OrderBase)">
+            <summary>
+            Create Order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.Delete(System.String)">
+            <summary>
+            Delete Order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.ListAllBidsForProject(System.UInt64)">
+            <summary>
+            List all asa bids
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.ListAllOffersForProject(System.UInt64)">
+            <summary>
+            List all asa bids
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.ProjectController">
             <summary>
-            This controller returns version of the current api
+            This controller manages api methods for projects 
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.ProjectController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ProjectBusinessController)">
@@ -89,7 +324,7 @@
         </member>
         <member name="T:DREM_API.Controllers.RECController">
             <summary>
-            This controller returns version of the current api
+            This controller manages api methods for recs
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.RECController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.RECBusinessController)">
@@ -99,7 +334,7 @@
             <param name="configuration"></param>
             <param name="recBusinessController"></param>
         </member>
-        <member name="M:DREM_API.Controllers.RECController.Register(DREM_API.Model.REC)">
+        <member name="M:DREM_API.Controllers.RECController.Register(DREM_API.Model.DB.REC)">
             <summary>
             Register real estate company
             </summary>
@@ -129,9 +364,81 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:DREM_API.Controllers.ShareholderController">
+            <summary>
+            This controller manages api methods for buffer transfers
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ShareholderBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="ShareholderBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.Create(DREM_API.Model.Comm.ShareholderBase)">
+            <summary>
+            Create Shareholder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.Update(System.String,DREM_API.Model.Comm.ShareholderBase)">
+            <summary>
+            Create Shareholder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.Delete(System.String)">
+            <summary>
+            Delete Shareholder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.ListAllForAsset(System.UInt64)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.TransferController">
+            <summary>
+            This controller manages api methods for buffer transfers
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.TransferBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="TransferBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.Create(DREM_API.Model.Comm.TransferBase)">
+            <summary>
+            Create Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.Update(System.String,DREM_API.Model.Comm.TransferBase)">
+            <summary>
+            Create Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.Delete(System.String)">
+            <summary>
+            Delete Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.ListAllForAsset(System.UInt64)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.UserController">
             <summary>
-            This controller returns version of the current api
+            This controller manages user data
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.UserController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
@@ -148,7 +455,7 @@
         </member>
         <member name="T:DREM_API.Controllers.ValueSetController">
             <summary>
-            This controller returns version of the current api
+            This controller manages value sets
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.ValueSetController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ValueSetBusinessController)">
@@ -204,6 +511,60 @@
             Returns version of the current api
             
             For development purposes it returns version of assembly, for production purposes it returns string build by pipeline which contains project information, pipeline build version, assembly version, and build date
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.VotingController">
+            <summary>
+            This controller manages api methods for buffer Votings
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.VotingBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="VotingBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.CreateVotingQuestion(DREM_API.Model.Comm.Voting.VotingQuestionBase)">
+            <summary>
+            Create Voting Question
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.CreateVotingQuestion(DREM_API.Model.Comm.Voting.VotingResultBase)">
+            <summary>
+            Create Voting Result
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingQuestion(System.String,DREM_API.Model.Comm.Voting.VotingQuestionWithId)">
+            <summary>
+            Update VotingQuestion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingResult(System.String,DREM_API.Model.Comm.Voting.VotingResultWithId)">
+            <summary>
+            Update VotingQuestion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.DeleteVotingQuestion(System.String)">
+            <summary>
+            Delete Voting Question
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.DeleteVotingResult(System.String)">
+            <summary>
+            Delete Voting Result
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.ListAllForAsset(System.String)">
+            <summary>
+            List all projects for administration purposes
             </summary>
             <returns></returns>
         </member>
@@ -265,9 +626,54 @@
             List of value sets
             </summary>
         </member>
+        <member name="P:DREM_API.Model.ADBContext.DailyPayouts">
+            <summary>
+            List of daily project payouts
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.ImageMetas">
+            <summary>
+            List of images for project
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.Transfers">
+            <summary>
+            List of all transactions on the blockchain with the asset
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.Orders">
+            <summary>
+            List of known orders for each nft
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.BufferTransfers">
+            <summary>
+            List of known orders for each nft
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.Shareholders">
+            <summary>
+            List of all accounts who own specific asa
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.VotingQuestions">
+            <summary>
+            List of all votings for specific asa
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.ADBContext.VotingResults">
+            <summary>
+            List of all voting results for asked questions
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.Comm.BufferTransferBase">
             <summary>
             Buffer transfer transaction s
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.BufferTransferBase.ProjectId">
+            <summary>
+            Project.Id
             </summary>
         </member>
         <member name="P:DREM_API.Model.Comm.BufferTransferBase.Note">
@@ -288,6 +694,16 @@
         <member name="P:DREM_API.Model.Comm.BufferTransferBase.Time">
             <summary>
             Time
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.BufferTransferWithId">
+            <summary>
+            Buffer transfer - money sent to the buffer or sent out from the buffer
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.BufferTransferWithId.Id">
+            <summary>
+            Id
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.DailyPayoutBase">
@@ -320,39 +736,59 @@
             Investors / REC / DREM / Liquidity providers
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.ImageMeta">
+        <member name="T:DREM_API.Model.Comm.DailyPayoutWithId">
+            <summary>
+            Payout with id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.DailyPayoutWithId.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ImageMetaBase">
             <summary>
             Picture metadata for specific project
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ImageMeta.ProjectId">
+        <member name="P:DREM_API.Model.Comm.ImageMetaBase.ProjectId">
             <summary>
             Project.Id
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ImageMeta.Name">
+        <member name="P:DREM_API.Model.Comm.ImageMetaBase.Name">
             <summary>
             Name of the picture
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ImageMeta.Description">
+        <member name="P:DREM_API.Model.Comm.ImageMetaBase.Description">
             <summary>
             Description of the picture
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ImageMeta.DateOfPicture">
+        <member name="P:DREM_API.Model.Comm.ImageMetaBase.DateOfPicture">
             <summary>
             Time when picture has been taken 
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ImageMeta.Src">
+        <member name="P:DREM_API.Model.Comm.ImageMetaBase.Src">
             <summary>
             Full picture resolution
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.ImageMeta.Thumbnail">
+        <member name="P:DREM_API.Model.Comm.ImageMetaBase.Thumbnail">
             <summary>
             Small picture 
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ImageMetaWithId">
+            <summary>
+            Image meta
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ImageMetaWithId.Id">
+            <summary>
+            Id
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.OpportunityBase">
@@ -370,69 +806,84 @@
             Id
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.Order">
+        <member name="T:DREM_API.Model.Comm.OrderBase">
             <summary>
             Hittable Bid or Offer in the escrow account
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AssetReceiveAmount">
+        <member name="P:DREM_API.Model.Comm.OrderBase.Price">
+            <summary>
+            Calculated price between the first asa and second asa with respect for assets decimals
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.OrderBase.AssetReceiveAmount">
             <summary>
             Amount of asset to be recieved
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AssetPayAmount">
+        <member name="P:DREM_API.Model.Comm.OrderBase.AssetPayAmount">
             <summary>
             Amount of asset to be paid
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AssetReceiveId">
+        <member name="P:DREM_API.Model.Comm.OrderBase.AssetToReceiveId">
             <summary>
             Asset id to be received. If algo, than null
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AssetPayId">
+        <member name="P:DREM_API.Model.Comm.OrderBase.AssetToPayId">
             <summary>
             Asset id to be paid. If algo, than null
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AssetReceiveDecimals">
+        <member name="P:DREM_API.Model.Comm.OrderBase.AssetReceiveDecimals">
             <summary>
             Receive asset decimals
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AssetPayDecimals">
+        <member name="P:DREM_API.Model.Comm.OrderBase.AssetPayDecimals">
             <summary>
             Pay asset decimals
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.EscrowAddress">
+        <member name="P:DREM_API.Model.Comm.OrderBase.EscrowAddress">
             <summary>
             Address of the escrow account
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.OwnerAddress">
+        <member name="P:DREM_API.Model.Comm.OrderBase.OwnerAddress">
             <summary>
             Address of the market maker account
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.Round">
+        <member name="P:DREM_API.Model.Comm.OrderBase.Round">
             <summary>
             Round when the order has been placed
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.Time">
+        <member name="P:DREM_API.Model.Comm.OrderBase.Time">
             <summary>
             Time when order has been placed
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.AppId">
+        <member name="P:DREM_API.Model.Comm.OrderBase.AppId">
             <summary>
             App id
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Order.Version">
+        <member name="P:DREM_API.Model.Comm.OrderBase.Version">
             <summary>
             Version of the approval application
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.OrderWithId">
+            <summary>
+            Order with id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.OrderWithId.Id">
+            <summary>
+            Unique id
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.ProjectBase">
@@ -523,6 +974,11 @@
         <member name="P:DREM_API.Model.Comm.ProjectBase.ShowToPublic">
             <summary>
             The project is publicly visible
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ProjectBase.IssuerAccount">
+            <summary>
+            The account of the issuer is allowed to ask questions and set its results
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.ProjectDetail">
@@ -620,50 +1076,80 @@
             city name
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.Shareholder">
+        <member name="T:DREM_API.Model.Comm.ShareholderBase">
             <summary>
             Shareholder
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Shareholder.Account">
+        <member name="P:DREM_API.Model.Comm.ShareholderBase.Account">
             <summary>
             Account address
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Shareholder.Share">
+        <member name="P:DREM_API.Model.Comm.ShareholderBase.Share">
             <summary>
             Share
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.Transfer">
+        <member name="P:DREM_API.Model.Comm.ShareholderBase.ProjectAsset">
+            <summary>
+            Project asa id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.ShareholderWithId">
+            <summary>
+            Shareholder information
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.ShareholderWithId.Id">
+            <summary>
+            Unique id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.TransferBase">
             <summary>
             List of all asa transfers, except of transfers to know escrow accounts meant for trading
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Transfer.FromAccount">
+        <member name="P:DREM_API.Model.Comm.TransferBase.FromAccount">
             <summary>
             From account
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Transfer.ToAccount">
+        <member name="P:DREM_API.Model.Comm.TransferBase.ToAccount">
             <summary>
             To account
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Transfer.Amount">
+        <member name="P:DREM_API.Model.Comm.TransferBase.Amount">
             <summary>
             Amount
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Transfer.Price">
+        <member name="P:DREM_API.Model.Comm.TransferBase.Price">
             <summary>
             Price if can be detected from the escrow smart contract
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Transfer.Asset">
+        <member name="P:DREM_API.Model.Comm.TransferBase.PriceAsset">
             <summary>
             If price uknown always null
             If price known and underlying trading asset is algo, asset is null and price filled in, if stable coin then ASA id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.TransferBase.ProjectAsset">
+            <summary>
+            Project asa id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.TransferWithId">
+            <summary>
+            List of all asa transfers, except of transfers to know escrow accounts meant for trading
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.TransferWithId.Id">
+            <summary>
+            Unique id
             </summary>
         </member>
         <member name="T:DREM_API.Model.Comm.UserInfo">
@@ -706,69 +1192,219 @@
             item value
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.Voting.Voting">
+        <member name="T:DREM_API.Model.Comm.Voting.VotingBase">
             <summary>
             Public voting
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.Voting.Question">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingBase.Question">
             <summary>
             Question
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.Voting.Result">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingBase.Result">
             <summary>
             Result
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.Voting.VotingQuestion">
+        <member name="T:DREM_API.Model.Comm.Voting.VotingQuestionBase">
             <summary>
             Vote Coin AMS0001 https://scholtz.github.io/AMS/AMS-0001/AMS-0001.html specs
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.TxId">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.TxId">
             <summary>
             Tx Id with the question
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Title">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.QuestionerAccount">
+            <summary>
+            The questioner
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.Title">
             <summary>
             Title
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Question">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.Question">
             <summary>
             Question
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Duration">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.Duration">
             <summary>
             Duration
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Category">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.Category">
             <summary>
             Category
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestion.Options">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionBase.Options">
             <summary>
             Options
             </summary>
         </member>
-        <member name="T:DREM_API.Model.Comm.Voting.VotingResult">
+        <member name="T:DREM_API.Model.Comm.Voting.VotingQuestionWithId">
+            <summary>
+            question in voting
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingQuestionWithId.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Voting.VotingResultBase">
             <summary>
             Result
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingResult.TxId">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingResultBase.TxId">
             <summary>
             Tx Id with the results
             </summary>
         </member>
-        <member name="P:DREM_API.Model.Comm.Voting.VotingResult.Options">
+        <member name="P:DREM_API.Model.Comm.Voting.VotingResultBase.QuestionTxId">
+            <summary>
+            Identifier of the question asked
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingResultBase.Options">
             <summary>
             Results calculated with rule 1 share = 1 vote
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.Comm.Voting.VotingResultWithId">
+            <summary>
+            voting result 
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.Comm.Voting.VotingResultWithId.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.RECBase">
+            <summary>
+            Real estate company base model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.OrgName">
+            <summary>
+            Org name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.OrgTaxID">
+            <summary>
+            Tax id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.OrgPhoneNumber">
+            <summary>
+            phone
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.AddressLine1">
+            <summary>
+            address
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.AddressLine2">
+            <summary>
+            Address line 2
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.City">
+            <summary>
+            city 
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.State">
+            <summary>
+            State
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.Country">
+            <summary>
+            country
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.PostalCode">
+            <summary>
+            postal code
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.ContactFirstName">
+            <summary>
+            contact first name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.ContactLastName">
+            <summary>
+            contact last name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.ContactMiddleName">
+            <summary>
+            middle name
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.ContactPhoneNumber">
+            <summary>
+            phone
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.RECBase.ContactEmail">
+            <summary>
+            email
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.BufferTransfer">
+            <summary>
+            Transfer to or from the project money buffer
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.BufferTransfer.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.BufferTransfer.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.DailyPayout">
+            <summary>
+            Pyout item
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.DailyPayout.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.DailyPayout.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.ImageMeta">
+            <summary>
+            Image meta information db model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.ImageMeta.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.ImageMeta.Updated">
+            <summary>
+            time of last update
             </summary>
         </member>
         <member name="T:DREM_API.Model.DB.Opportunity">
@@ -786,6 +1422,21 @@
             time of last update
             </summary>
         </member>
+        <member name="T:DREM_API.Model.DB.Order">
+            <summary>
+            Odred db model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Order.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Order.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
         <member name="T:DREM_API.Model.DB.Project">
             <summary>
             db model for project
@@ -797,6 +1448,86 @@
             </summary>
         </member>
         <member name="P:DREM_API.Model.DB.Project.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.REC">
+            <summary>
+            Real estate company db model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.REC.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.REC.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.REC.Updated">
+            <summary>
+            time updated
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.Shareholder">
+            <summary>
+            Shareholder db model
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Shareholder.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Shareholder.Updated">
+            <summary>
+            time updated
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.Transfer">
+            <summary>
+            Transfer from or to the project money buffer
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Transfer.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.Transfer.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.VotingQuestion">
+            <summary>
+            Voting question base
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.VotingQuestion.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.VotingQuestion.Updated">
+            <summary>
+            time of last update
+            </summary>
+        </member>
+        <member name="T:DREM_API.Model.DB.VotingResult">
+            <summary>
+            Result of the voting
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.VotingResult.Created">
+            <summary>
+            time created
+            </summary>
+        </member>
+        <member name="P:DREM_API.Model.DB.VotingResult.Updated">
             <summary>
             time of last update
             </summary>
@@ -829,101 +1560,6 @@
         <member name="P:DREM_API.Model.ValueSet.Language">
             <summary>
             language
-            </summary>
-        </member>
-        <member name="T:DREM_API.Model.REC">
-            <summary>
-            Real estate company base model
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.OrgName">
-            <summary>
-            Org name
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.OrgTaxID">
-            <summary>
-            Tax id
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.OrgPhoneNumber">
-            <summary>
-            phone
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.AddressLine1">
-            <summary>
-            address
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.AddressLine2">
-            <summary>
-            Address line 2
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.City">
-            <summary>
-            city 
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.State">
-            <summary>
-            State
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.Country">
-            <summary>
-            country
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.PostalCode">
-            <summary>
-            postal code
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.ContactFirstName">
-            <summary>
-            contact first name
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.ContactLastName">
-            <summary>
-            contact last name
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.ContactMiddleName">
-            <summary>
-            middle name
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.ContactPhoneNumber">
-            <summary>
-            phone
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.REC.ContactEmail">
-            <summary>
-            email
-            </summary>
-        </member>
-        <member name="T:DREM_API.Model.RECWithId">
-            <summary>
-            Real estate company db model
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.RECWithId.Id">
-            <summary>
-            id
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.RECWithId.Created">
-            <summary>
-            time created
-            </summary>
-        </member>
-        <member name="P:DREM_API.Model.RECWithId.Updated">
-            <summary>
-            time updated
             </summary>
         </member>
         <member name="T:DREM_API.Model.Version">
@@ -1019,6 +1655,141 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="T:DREM_API.Repository.BufferTransferRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.BufferTransferRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.BufferTransferRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.BufferTransferRepository.AddAsync(DREM_API.Model.Comm.BufferTransferBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.BufferTransferRepository.ListAllForProject(System.String)">
+            <summary>
+            List payouts for specific project
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.BufferTransferRepository.UpdateAsync(DREM_API.Model.Comm.BufferTransferWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.BufferTransferRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.DailyPayoutRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.DailyPayoutRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.DailyPayoutRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.DailyPayoutRepository.AddAsync(DREM_API.Model.Comm.DailyPayoutBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.DailyPayoutRepository.ListAllForProject(System.String)">
+            <summary>
+            List payouts for specific project
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.DailyPayoutRepository.UpdateAsync(DREM_API.Model.Comm.DailyPayoutWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.DailyPayoutRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.ImageMetaRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.ImageMetaRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.ImageMetaRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.ImageMetaRepository.ListAllForProject(System.String)">
+            <summary>
+            List image meta for specific project
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.ImageMetaRepository.AddAsync(DREM_API.Model.Comm.ImageMetaBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.ImageMetaRepository.UpdateAsync(DREM_API.Model.Comm.ImageMetaWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.ImageMetaRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
         <member name="T:DREM_API.Repository.OpportunityRepository">
             <summary>
             Real estate companies EF repository
@@ -1051,6 +1822,44 @@
             <returns>Id of newly created record.</returns>
         </member>
         <member name="M:DREM_API.Repository.OpportunityRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.OrderRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.OrderRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.OrderRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.OrderRepository.AddAsync(DREM_API.Model.Comm.OrderBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.OrderRepository.UpdateAsync(DREM_API.Model.Comm.OrderWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.OrderRepository.DeleteAsync(System.String[])">
             <summary>
             Delete items from DB.
             </summary>
@@ -1098,25 +1907,115 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DREM_API.Repository.RECRepository.AddAsync(DREM_API.Model.REC)">
+        <member name="M:DREM_API.Repository.RECRepository.AddAsync(DREM_API.Model.DB.REC)">
             <summary>
             Adds record to DB.
             </summary>
             <param name="entity">Entity, that will be added.</param>
             <returns>Id of newly created record.</returns>
         </member>
-        <member name="M:DREM_API.Repository.RECRepository.UpdateAsync(DREM_API.Model.RECWithId)">
+        <member name="M:DREM_API.Repository.RECRepository.UpdateAsync(DREM_API.Model.DB.REC)">
             <summary>
             Adds record to DB.
             </summary>
             <param name="entity">Entity, that will be added.</param>
             <returns>Id of newly created record.</returns>
         </member>
-        <member name="M:DREM_API.Repository.RECRepository.DeleteAsync(DREM_API.Model.RECWithId)">
+        <member name="M:DREM_API.Repository.RECRepository.DeleteAsync(DREM_API.Model.DB.REC)">
             <summary>
             Adds record to DB.
             </summary>
             <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.ShareholderRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.ShareholderRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.ShareholderRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.ShareholderRepository.AddAsync(DREM_API.Model.Comm.ShareholderBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.ShareholderRepository.ListAllForAsset(System.UInt64)">
+            <summary>
+            List all transactions for asset
+            </summary>
+            <param name="asaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.ShareholderRepository.UpdateAsync(DREM_API.Model.Comm.ShareholderWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.ShareholderRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.TransferRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.TransferRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.TransferRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.TransferRepository.AddAsync(DREM_API.Model.Comm.TransferBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.TransferRepository.ListAllForAsset(System.UInt64)">
+            <summary>
+            List all transactions for asset
+            </summary>
+            <param name="asaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.TransferRepository.UpdateAsync(DREM_API.Model.Comm.TransferWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.TransferRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
             <returns>Id of newly created record.</returns>
         </member>
         <member name="T:DREM_API.Repository.ValueSetRepository">
@@ -1129,6 +2028,96 @@
             value set repo constructor
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="T:DREM_API.Repository.VotingQuestionRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.VotingQuestionRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.VotingQuestionRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingQuestionRepository.AddAsync(DREM_API.Model.Comm.Voting.VotingQuestionBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingQuestionRepository.ListAllForQuestioner(System.String)">
+            <summary>
+            List all transactions for asset
+            </summary>
+            <param name="questionerAccount">Account of asa creator is allowed to ask questions</param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingQuestionRepository.UpdateAsync(DREM_API.Model.Comm.Voting.VotingQuestionWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingQuestionRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="T:DREM_API.Repository.VotingResultRepository">
+            <summary>
+            Real estate companies EF repository
+            </summary>
+        </member>
+        <member name="M:DREM_API.Repository.VotingResultRepository.#ctor(DREM_API.Model.ADBContext)">
+            <summary>
+            rec repository constructor
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DREM_API.Repository.VotingResultRepository.GetAllAsync">
+            <summary>
+            Return all real estate companies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingResultRepository.AddAsync(DREM_API.Model.Comm.Voting.VotingResultBase)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingResultRepository.GetResultForQuestion(System.String)">
+            <summary>
+            List all transactions for asset
+            </summary>
+            <param name="questionTxId">Tx id where question has been asked</param>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingResultRepository.UpdateAsync(DREM_API.Model.Comm.Voting.VotingResultWithId)">
+            <summary>
+            Adds record to DB.
+            </summary>
+            <param name="entity">Entity, that will be added.</param>
+            <returns>Id of newly created record.</returns>
+        </member>
+        <member name="M:DREM_API.Repository.VotingResultRepository.DeleteAsync(System.String[])">
+            <summary>
+            Delete items from DB.
+            </summary>
+            <param name="ids">Entity, that will be deleted.</param>
+            <returns>Id of newly created record.</returns>
         </member>
         <member name="T:DREM_API.Startup">
             <summary>
