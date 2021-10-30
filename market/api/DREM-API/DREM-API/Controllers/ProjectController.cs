@@ -107,7 +107,7 @@ namespace DREM_API.Controllers
             try
             {
                 if (!User.IsAdmin(configuration)) throw new Exception("You are not admin");
-                return Ok(projectBusinessController.ListAll());
+                return Ok(projectBusinessController.ListAll().Where(p => p != null));
             }
             catch (Exception exc)
             {
@@ -125,7 +125,7 @@ namespace DREM_API.Controllers
         {
             try
             {
-                return Ok(projectBusinessController.ListAllPublic());
+                return Ok(projectBusinessController.ListAllPublic().Where(p=>p != null));
             }
             catch (Exception exc)
             {
