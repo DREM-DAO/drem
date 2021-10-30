@@ -85,8 +85,8 @@ namespace DREM_API.Repository
         {
             if (ids == null || ids.Length == 0) return 0;
             var set = new HashSet<string>(ids);
-            var toRemove = context.VotingResults.Where(i => set.Contains(i.Id)).ToArray();
-            _ = context.Remove(toRemove);
+            var toRemove = context.VotingResults.Where(i => set.Contains(i.Id));
+            context.RemoveRange(toRemove);
             return await context.SaveChangesAsync();
         }
         internal int AddRange(List<Model.DB.VotingResult> data)
