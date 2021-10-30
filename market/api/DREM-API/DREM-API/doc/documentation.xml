@@ -144,7 +144,7 @@
         </member>
         <member name="M:DREM_API.Controllers.BufferTransferController.Update(System.String,DREM_API.Model.Comm.BufferTransferBase)">
             <summary>
-            Create BufferTransfer
+            Update Buffer Transfer
             </summary>
             <returns></returns>
         </member>
