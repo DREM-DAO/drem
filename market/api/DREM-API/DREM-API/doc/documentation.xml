@@ -123,9 +123,159 @@
             <param name="votingQuestionRepository"></param>
             <param name="votingResultRepository"></param>
         </member>
+        <member name="T:DREM_API.Controllers.BufferTransferController">
+            <summary>
+            This controller manages api methods for buffer transfers
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.BufferTransferBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="bufferTransferBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.Create(DREM_API.Model.Comm.BufferTransferBase)">
+            <summary>
+            Create BufferTransfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.Update(DREM_API.Model.Comm.BufferTransferWithId)">
+            <summary>
+            Create BufferTransfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.Delete(System.String)">
+            <summary>
+            Delete BufferTransfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.BufferTransferController.ListAllForProject(System.String)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.DailyPayoutController">
+            <summary>
+            This controller manages api methods for daily pauouts 
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.DailyPayoutBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="DailyPayoutBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Create(DREM_API.Model.Comm.DailyPayoutBase)">
+            <summary>
+            Create DailyPayout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Update(DREM_API.Model.Comm.DailyPayoutWithId)">
+            <summary>
+            Create DailyPayout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.Delete(System.String)">
+            <summary>
+            Delete DailyPayout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.DailyPayoutController.ListAllForProject(System.String)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.ImageMetaController">
+            <summary>
+            This controller manages api methods for image processor
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ImageMetaBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="ImageMetaBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.Create(DREM_API.Model.Comm.ImageMetaBase)">
+            <summary>
+            Create ImageMeta
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.Update(DREM_API.Model.Comm.ImageMetaWithId)">
+            <summary>
+            Create ImageMeta
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.Delete(System.String)">
+            <summary>
+            Delete ImageMeta
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ImageMetaController.ListAllForProject(System.String)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.OrderController">
+            <summary>
+            This controller manages api methods for image processor
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.OrderBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="OrderBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.Create(DREM_API.Model.Comm.OrderBase)">
+            <summary>
+            Create Order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.Update(DREM_API.Model.Comm.OrderWithId)">
+            <summary>
+            Create Order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.Delete(System.String)">
+            <summary>
+            Delete Order
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.ListAllBidsForProject(System.UInt64)">
+            <summary>
+            List all asa bids
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.OrderController.ListAllOffersForProject(System.UInt64)">
+            <summary>
+            List all asa bids
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.ProjectController">
             <summary>
-            This controller returns version of the current api
+            This controller manages api methods for projects 
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.ProjectController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ProjectBusinessController)">
@@ -173,7 +323,7 @@
         </member>
         <member name="T:DREM_API.Controllers.RECController">
             <summary>
-            This controller returns version of the current api
+            This controller manages api methods for recs
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.RECController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.RECBusinessController)">
@@ -213,9 +363,81 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:DREM_API.Controllers.ShareholderController">
+            <summary>
+            This controller manages api methods for buffer transfers
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ShareholderBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="ShareholderBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.Create(DREM_API.Model.Comm.ShareholderBase)">
+            <summary>
+            Create Shareholder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.Update(DREM_API.Model.Comm.ShareholderWithId)">
+            <summary>
+            Create Shareholder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.Delete(System.String)">
+            <summary>
+            Delete Shareholder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.ShareholderController.ListAllForAsset(System.UInt64)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.TransferController">
+            <summary>
+            This controller manages api methods for buffer transfers
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.TransferBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="TransferBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.Create(DREM_API.Model.Comm.TransferBase)">
+            <summary>
+            Create Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.Update(DREM_API.Model.Comm.TransferWithId)">
+            <summary>
+            Create Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.Delete(System.String)">
+            <summary>
+            Delete Transfer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.TransferController.ListAllForAsset(System.UInt64)">
+            <summary>
+            List all projects for administration purposes
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:DREM_API.Controllers.UserController">
             <summary>
-            This controller returns version of the current api
+            This controller manages user data
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.UserController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
@@ -232,7 +454,7 @@
         </member>
         <member name="T:DREM_API.Controllers.ValueSetController">
             <summary>
-            This controller returns version of the current api
+            This controller manages value sets
             </summary>
         </member>
         <member name="M:DREM_API.Controllers.ValueSetController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.ValueSetBusinessController)">
@@ -288,6 +510,60 @@
             Returns version of the current api
             
             For development purposes it returns version of assembly, for production purposes it returns string build by pipeline which contains project information, pipeline build version, assembly version, and build date
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DREM_API.Controllers.VotingController">
+            <summary>
+            This controller manages api methods for buffer Votings
+            </summary>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,DREM_API.BusinessController.VotingBusinessController)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configuration"></param>
+            <param name="VotingBusinessController"></param>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.CreateVotingQuestion(DREM_API.Model.Comm.Voting.VotingQuestionBase)">
+            <summary>
+            Create Voting Question
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.CreateVotingQuestion(DREM_API.Model.Comm.Voting.VotingResultBase)">
+            <summary>
+            Create Voting Result
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingQuestion(DREM_API.Model.Comm.Voting.VotingQuestionWithId)">
+            <summary>
+            Update VotingQuestion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.UpdateVotingResult(DREM_API.Model.Comm.Voting.VotingResultWithId)">
+            <summary>
+            Update VotingQuestion
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.DeleteVotingQuestion(System.String)">
+            <summary>
+            Delete Voting Question
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.DeleteVotingResult(System.String)">
+            <summary>
+            Delete Voting Result
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DREM_API.Controllers.VotingController.ListAllForAsset(System.String)">
+            <summary>
+            List all projects for administration purposes
             </summary>
             <returns></returns>
         </member>

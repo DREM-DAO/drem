@@ -88,14 +88,29 @@ namespace DREM_API
 
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"doc/documentation.xml"));
             });
-            services.AddTransient<RECBusinessController>();
+            services.AddTransient<BufferTransferBusinessController>();
+            services.AddTransient<DailyPayoutBusinessController>();
+            services.AddTransient<ImageMetaBusinessController>();
+            services.AddTransient<OrderBusinessController>();
             services.AddTransient<ProjectBusinessController>();
+            services.AddTransient<RECBusinessController>();
+            services.AddTransient<ShareholderBusinessController>();
+            services.AddTransient<TransferBusinessController>();
             services.AddTransient<ValueSetBusinessController>();
+            services.AddTransient<VotingBusinessController>();
 
-            services.AddScoped<RECRepository>();
-            services.AddScoped<ProjectRepository>();
-            services.AddScoped<ValueSetRepository>();
+            services.AddScoped<BufferTransferRepository>();
+            services.AddScoped<DailyPayoutRepository>();
+            services.AddScoped<ImageMetaRepository>();
             services.AddScoped<OpportunityRepository>();
+            services.AddScoped<OrderRepository>();
+            services.AddScoped<ProjectRepository>();
+            services.AddScoped<RECRepository>();
+            services.AddScoped<ShareholderRepository>();
+            services.AddScoped<TransferRepository>();
+            services.AddScoped<ValueSetRepository>();
+            services.AddScoped<VotingQuestionRepository>();
+            services.AddScoped<VotingResultRepository>();
 
             services.AddDbContext<Model.ADBContext>(options =>
             {

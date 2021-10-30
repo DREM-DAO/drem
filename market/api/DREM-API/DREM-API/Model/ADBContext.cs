@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace DREM_API.Model
 {
@@ -124,6 +126,12 @@ namespace DREM_API.Model
                     e.HasKey(c => new { c.Id });
                     e.HasIndex(c => new { c.ProjectId });
                     e.HasIndex(c => new { c.Created });
+
+                    e.Property(p => p.TxId)
+                        .HasConversion(
+                            v => JsonConvert.SerializeObject(v),
+                            v => JsonConvert.DeserializeObject<List<string>>(v));
+
                     e.ToTable("DailyPayout");
                 });
 
@@ -179,6 +187,12 @@ namespace DREM_API.Model
                 {
                     e.HasKey(c => new { c.Id });
                     e.HasIndex(c => new { c.QuestionTxId });
+
+                    e.Property(p => p.Options)
+                        .HasConversion(
+                            v => JsonConvert.SerializeObject(v),
+                            v => JsonConvert.DeserializeObject<Dictionary<string, decimal>>(v));
+
                     e.ToTable("VotingResult");
                 });
 
@@ -189,6 +203,12 @@ namespace DREM_API.Model
                     e.HasKey(c => new { c.Id });
                     e.HasIndex(c => new { c.QuestionerAccount });
                     e.HasIndex(c => new { c.Created });
+
+                    e.Property(p => p.Options)
+                        .HasConversion(
+                            v => JsonConvert.SerializeObject(v),
+                            v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v));
+
                     e.ToTable("VotingQuestion");
                 });
 

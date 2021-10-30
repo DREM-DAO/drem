@@ -17,7 +17,7 @@ namespace DREM_API.Model.Comm
         /// <summary>
         /// Published in the blockchain under tx ids
         /// </summary>
-        public string[] TxId { get; set; }
+        public List<string> TxId { get; set; } = new List<string>();
         /// <summary>
         /// Amout 
         /// </summary>
