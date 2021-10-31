@@ -122,9 +122,10 @@ namespace DREM_API
                 .AddAlgorand(o =>
                 {
                     o.CheckExpiration = false;
-                    o.AlgodServer = "";
-                    o.AlgodServerToken = "";
-                    o.Realm = "DREM-Authenticate";
+                    o.AlgodServer = Configuration["algod:server"];
+                    o.AlgodServerToken = Configuration["algod:token"];
+                    o.Realm = Configuration["algod:realm"]; //"DREM-Authenticate";
+                    o.NetworkGenesisHash = Configuration["algod:networkGenesisHash"];
                 });
 
 

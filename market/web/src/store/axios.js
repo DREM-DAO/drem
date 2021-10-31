@@ -427,6 +427,214 @@ const actions = {
       dispatch("toast/openError", e.message, { root: true });
     }
   },
+  async put({ dispatch }, { url, params, body }) {
+    let response = null;
+    // console.log('post', url, params)
+    try {
+      let fd = new FormData();
+      for (const index in params) {
+        fd.append(index, params[index]);
+      }
+      if (body) {
+        fd = body;
+      }
+      var lang = getLang();
+      if (lang) {
+        if (axios.defaults.headers.common["Accept-Language"] !== lang) {
+          axios.defaults.headers.common["Accept-Language"] = lang;
+        }
+      }
+      const authTx = this.state.wallet.authTx;
+      const headers = {};
+      if (authTx) {
+        const withPrefix = `SigTx ${authTx}`;
+        const urlParsed = new URL(url);
+        if (
+          !urlParsed.hostname ||
+          urlParsed.hostname == "localhost" ||
+          urlParsed.hostname.indexOf("globdrem") >= 0
+        ) {
+          if (headers.Authorization !== withPrefix) {
+            headers.Authorization = withPrefix;
+          }
+        }
+      }
+      let shown = false;
+      response = await axios.put(url, fd, { headers }).catch(function(error) {
+        if (error.response && error.response && error.response.status == 401) {
+          dispatch("toast/openError", "Session timeout - unauthenticated", {
+            root: true,
+          });
+          shown = true;
+          dispatch(
+            "user/Logout",
+            {},
+            {
+              root: true,
+            }
+          );
+        }
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errors
+        ) {
+          for (const index in error.response.data.errors) {
+            for (const index2 in error.response.data.errors[index]) {
+              const err = error.response.data.errors[index][index2];
+              if (err) {
+                shown = true;
+                dispatch("toast/openError", err, {
+                  root: true,
+                });
+              }
+            }
+          }
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.detail
+        ) {
+          shown = true;
+          dispatch("toast/openError", error.response.data.detail, {
+            root: true,
+          });
+        } else if (error.response && error.response.status === 401) {
+          shown = true;
+          dispatch(
+            "toast/openError",
+            "401 Unauthorized, authentication is needed",
+            { root: true }
+          );
+        }
+        if (!shown) {
+          shown = true;
+          dispatch("toast/openError", "Error occured, please try again later", {
+            root: true,
+          });
+        }
+      });
+
+      if (response && response.status === 200 && response.data) {
+        return response.data;
+      }
+      if (response && response.status === 204) {
+        return false;
+      }
+
+      if (!shown) {
+        dispatch("toast/openError", "Error occured, please try again later", {
+          root: true,
+        });
+      }
+    } catch (e) {
+      console.log("catch.e", e);
+      dispatch("toast/openError", e.message, { root: true });
+    }
+  },
+  async delete({ dispatch }, { url, params }) {
+    let response = null;
+    try {
+      let shown = false;
+
+      var lang = getLang();
+
+      if (lang) {
+        if (axios.defaults.headers.common["Accept-Language"] !== lang) {
+          axios.defaults.headers.common["Accept-Language"] = lang;
+        }
+      }
+      const authTx = this.state.wallet.authTx;
+      const headers = {};
+      if (authTx) {
+        const withPrefix = `SigTx ${authTx}`;
+        const urlParsed = new URL(url);
+        if (
+          !urlParsed.hostname ||
+          urlParsed.hostname == "localhost" ||
+          urlParsed.hostname.indexOf("globdrem") >= 0
+        ) {
+          if (headers.Authorization !== withPrefix) {
+            headers.Authorization = withPrefix;
+          }
+        }
+      }
+
+      response = await axios
+        .delete(url, { params, headers })
+        .catch(function(error) {
+          if (
+            error.response &&
+            error.response &&
+            error.response.status == 401
+          ) {
+            dispatch("toast/openError", "Session timeout - unauthenticated", {
+              root: true,
+            });
+            shown = true;
+            dispatch(
+              "user/Logout",
+              {},
+              {
+                root: true,
+              }
+            );
+          }
+
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.errors
+          ) {
+            for (const index in error.response.data.errors) {
+              for (const index2 in error.response.data.errors[index]) {
+                const err = error.response.data.errors[index][index2];
+                if (err) {
+                  shown = true;
+                  dispatch("toast/openError", err, {
+                    root: true,
+                  });
+                }
+              }
+            }
+          } else if (
+            error.response &&
+            error.response.data &&
+            error.response.data.detail
+          ) {
+            shown = true;
+            dispatch("toast/openError", error.response.data.detail, {
+              root: true,
+            });
+          }
+          if (!shown) {
+            shown = true;
+            dispatch(
+              "toast/openError",
+              "Error occured, please try again later",
+              {
+                root: true,
+              }
+            );
+          }
+        });
+      if (response && response.status === 200) {
+        return response.data;
+      }
+      if (response && response.status === 204) {
+        return false; // no content
+      }
+
+      if (!shown) {
+        dispatch("toast/openError", "Error occured, please try again later", {
+          root: true,
+        });
+      }
+    } catch (e) {
+      console.log("catch.e", e);
+      dispatch("toast/openError", e.message, { root: true });
+    }
+  },
 };
 
 export default {

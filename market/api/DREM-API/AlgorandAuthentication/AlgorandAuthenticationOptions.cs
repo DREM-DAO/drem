@@ -13,5 +13,6 @@ namespace AlgorandAuthentication
         public string AlgodServer { get; set; } = "";
         public string AlgodServerToken { get; set; } = "";
         public string Realm { get; set; } = "Authentication";
+        public string NetworkGenesisHash { get; set; }
     }
 }

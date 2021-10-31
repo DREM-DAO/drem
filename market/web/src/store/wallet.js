@@ -15,11 +15,15 @@ const state = () => ({
   lastActiveAccountName: "",
   transaction: {},
   authTx: "",
+  me: {},
 });
 
 const mutations = {
   setAuthTx(state, authTx) {
     state.authTx = authTx;
+  },
+  setMe(state, me) {
+    state.me = me;
   },
   setTransaction(state, transaction) {
     state.transaction = transaction;
@@ -122,6 +126,7 @@ const actions = {
           root: true,
         }
       );
+      let note = Uint8Array.from(Buffer.from("DREM-Authenticate"));
       const authTxToSign = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
         from: addr,
         to: addr,
@@ -131,10 +136,18 @@ const actions = {
       });
 
       const tx = authTxToSign.signTxn(skCreator);
-      let note = Uint8Array.from(Buffer.from("DREM-Authenticate"));
 
       const authTx = Buffer.from(tx).toString("base64");
       commit("setAuthTx", authTx);
+
+      const me = await dispatch(
+        "axios/get",
+        {
+          url: `${this.state.config.dremapi}/User/Me`,
+        },
+        { root: true }
+      );
+      commit("setMe", me);
     } else {
       commit("setAuthTx", "");
       return;
