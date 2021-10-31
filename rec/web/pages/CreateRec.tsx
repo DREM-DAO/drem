@@ -4,7 +4,6 @@ import styles from '../styles/Rec.module.css'
 import axios from "axios"; // axios requests
 import { useRouter } from "next/router"; // Router
 import Button from "@components/Button";
-import {showSuccessMessage, showErrorMessage} from './alerts';
 
 export interface IREC {
   rec: {
@@ -60,6 +59,14 @@ const handleSave = async () => {
 const handleCancel = () => {
       router.push("/");
 }
+
+ const showSuccessMessage = success => (
+      <div className="alert alert-success">{success}</div>
+      )
+      
+const showErrorMessage = error => (
+      <div className="alert alert-danger">{error}</div>
+  )
 
 return (
     <Layout>

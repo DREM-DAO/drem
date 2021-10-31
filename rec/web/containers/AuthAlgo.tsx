@@ -30,6 +30,7 @@ function useAuthAlgo() {
   const [pendingRequest, setPendingRequest] = useState(false);
   const [signedTxns, setSignedTxns] = useState(null);
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
+  const [prevState, setPrevState] = useState(null)
   const [uri, setUri] = useState("");
   const [accounts, setAccounts] = useState([]);
   const [address, setAddress] = useState("");
@@ -313,30 +314,29 @@ function useAuthAlgo() {
       try {
         const confirmedRound = await apiSubmitTransactions(chain, signedTxn);
 
-        //BPS
-        // this.setState(prevState => {
-        //   return {
-        //     pendingSubmissions: prevState.pendingSubmissions.map((v, i) => {
-        //       if (index === i) {
-        //         return confirmedRound;
-        //       }
-        //       return v;
-        //     }),
-        //   };
-        // });
+        setPrevState(prevState => {
+          return {
+            pendingSubmissions: prevState.pendingSubmissions.map((v, i) => {
+              if (index === i) {
+                return confirmedRound;
+              }
+              return v;
+            }),
+          };
+        });
 
         console.log(`Transaction confirmed at round ${confirmedRound}`);
       } catch (err) {
-        // this.setState(prevState => {
-        //   return {
-        //     pendingSubmissions: prevState.pendingSubmissions.map((v, i) => {
-        //       if (index === i) {
-        //         return err;
-        //       }
-        //       return v;
-        //     }),
-        //   };
-        // });
+        setPrevState(prevState => {
+          return {
+            pendingSubmissions: prevState.pendingSubmissions.map((v, i) => {
+              if (index === i) {
+                return err;
+              }
+              return v;
+            }),
+          };
+        });
 
         console.error(`Error submitting transaction at index ${index}:`, err);
       }
@@ -349,7 +349,12 @@ function useAuthAlgo() {
   return {
     authenticateAlgo,
     address,
-    killSession
+    killSession,
+    signTxnScenario,
+    submitSignedTransaction,
+    showModal,
+    setShowModal,
+    toggleModal
   };
 
 

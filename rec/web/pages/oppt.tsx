@@ -4,7 +4,6 @@ import styles from '../styles/Rec.module.css'
 import Button from "../components/Button";
 import { useRouter } from "next/router"; // Router
 import axios from "axios"; // axios requests
-import {showSuccessMessage, showErrorMessage} from './alerts';
 
 export interface IOpportuniuty {
   recName: string
@@ -42,6 +41,7 @@ function Opportunity() {
             city:"",  state:"", country:"", postalCode:"", ownerFirstName:"", ownerLastName:"", 
             ownerMiddleName:"", ownerPhoneNumber:"", ownerEmail:"" } ) 
   const [status, setStatus] = useState({success: "", error: ""});   
+
   const [searchResults, setSearchResults] = useState([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -55,12 +55,12 @@ function Opportunity() {
         .then( (response: any) => {
             //console.log("Response:", response.data );
             let _data = response.data;
-            //console.log("DATA:", _data );
+           
             _searchResults = _data.map((entry) => {
                   //console.log('Entry:', entry.id, entry.orgName)
                   return  entry.orgName
             });
-            //console.log("REC searchResults:", _searchResults);
+            _searchResults.push('');//add a empty field
             setSearchResults(_searchResults);
         })
       } catch(error) {
@@ -99,6 +99,14 @@ function Opportunity() {
   useEffect(() => {
       executeSearch();
   }, [] ); 
+
+  const showSuccessMessage = success => (
+      <div className="alert alert-success">{success}</div>
+      )
+      
+  const showErrorMessage = error => (
+      <div className="alert alert-danger">{error}</div>
+  )
 
   return (
     <Layout>
